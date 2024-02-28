@@ -35,6 +35,17 @@ expect_equal(dmb(0.5, 1.2, 1), 0.16528925619834711, tolerance = tol)
 ### bg == 1
 expect_equal(dmb(0.5, 5, 0.2), 0.71976251555360038, tolerance = tol)
 
+# Test vectorized b & g
+g <- c(1.2, 4, 100)
+b <- c(0.001, 0.17)
+controlx <- c(dmb(x[1L], g[1L], b[1L]),
+              dmb(x[2L], g[2L], b[2L]),
+              dmb(x[3L], g[3L], b[1L]),
+              dmb(x[4L], g[1L], b[2L]),
+              dmb(x[5L], g[2L], b[1L]))
+
+expect_identical(dmb(x, g, b), controlx)
+
 # Test pmb
 ## Standard b & g
 g <- 20
