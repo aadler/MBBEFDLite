@@ -28,13 +28,13 @@ extern SEXP dmb_c(SEXP x, SEXP g, SEXP b, SEXP lg) {
     } else if (pg[igg] == 1.0 | pb[ibb] == 0.0 | px[i] < 0.0 | px[i] >= 1.0) {
       pret[i] = 0.0;
     } else if (pb[ibb] == 1.0) {
-      pret[i] = (pg[igg] - 1) / pow1p((pg[igg] - 1) * px[i], 2);
+      pret[i] = (pg[igg] - 1) / pow1p((pg[igg] - 1) * px[i], 2.0);
     } else if (pb[ibb] * pg[igg] == 1.0) {
       pret[i] = -log(pb[ibb]) * R_pow(pb[ibb], px[i]);
     } else {
       double b1x = R_pow(pb[ibb], 1 - px[i]);
       pret[i] = (pb[ibb] - 1) * (pg[igg] - 1) * b1x * log(pb[ibb]) /
-        R_pow((pg[igg] - 1) * b1x + 1 - pb[ibb] * pg[igg], 2);
+        R_pow_di((pg[igg] - 1) * b1x + 1 - pb[ibb] * pg[igg], 2);
     }
   }
 
