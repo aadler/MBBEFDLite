@@ -3,12 +3,12 @@
 
 tol <- 10 * .Machine$double.eps
 
-# Test dmb
+############################### Testing dmb ####################################
 x <- c(0.069360915804281831, 0.81777519872412086, 0.94262173236347735,
        0.26938187633641064, 0.16934812325052917)
 y <- c(-1.2, -1.0, 0.0,  0.5,  0.9,  1.0,  1.2, NaN, NA)
 
-## Standard b & g
+# Standard b & g
 g <- 20
 b <- 0.5
 controlx <- c(3.6876104357149244, 0.096737198074403216, 0.073812924647130657,
@@ -21,18 +21,19 @@ expect_equal(dmb(x, g, b, TRUE), log(controlx), tolerance = tol)
 expect_equal(dmb(y, g, b), controly, tolerance = tol)
 expect_equal(dmb(y, g, b, TRUE), log(controly), tolerance = tol)
 
-## Nonstandard g & B
-### g < 1 and b < 0
+# Nonstandard g & b
+## g < 1 and b < 0
 expect_true(is.nan(dmb(0.5, 0.2, 6)))
 expect_true(is.nan(dmb(0.5, 1.2, -.3)))
 
-### g == 1 and b == 0
+## g == 1 and b == 0
 expect_identical(dmb(0.5, 1, 1), 0)
+expect_identical(dmb(0.5, 1.3, 0), 0)
 
-### b == 1
+## b == 1
 expect_equal(dmb(0.5, 1.2, 1), 0.16528925619834711, tolerance = tol)
 
-### bg == 1
+## bg == 1
 expect_equal(dmb(0.5, 5, 0.2), 0.71976251555360038, tolerance = tol)
 
 # Test vectorized b & g
@@ -46,8 +47,8 @@ controlx <- c(dmb(x[1L], g[1L], b[1L]),
 
 expect_identical(dmb(x, g, b), controlx)
 
-# Test pmb
-## Standard b & g
+############################### Testing pmb ####################################
+# Standard b & g
 g <- 20
 b <- 0.5
 controlx <- c(0.48341340954506551, 0.93544650077891778, 0.94599947678770424,
@@ -65,10 +66,25 @@ expect_identical(pmb(y, g, b, log.p = TRUE), log(controly))
 expect_identical(pmb(y, g, b, lower.tail = FALSE, log.p = TRUE),
                  log(1 - controly))
 
-# Test qmb
+# Nonstandard g & b
+## g < 1 and b < 0
+expect_true(is.nan(pmb(0.5, 0.2, 6)))
+expect_true(is.nan(pmb(0.5, 1.2, -.3)))
+
+## g == 1 and b == 0
+expect_identical(pmb(0.5, 1, 1), 0)
+expect_identical(pmb(0.5, 1.3, 0), 0)
+
+## b == 1
+expect_equal(pmb(0.5, 1.2, 1), 0.090909090909090939, tolerance = tol)
+
+## bg == 1
+expect_equal(pmb(0.5, 5, 0.2), 0.55278640450004213, tolerance = tol)
+
+############################### Testing qmb ####################################
 p <- c(-0.2, 0, 0.01, 0.1, 0.25, 0.5, 0.75, 0.9, 1, 1.2, NA, NaN)
 
-## Standard b & g
+# Standard b & g
 g <- 20
 b <- 0.5
 controlp <- c(NaN, 0, 0.00076677920534173882, 0.0084122398161999845,
@@ -83,7 +99,7 @@ expect_equal(qmb(log(p), g, b, log.p = TRUE), controlp, tolerance = tol)
 expect_equal(qmb(log(p), g, b, lower.tail = FALSE, log.p = TRUE),
              qmb(1 - p, g, b), tolerance = tol)
 
-# Test rmb
+############################### Testing rmb ####################################
 set.seed(9712L)
 u <- runif(10L)
 ## Standard b & g
