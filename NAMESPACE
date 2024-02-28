@@ -1,0 +1,3 @@
+useDynLib(MBBEFDLite, .registration = TRUE)
+
+exportPattern("^[[:alpha:]]+")
