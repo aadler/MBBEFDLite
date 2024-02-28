@@ -6,7 +6,7 @@ tol <- 10 * .Machine$double.eps
 # Test dmb
 x <- c(0.069360915804281831, 0.81777519872412086, 0.94262173236347735,
        0.26938187633641064, 0.16934812325052917)
-y <- c(-1.2, -1.0,  0.0,  0.5,  0.9,  1.0,  1.2, NaN, NA)
+y <- c(-1.2, -1.0, 0.0,  0.5,  0.9,  1.0,  1.2, NaN, NA)
 
 ## Standard b & g
 g <- 20
@@ -21,35 +21,19 @@ expect_equal(dmb(x, g, b, TRUE), log(controlx), tolerance = tol)
 expect_equal(dmb(y, g, b), controly, tolerance = tol)
 expect_equal(dmb(y, g, b, TRUE), log(controly), tolerance = tol)
 
-expect_equal(dmbR(x, g, b), controlx, tolerance = tol)
-expect_equal(dmbR(x, g, b, TRUE), log(controlx), tolerance = tol)
-expect_equal(dmbR(y, g, b), controly, tolerance = tol)
-expect_equal(dmbR(y, g, b, TRUE), log(controly), tolerance = tol)
-
 ## Nonstandard g & B
 ### g < 1 and b < 0
 expect_true(is.nan(dmb(0.5, 0.2, 6)))
 expect_true(is.nan(dmb(0.5, 1.2, -.3)))
 
-expect_true(is.nan(dmbR(0.5, 0.2, 6)))
-expect_true(is.nan(dmbR(0.5, 1.2, -.3)))
-
 ### g == 1 and b == 0
 expect_identical(dmb(0.5, 1, 1), 0)
-expect_identical(dmb(0.5, 1.2, 0), 0)
-
-expect_identical(dmbR(0.5, 1, 1), 0)
-expect_identical(dmbR(0.5, 1.2, 0), 0)
 
 ### b == 1
 expect_equal(dmb(0.5, 1.2, 1), 0.16528925619834711, tolerance = tol)
 
-expect_equal(dmbR(0.5, 1.2, 1), 0.16528925619834711, tolerance = tol)
-
 ### bg == 1
 expect_equal(dmb(0.5, 5, 0.2), 0.71976251555360038, tolerance = tol)
-
-expect_equal(dmbR(0.5, 5, 0.2), 0.71976251555360038, tolerance = tol)
 
 # Test pmb
 ## Standard b & g
@@ -71,13 +55,14 @@ expect_identical(pmb(y, g, b, lower.tail = FALSE, log.p = TRUE),
                  log(1 - controly))
 
 # Test qmb
-p <- c(0, 0.01, 0.1, 0.25, 0.5, 0.75, 0.9)
+p <- c(-0.2, 0, 0.01, 0.1, 0.25, 0.5, 0.75, 0.9, 1, 1.2, NA, NaN)
+
 ## Standard b & g
 g <- 20
 b <- 0.5
-controlp <- c(0, 0.00076677920534173882, 0.0084122398161999845,
+controlp <- c(NaN, 0, 0.00076677920534173882, 0.0084122398161999845,
               0.025090980962830467, 0.074000581443776747, 0.21150410519371177,
-              0.55942740861401874)
+              0.55942740861401874, 1, NaN, NA, NaN)
 
 expect_equal(qmb(p, g, b), controlp, tolerance = tol)
 expect_equal(qmb(p, g, b, lower.tail = FALSE), qmb(1 - p, g, b),
