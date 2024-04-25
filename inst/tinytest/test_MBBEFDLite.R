@@ -81,30 +81,47 @@ expect_equal(pmb(0.5, 1.2, 1), 0.090909090909090939, tolerance = tol)
 ## bg == 1
 expect_equal(pmb(0.5, 5, 0.2), 0.55278640450004213, tolerance = tol)
 
+# Test vectorized b & g
+g <- c(1.2, 4, 100)
+b <- c(0.001, 0.17)
+pcontrolx <- c(pmb(x[1L], g[1L], b[1L]),
+               pmb(x[2L], g[2L], b[2L]),
+               pmb(x[3L], g[3L], b[1L]),
+               pmb(x[4L], g[1L], b[2L]),
+               pmb(x[5L], g[2L], b[1L]),
+               pmb(x[6L], g[3L], b[2L]))
+
+expect_identical(pmb(x, g, b)[1:6], pcontrolx)
+
+
 ############################### Testing qmb ####################################
-p <- c(-0.2, 0, 0.01, 0.1, 0.25, 0.5, 0.75, 0.9, 1, 1.2, NA, NaN)
+p <- c(NA, NaN, -0.2, 0, 0.01, 0.1, 0.25, 0.5, 0.75, 0.9, 1, 1.2)
 
 # Standard b & g
 g <- 20
 b <- 0.5
-controlp <- c(NaN, 0, 0.00076677920534173882, 0.0084122398161999845,
+qcontrolp <- c(NA, NaN, NaN, 0, 0.00076677920534173882, 0.0084122398161999845,
               0.025090980962830467, 0.074000581443776747, 0.21150410519371177,
-              0.55942740861401874, 1, NaN, NA, NaN)
+              0.55942740861401874, 1, NaN)
 
-expect_equal(qmb(p, g, b), controlp, tolerance = tol)
+expect_equal(qmb(p, g, b), qcontrolp, tolerance = tol)
 expect_equal(qmb(p, g, b, lower.tail = FALSE), qmb(1 - p, g, b),
              tolerance = tol)
-expect_equal(qmb(log(p), g, b, log.p = TRUE), controlp, tolerance = tol)
+expect_equal(qmb(log(p), g, b, log.p = TRUE), qmb(p, g, b), tolerance = tol)
 # Ask MBBEFD team why they return NaNs in case below
 expect_equal(qmb(log(p), g, b, lower.tail = FALSE, log.p = TRUE),
              qmb(1 - p, g, b), tolerance = tol)
 
+# Edge case b & g and vector
+
 ############################### Testing rmb ####################################
 set.seed(9712L)
-u <- runif(10L)
+u <- runif(100L)
 ## Standard b & g
 g <- 20
 b <- 0.5
-control <- qmb(u, g, b)
+rcontrol <- qmb(u, g, b)
 set.seed(9712L)
-expect_identical(rmb(10L, g, b), control)
+expect_identical(rmb(100L, g, b), rcontrol)
+
+# Edge case b & g and vector
