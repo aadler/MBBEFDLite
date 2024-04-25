@@ -1,10 +1,8 @@
 // Copyright Avraham Adler (c) 2024
 // SPDX-License-Identifier: MPL-2.0+
 
-
 #include <Rmath.h>
-
-#include "pmb.h"
+#include "dpqrmb.h"
 
 extern SEXP pmb_c(SEXP q, SEXP g, SEXP b, SEXP lower_tail, SEXP log_p) {
   const R_xlen_t n = xlength(q);
