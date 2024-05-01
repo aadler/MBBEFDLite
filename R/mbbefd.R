@@ -16,5 +16,6 @@ qmb <- function(p, g, b, lower.tail = TRUE, log.p = FALSE) {
 }
 
 rmb <- function(n, g, b) {
+  if (length(n) > 1) n <- length(n)
   .Call(rmb_c, as.double(n), as.double(g), as.double(b))
 }
