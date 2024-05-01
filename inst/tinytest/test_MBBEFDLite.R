@@ -96,7 +96,8 @@ expect_identical(pmb(x, g, b)[1:6], pcontrolx)
 
 ############################### Testing qmb ####################################
 p <- c(NA, NaN, -0.2, 0, 0.01, 0.1, 0.25, 0.5, 0.75, 0.9, 1, 1.2)
-lp <- suppressWarnings(log(p))
+omp <- 1 - p
+logp <- suppressWarnings(log(p))
 # Standard b & g
 g <- 20
 b <- 0.5
@@ -105,11 +106,11 @@ qcontrolp <- c(NA, NaN, NaN, 0, 0.00076677920534173882, 0.0084122398161999845,
               0.55942740861401874, 1, NaN)
 
 expect_equal(qmb(p, g, b), qcontrolp, tolerance = tol)
-expect_equal(qmb(p, g, b, lower.tail = FALSE), qmb(1 - p, g, b),
-             tolerance = tol)
-expect_equal(qmb(lp, g, b, log.p = TRUE), qmb(p, g, b), tolerance = tol)
+expect_equal(qmb(logp, g, b, log.p = TRUE), qcontrolp, tolerance = tol)
+
+expect_equal(qmb(p, g, b, lower.tail = FALSE), qmb(omp, g, b), tolerance = tol)
 # Ask MBBEFD team why they return NaNs in case below
-expect_equal(qmb(lp, g, b, lower.tail = FALSE, log.p = TRUE), qmb(1 - p, g, b),
+expect_equal(qmb(logp, g, b, lower.tail = FALSE, log.p = TRUE), qmb(omp, g, b),
              tolerance = tol)
 
 # Edge case b & g and vector
