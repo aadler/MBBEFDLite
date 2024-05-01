@@ -3,21 +3,22 @@
 \alias{pmb}
 \alias{qmb}
 \alias{rmb}
-%- Also NEED an '\alias' for EACH other topic documented here.
-\title{
-A Capitalized Title (ideally limited to 65 characters)
-}
+\title{The MBBEFD Distribution}
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+Density, distribution function, quantile function and random generation for the
+MBBEFD distribution with parameters \code{g} and \code{b}.
 }
 \usage{
 dmb(x, g, b, log = FALSE)
+pmb(q, g, b, lower.tail = TRUE, log.p = FALSE)
+qmb(p, g, b, lower.tail = TRUE, log.p = FALSE)
+rmb(n, g, b)
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{x}{
-%%     ~~Describe \code{x} here~~
-}
+  \item{x, q}{\strong{numeric}; vector of quantiles.}
+  \item{p}{\strong{numeric}; vector of probabilities.}
+  \item{n}{\strong{numeric}; number of observations.  If \code{length(n) > 1},
+  the length is taken to be the number required.}
   \item{g}{
 %%     ~~Describe \code{g} here~~
 }
