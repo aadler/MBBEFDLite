@@ -25,14 +25,12 @@ ecmb <- function(x, g, b, lower.tail = TRUE) {
         as.logical(lower.tail))
 }
 
-MoMmb <- function(x, maxit = 1000L, tol = .Machine$double.eps ^ 0.5,
+MoMmb <- function(x, maxit = 100L, tol = .Machine$double.eps ^ 0.5,
                   na.rm = TRUE) {
+
   if (anyNA(x) && !na.rm) {
     stop("There are NAs in the data yet na.rm was passed as FALSE.")
   }
-
-  mu <- mean(x, na.rm = na.rm)
-  mu2 <- mean(x ^ 2, na.rm = na.rm)
 
   findb <- function(mu, g, tol) {
     if (abs(mu - 1) <= tol) {
@@ -53,6 +51,8 @@ MoMmb <- function(x, maxit = 1000L, tol = .Machine$double.eps ^ 0.5,
     bFit$minimum
   }
 
+  mu <- mean(x, na.rm = na.rm)
+  mu2 <- mean(x ^ 2, na.rm = na.rm)
   g <- 1 / mu2
   b <- findb(mu, g, tol)
   converged <- FALSE
