@@ -51,11 +51,11 @@ Bernegger, S. (1997) The Swiss Re Exposure Curves and the MBBEFD Distribution
     Class. \emph{ASTIN Bulletin} \strong{27}(1), 99--111.
     \doi{10.2143/AST.27.1.563208}
 }
-\author{Avraham Adler \email{Avraham.Adler@gmail.com}
+\author{Avraham Adler \email{Avraham.Adler@gmail.com}}
 
 \note{
 This package follows Bernegger's convention that the density function does not
-exists at 1. This differs from \pkg{mbbefd}.
+exists at 1. This differs from the \pkg{mbbefd} package.
 }
 
 \seealso{
