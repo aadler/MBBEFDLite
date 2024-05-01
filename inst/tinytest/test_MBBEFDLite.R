@@ -149,4 +149,16 @@ rcontrol <- qmb(u, g, b)
 set.seed(9712L)
 expect_identical(rmb(100L, g, b), rcontrol)
 
-# Edge case b & g and vector
+# Vector (edge cases handed in quantile).
+g <- c(1.2, 4, 100)
+b <- c(0.001, 0.17)
+set.seed(9712L)
+rcontrolx <- c(rmb(1L, g[1L], b[1L]),
+               rmb(1L, g[2L], b[2L]),
+               rmb(1L, g[3L], b[1L]),
+               rmb(1L, g[1L], b[2L]),
+               rmb(1L, g[2L], b[1L]),
+               rmb(1L, g[3L], b[2L]))
+
+set.seed(9712L)
+expect_identical(rmb(6L, g, b), rcontrolx)
