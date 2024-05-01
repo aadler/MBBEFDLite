@@ -19,3 +19,7 @@ rmb <- function(n, g, b) {
   if (length(n) > 1) n <- length(n)
   .Call(rmb_c, as.double(n), as.double(g), as.double(b))
 }
+
+ecmb <- function(x, g, b) {
+  .Call(ecmb_c, as.double(x), as.double(g), as.double(b))
+}
