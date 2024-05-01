@@ -1,2 +1,0 @@
-1) Why is dMBBEFD set = 1, b, or 1/g as needed when x = 1? Shouldn't it be 0? See 3.6.
-
