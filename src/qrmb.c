@@ -10,14 +10,14 @@ double quantilemb (double p, double g, double b) {
   double pc = 0.5 - p + 0.5;
   if (ISNA(p) || ISNA(g) || ISNA(b)) {
     return(NA_REAL);
-  } else if (g < 1.0 || b < 0.0 || ISNAN(p + g + b) || p < 0 || p > 1.0) {
+  } else if (g < 1.0 || b < 0.0 || ISNAN(p + g + b) || p < 0.0 || p > 1.0) {
     return(R_NaN);
-  } else if (p >= 1.0 - 1.0 / g) {
-    return(1.0);
   } else if (g == 1.0 || b == 0.0 || p == 0.0) {
     return(0.0);
+  } else if (p >= 1.0 - 1.0 / g) {
+    return(1.0);
   } else if (b == 1.0) {
-    return((1.0 - 1.0 / pc) / gm1);
+    return(p / (pc * gm1));
   } else if (gb == 1.0) {
     return(log(pc) / log(b));
   } else {
