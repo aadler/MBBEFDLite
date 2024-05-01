@@ -40,9 +40,9 @@ extern SEXP qmb_c(SEXP p, SEXP g, SEXP b, SEXP lower_tail, SEXP log_p) {
   memset(pret, 0, n * sizeof(double));
 
   for (R_xlen_t i = 0; i < n; ++i) {
-    pp[i] = lp ? exp(pp[i]) : pp[i];
-    pp[i] = lt ? pp[i] : 0.5 - pp[i] + 0.5; // See dpq.h
-    pret[i] = quantilemb(pp[i], pg[i % gg], pb[i % bb]);
+    double x = lp ? exp(pp[i]) : pp[i];
+    x = lt ? x : 0.5 - x + 0.5; // See dpq.h
+    pret[i] = quantilemb(x, pg[i % gg], pb[i % bb]);
   }
 
   UNPROTECT(1);
