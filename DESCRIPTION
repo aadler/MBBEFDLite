@@ -11,6 +11,7 @@ Description: Provides probability mass, distribution, quantile, and random
     without any external dependencies.
 License: MPL-2.0
 Encoding: UTF-8
+Imports: stats
 Suggests: tinytest, covr
 ByteCompile: yes
 NeedsCompilation: yes
