@@ -11,7 +11,7 @@ static const R_CallMethodDef CallEntries[] = {
   {"pmb_c",     (DL_FUNC) &pmb_c,   5},
   {"qmb_c",     (DL_FUNC) &qmb_c,   5},
   {"rmb_c",     (DL_FUNC) &rmb_c,   3},
-  {"ecmb_c",    (DL_FUNC) &ecmb_c,  3},
+  {"ecmb_c",    (DL_FUNC) &ecmb_c,  4},
   {NULL,        NULL,               0}
 };
 

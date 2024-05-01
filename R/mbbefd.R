@@ -20,6 +20,7 @@ rmb <- function(n, g, b) {
   .Call(rmb_c, as.double(n), as.double(g), as.double(b))
 }
 
-ecmb <- function(x, g, b) {
-  .Call(ecmb_c, as.double(x), as.double(g), as.double(b))
+ecmb <- function(x, g, b, lower.tail = TRUE) {
+  .Call(ecmb_c, as.double(x), as.double(g), as.double(b),
+        as.logical(lower.tail))
 }

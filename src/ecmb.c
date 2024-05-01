@@ -4,13 +4,14 @@
 #include <Rmath.h>
 #include "MBBEFDLite.h"
 
-extern SEXP ecmb_c(SEXP x, SEXP g, SEXP b) {
+extern SEXP ecmb_c(SEXP x, SEXP g, SEXP b, SEXP lower_tail) {
   const R_xlen_t n = xlength(x);
   const R_xlen_t gg = xlength(g);
   const R_xlen_t bb = xlength(b);
   double *px = REAL(x);
   double *pg = REAL(g);
   double *pb = REAL(b);
+  Rboolean lt = asLogical(lower_tail);
 
   SEXP ret = PROTECT(allocVector(REALSXP, n));
   double *pret = REAL(ret);
@@ -36,9 +37,10 @@ extern SEXP ecmb_c(SEXP x, SEXP g, SEXP b) {
     } else if (gb == 1.0) {
       pret[i] = (1.0 - R_pow(bi, px[i])) / (1.0 - bi);
     } else {
-      pret[i] =log((gm1 * bi + (1 - gb) * R_pow(bi, px[i])) / (1.0 - bi)) /
+      pret[i] = log((gm1 * bi + (1 - gb) * R_pow(bi, px[i])) / (1.0 - bi)) /
         log(gb);
     }
+    pret[i] = lt ? pret[i] : 0.5 - pret[i] + 0.5; // See dpq.h
   }
 
     UNPROTECT(1);
