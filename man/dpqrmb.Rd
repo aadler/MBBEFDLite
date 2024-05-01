@@ -22,17 +22,19 @@ rmb(n, g, b)
   \item{p}{\strong{numeric}; vector of probabilities.}
   \item{n}{\strong{numeric}; number of observations.  If \code{length(n) > 1},
   the length is taken to be the number required.}
-  \item{g}{\strong{numeric}; Bernegger's \code{g} parameter. Also, the
-  reciprocal of the probability of a maximum loss.}
-  \item{b}{\strong{numeric}; Bernegger's \code{b} parameter.}
+  \item{g}{\strong{numeric}; (vector of) Bernegger's \code{g} parameter, which
+  is also the reciprocal of the probability of a maximum loss.}
+  \item{b}{\strong{numeric}; (vector of) Bernegger's \code{b} parameter.}
   \item{log, log.p}{\strong{logical}; if TRUE, probabilities p are given as
   log(p).}
-  \item{lower.tail}{\strong{logical};  if TRUE (default), probabilities are
+  \item{lower.tail}{\strong{logical}; if TRUE (default), probabilities are
   \eqn{P[X\leq x]}{P[X ≤ x]} otherwise \eqn{P[X > x]}}
 }
 \details{
 The MBBEFD class of curves are defined in Bernegger (1997) and are often used to
-model insurance risk.
+model insurance risk. The density is defined on the semi-open interval
+\eqn{[0, 1)} and the distribution and quantile functions are defined on the
+closed interval \eqn{[0, 1]}.
 }
 \value{
 \code{dnorm} gives the density, \code{pnorm} gives the distribution function,
