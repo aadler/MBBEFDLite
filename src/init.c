@@ -4,7 +4,7 @@
 #include <stdlib.h> // for NULL
 #include <R_ext/Rdynload.h>
 
-#include "dpqrmb.h"
+#include "MBBEFDLite.h"
 
 static const R_CallMethodDef CallEntries[] = {
   {"dmb_c",    (DL_FUNC) &dmb_c,  4},

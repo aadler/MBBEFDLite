@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MPL-2.0+
 
 #include <Rmath.h>
-#include "dpqrmb.h"
+#include "MBBEFDLite.h"
 
 extern SEXP pmb_c(SEXP q, SEXP g, SEXP b, SEXP lower_tail, SEXP log_p) {
   const R_xlen_t n = xlength(q);

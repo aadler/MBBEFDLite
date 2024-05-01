@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MPL-2.0+
 
 #include <Rmath.h>
-#include "dpqrmb.h"
+#include "MBBEFDLite.h"
 
 double quantilemb (double p, double g, double b) {
   double gm1 = g - 1.0;
