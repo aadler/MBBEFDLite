@@ -61,7 +61,7 @@ exists at 1. This differs from the \pkg{mbbefd} package.
 }
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+\code{\link{MoMmb}} for parameter estimation.
 }
 \examples{
 all.equal(dmb(0.5, 1, 0), 0)
