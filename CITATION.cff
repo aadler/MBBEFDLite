@@ -10,10 +10,10 @@ license: MPL-2.0
 title: 'MBBEFDLite: Statistical Functions for the Maxwell-Boltzmann-Bose-Einstein-Fermi-Dirac
   (MBBEFD) Family of Distributions'
 version: 0.0.1
-abstract: Provides probability mass, distribution, quantile, and random variate generation
-  for the MBBEFD family of distributions used in insurance modeling as described in
-  Bernegger (1997) <https://doi.org/10.2143/AST.27.1.563208> without any external
-  dependencies.
+abstract: Provides probability mass, distribution, quantile, random variate generation,
+  and method-of-moments parameter fitting for the MBBEFD family of distributions used
+  in insurance modeling as described in Bernegger (1997) <https://doi.org/10.2143/AST.27.1.563208>
+  without any external dependencies.
 authors:
 - family-names: Adler
   given-names: Avraham
@@ -21,7 +21,7 @@ authors:
   orcid: https://orcid.org/0000-0002-3039-0703
 preferred-citation:
   type: manual
-  title: 'minimaxApprox: Statistical Functions for the Maxwell-Boltzmann-Bose-Einstein-Fermi-Dirac
+  title: 'MBBEFDLite: Statistical Functions for the Maxwell-Boltzmann-Bose-Einstein-Fermi-Dirac
     (MBBEFD) Family of Distributions'
   authors:
   - family-names: Adler
@@ -31,6 +31,8 @@ preferred-citation:
   year: '2024'
   url: https://CRAN.R-project.org/package=minimaxApprox
   notes: R package version 0.0.1
+repository-code: https://github.com/aadler/MBBEFDLite
+url: https://github.com/aadler/MBBEFDLite
 contact:
 - family-names: Adler
   given-names: Avraham
