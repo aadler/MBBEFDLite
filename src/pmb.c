@@ -29,7 +29,7 @@ extern SEXP pmb_c(SEXP q, SEXP g, SEXP b, SEXP lower_tail, SEXP log_p) {
       pret[i] = R_NaN;
     } else if (pq[i] >= 1.0) {
       pret[i] = 1.0;
-    } else if (gi == 1.0 | bi == 0.0 | pq[i] < 0.0) {
+    } else if (gi == 1.0 || bi == 0.0 || pq[i] < 0.0) {
       pret[i] = 0.0;
     } else if (bi == 1.0) {
       pret[i] = 1.0 - 1.0 / (1.0 + gm1 * pq[i]);
