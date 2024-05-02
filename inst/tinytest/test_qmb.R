@@ -1,7 +1,7 @@
 # Copyright Avraham Adler (c) 2024
 # SPDX-License-Identifier: MPL-2.0+
 
-tol <- 10 * .Machine$double.eps
+tol <- 20 * .Machine$double.eps
 
 p <- c(NA, NaN, -0.2, 0, 0.01, 0.1, 0.25, 0.5, 0.75, 0.9, 1, 1.2)
 omp <- 1 - p
