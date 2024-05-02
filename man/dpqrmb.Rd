@@ -22,9 +22,9 @@ rmb(n, g, b)
   \item{p}{\strong{numeric}; vector of probabilities.}
   \item{n}{\strong{numeric}; number of observations.  If \code{length(n) > 1},
   the length is taken to be the number required.}
-  \item{g}{\strong{numeric}; (vector of) Bernegger's \code{g} parameter, which
-  is also the reciprocal of the probability of a maximum loss.}
-  \item{b}{\strong{numeric}; (vector of) Bernegger's \code{b} parameter.}
+  \item{g}{\strong{numeric}; (vector of) the \code{g} parameter, which is also
+  the reciprocal of the probability of a maximum loss.}
+  \item{b}{\strong{numeric}; (vector of) the \code{b} parameter.}
   \item{log, log.p}{\strong{logical}; if TRUE, probabilities p are given as
   log(p).}
   \item{lower.tail}{\strong{logical}; if TRUE (default), probabilities are
@@ -49,8 +49,8 @@ Numerical arguments other than \code{n} are recycled to the length of the
 result. Logical arguments should be of length 1.
 }
 \references{
-Bernegger, S. (1997) The Swiss Re Exposure Curves and the MBBEFD Distribution
-    Class. \emph{\acronym{ASTIN} Bulletin} \strong{27}(1), 99--111.
+Bernegger, S. (1997) The Swiss Re Exposure Curves and the \acronym{MBBEFD}
+    Distribution Class. \emph{\acronym{ASTIN} Bulletin} \strong{27}(1), 99--111.
     \doi{10.2143/AST.27.1.563208}
 }
 \author{Avraham Adler \email{Avraham.Adler@gmail.com}}

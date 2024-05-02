@@ -10,9 +10,9 @@ ecmb(x, g, b, lower.tail = TRUE)
 }
 \arguments{
   \item{x}{\strong{numeric}; vector of quantiles.}
-  \item{g}{\strong{numeric}; (vector of) Bernegger's \code{g} parameter, which
-  is also the reciprocal of the probability of a maximum loss.}
-  \item{b}{\strong{numeric}; (vector of) Bernegger's \code{b} parameter.}
+  \item{g}{\strong{numeric}; (vector of) the \code{g} parameter, which is also
+  the reciprocal of the probability of a maximum loss.}
+  \item{b}{\strong{numeric}; (vector of) the \code{b} parameter.}
     \item{lower.tail}{\strong{logical}; if TRUE (default), percentages are of
     the total loss being less than or equal to \code{x}. Otherwise they are the
     percentage of total loss greater than x.}
