@@ -33,8 +33,8 @@ A numeric vector containing the values of the exposure curve for the passed
 the return value is the complement of the exposure curve.
 }
 \references{
-Bernegger, S. (1997) The Swiss Re Exposure Curves and the MBBEFD Distribution
-    Class. \emph{ASTIN Bulletin} \strong{27}(1), 99--111.
+Bernegger, S. (1997) The Swiss Re Exposure Curves and the \acronym{MBBEFD}
+    Distribution Class. \emph{\acronym{ASTIN} Bulletin} \strong{27}(1), 99--111.
     \doi{10.2143/AST.27.1.563208}
 }
 \author{Avraham Adler \email{Avraham.Adler@gmail.com}}

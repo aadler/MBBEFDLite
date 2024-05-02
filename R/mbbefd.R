@@ -25,7 +25,7 @@ ecmb <- function(x, g, b, lower.tail = TRUE) {
         as.logical(lower.tail))
 }
 
-MoMmb <- function(x, maxit = 100L, tol = .Machine$double.eps ^ 0.5,
+mommb <- function(x, maxit = 100L, tol = .Machine$double.eps ^ 0.5,
                   na.rm = TRUE) {
 
   if (anyNA(x) && !na.rm) {
@@ -65,14 +65,14 @@ MoMmb <- function(x, maxit = 100L, tol = .Machine$double.eps ^ 0.5,
                                   rel.tol = tol)$value,
                         error = \(cond) simpleError(trimws(cond$message)))
     if (inherits(mu2part, "simpleError")) {
-      stop(paste0(trimws(mu2part$message), "; please try a looser tolerance"))
+      stop(trimws(mu2part$message), "; please try a looser tolerance")
     }
 
     ppart <- mu2 - mu2part
-     if (ppart <= 0) {
+    if (ppart <= 0) {
       stop("Algorithm has insufficient data to converge to a method of ",
            "moments solution.")
-     }
+    }
 
     g <- 1 / ppart
     converged <- abs(oldg - g) <= tol

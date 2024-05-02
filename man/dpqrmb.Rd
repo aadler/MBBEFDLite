@@ -9,7 +9,7 @@
 \title{The MBBEFD Distribution}
 \description{
 Density, distribution function, quantile function and random generation for the
-MBBEFD distribution with parameters \code{g} and \code{b}.
+\acronym{MBBEFD} distribution with parameters \code{g} and \code{b}.
 }
 \usage{
 dmb(x, g, b, log = FALSE)
@@ -31,10 +31,10 @@ rmb(n, g, b)
   \eqn{P[X\leq x]}{P[X ≤ x]} otherwise \eqn{P[X > x]}}
 }
 \details{
-The MBBEFD class of curves are defined in Bernegger (1997) and are often used to
-model insurance risk. The density is defined on the semi-open interval
-\eqn{[0, 1)} and the distribution and quantile functions are defined on the
-closed interval \eqn{[0, 1]}.
+The \acronym{MBBEFD}  class of curves are defined in Bernegger (1997) and are
+often used to model insurance risk. The density is defined on the semi-open
+interval \eqn{[0, 1)} and the distribution and quantile functions are defined on
+the closed interval \eqn{[0, 1]}.
 }
 \value{
 \code{dnorm} gives the density, \code{pnorm} gives the distribution function,
@@ -50,7 +50,7 @@ result. Logical arguments should be of length 1.
 }
 \references{
 Bernegger, S. (1997) The Swiss Re Exposure Curves and the MBBEFD Distribution
-    Class. \emph{ASTIN Bulletin} \strong{27}(1), 99--111.
+    Class. \emph{\acronym{ASTIN} Bulletin} \strong{27}(1), 99--111.
     \doi{10.2143/AST.27.1.563208}
 }
 \author{Avraham Adler \email{Avraham.Adler@gmail.com}}

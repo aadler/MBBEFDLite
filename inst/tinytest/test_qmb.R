@@ -23,7 +23,7 @@ expect_equal(qmb(logp, g, b, lower.tail = FALSE, log.p = TRUE), qmb(omp, g, b),
 # Nonstandard g & b
 ## g < 1 and b < 0
 expect_true(is.nan(qmb(0.5, 0.2, 6)))
-expect_true(is.nan(qmb(0.5, 1.2, -.3)))
+expect_true(is.nan(qmb(0.5, 1.2, -0.3)))
 
 ## g == 1 and b == 0
 expect_identical(qmb(0.5, 1, 1), 0)

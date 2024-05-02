@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: MPL-2.0+
 
 tol <- 10 * .Machine$double.eps
-x <- c(NaN, NA_real_, seq(-0.05, 1.05, .05))
+x <- c(NaN, NA_real_, seq(-0.05, 1.05, 0.05))
 
 # Standard b & g and passing log.p and lower.tail
 g <- 20
@@ -25,7 +25,7 @@ expect_equal(pmb(x, g, b, lower.tail = FALSE, log.p = TRUE), log(1 - control),
 # Nonstandard g & b
 ## g < 1 and b < 0
 expect_true(is.nan(pmb(0.5, 0.2, 6)))
-expect_true(is.nan(pmb(0.5, 1.2, -.3)))
+expect_true(is.nan(pmb(0.5, 1.2, -0.3)))
 
 ## g == 1 and b == 0
 expect_identical(pmb(0.5, 1, 1), 0)
@@ -41,10 +41,10 @@ expect_equal(pmb(0.5, 5, 0.2), 0.55278640450004213, tolerance = tol)
 g <- c(1.2, 4, 100)
 b <- c(0.001, 0.17)
 control <- c(pmb(x[1L], g[1L], b[1L]),
-               pmb(x[2L], g[2L], b[2L]),
-               pmb(x[3L], g[3L], b[1L]),
-               pmb(x[4L], g[1L], b[2L]),
-               pmb(x[5L], g[2L], b[1L]),
-               pmb(x[6L], g[3L], b[2L]))
+             pmb(x[2L], g[2L], b[2L]),
+             pmb(x[3L], g[3L], b[1L]),
+             pmb(x[4L], g[1L], b[2L]),
+             pmb(x[5L], g[2L], b[1L]),
+             pmb(x[6L], g[3L], b[2L]))
 
 expect_identical(pmb(x, g, b)[1:6], control)

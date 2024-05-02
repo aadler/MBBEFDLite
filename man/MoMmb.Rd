@@ -1,5 +1,5 @@
-\name{MoMmb}
-\alias{MoMmb}
+\name{mommb}
+\alias{mommb}
 \title{
 Method of Moments Parameter Estimation for the MBBEFD distribution.
 }
@@ -8,7 +8,7 @@ Attempts to find the best \code{g} and \code{b} parameters which are consistent
 with the first and second moments of the supplied data.
 }
 \usage{
-MoMmb(x, maxit = 100L, tol = .Machine$double.eps ^ 0.5, na.rm = TRUE)
+mommb(x, maxit = 100L, tol = .Machine$double.eps ^ 0.5, na.rm = TRUE)
 }
 \arguments{
   \item{x}{\strong{numeric}; vector of observations between 0 and 1.}
@@ -43,8 +43,8 @@ Returns a \link{list} containing:
 }
 
 \references{
-Bernegger, S. (1997) The Swiss Re Exposure Curves and the MBBEFD Distribution
-    Class. \emph{ASTIN Bulletin} \strong{27}(1), 99--111.
+Bernegger, S. (1997) The Swiss Re Exposure Curves and the \acronym{MBBEFD}
+    Distribution Class. \emph{\acronym{ASTIN} Bulletin} \strong{27}(1), 99--111.
     \doi{10.2143/AST.27.1.563208}
 }
 \author{Avraham Adler \email{Avraham.Adler@gmail.com}}
@@ -56,7 +56,7 @@ Bernegger, S. (1997) The Swiss Re Exposure Curves and the MBBEFD Distribution
 \examples{
 set.seed(85L)
 x <- rmb(1000, 25, 4)
-MoMmb(x)
+mommb(x)
 }
 
 \keyword{distribution}

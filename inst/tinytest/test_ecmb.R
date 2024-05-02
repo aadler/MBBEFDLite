@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: MPL-2.0+
 
 tol <- 10 * .Machine$double.eps
-x <- c(NaN, NA_real_, seq(-0.05, 1.05, .05))
+x <- c(NaN, NA_real_, seq(-0.05, 1.05, 0.05))
 g <- 20
 b <- 0.5
 
@@ -20,7 +20,7 @@ expect_equal(ecmb(x, g, b, FALSE), 1 - control, tolerance = tol)
 # Nonstandard g & b
 ## g < 1 and b < 0
 expect_true(is.nan(ecmb(0.5, 0.2, 6)))
-expect_true(is.nan(ecmb(0.5, 1.2, -.3)))
+expect_true(is.nan(ecmb(0.5, 1.2, -0.3)))
 
 ## g == 1 and b == 0
 expect_identical(ecmb(0.37, 1, 1), 0.37)
