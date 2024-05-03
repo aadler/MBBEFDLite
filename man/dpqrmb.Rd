@@ -61,7 +61,7 @@ exists at 1. This differs from the \pkg{mbbefd} package.
 }
 
 \seealso{
-\code{\link{MoMmb}} for parameter estimation.
+\code{\link{mommb}} for parameter estimation.
 }
 \examples{
 all.equal(dmb(0.5, 1, 0), 0)
