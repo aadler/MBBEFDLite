@@ -12,10 +12,10 @@ Density, distribution function, quantile function and random generation for the
 \acronym{MBBEFD} distribution with parameters \code{g} and \code{b}.
 }
 \usage{
-dmb(x, g, b, log = FALSE)
-pmb(q, g, b, lower.tail = TRUE, log.p = FALSE)
-qmb(p, g, b, lower.tail = TRUE, log.p = FALSE)
-rmb(n, g, b)
+dmb(x, g, b, c = NULL, log = FALSE)
+pmb(q, g, b, c = NULL, lower.tail = TRUE, log.p = FALSE)
+qmb(p, g, b, c = NULL, lower.tail = TRUE, log.p = FALSE)
+rmb(n, g, b, c = NULL)
 }
 \arguments{
   \item{x, q}{\strong{numeric}; vector of quantiles.}
@@ -25,6 +25,10 @@ rmb(n, g, b)
   \item{g}{\strong{numeric}; (vector of) the \code{g} parameter, which is also
   the reciprocal of the probability of a maximum loss.}
   \item{b}{\strong{numeric}; (vector of) the \code{b} parameter.}
+  \item{c}{\strong{numeric}; (vector of) the optional \code{c} parameter. Should
+  be NULL if \code{g} and \code{b} are passed. Otherwise,
+  \eqn{g = e^{(0.78 + 0.12c)c)}}{exp((0.78 + 0.12 * c) * c)} and
+  \eqn{b = e^{3.1 - 0.15(1+c)c}}{b = exp(3.1 - 0.15 * (1 + c) * c))}.}
   \item{log, log.p}{\strong{logical}; if TRUE, probabilities p are given as
   log(p).}
   \item{lower.tail}{\strong{logical}; if TRUE (default), probabilities are

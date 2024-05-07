@@ -6,16 +6,20 @@ Returns the limited average severity at \code{x} of a random variable with an
 \acronym{MBBEFD} distribution with parameters \code{g} and \code{b}.
 }
 \usage{
-ecmb(x, g, b, lower.tail = TRUE)
+ecmb(x, g, b, c = NULL, lower.tail = TRUE)
 }
 \arguments{
   \item{x}{\strong{numeric}; vector of quantiles.}
   \item{g}{\strong{numeric}; (vector of) the \code{g} parameter, which is also
   the reciprocal of the probability of a maximum loss.}
   \item{b}{\strong{numeric}; (vector of) the \code{b} parameter.}
-    \item{lower.tail}{\strong{logical}; if TRUE (default), percentages are of
-    the total loss being less than or equal to \code{x}. Otherwise they are the
-    percentage of total loss greater than x.}
+  \item{c}{\strong{numeric}; (vector of) the optional \code{c} parameter. Should
+  be NULL if \code{g} and \code{b} are passed. Otherwise,
+  \eqn{g = e^{(0.78 + 0.12c)c)}}{exp((0.78 + 0.12 * c) * c)} and
+  \eqn{b = e^{3.1 - 0.15(1+c)c}}{b = exp(3.1 - 0.15 * (1 + c) * c))}.}
+  \item{lower.tail}{\strong{logical}; if TRUE (default), percentages are of the
+  total loss being less than or equal to \code{x}. Otherwise they are the
+  percentage of total loss greater than x.}
 }
 \details{
 Given random variable \eqn{X} with an \acronym{MBBEFD} distribution with
