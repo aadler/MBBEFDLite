@@ -45,3 +45,15 @@ control <- c(dmb(x[1L], g[1L], b[1L]),
              dmb(x[6L], g[3L], b[2L]))
 
 expect_identical(dmb(x, g, b)[1:6], control)
+
+# Test c
+## Scalar
+expect_identical(dmb(x, c = 3),
+                 dmb(x, MBBEFDLite:::c2gb(3)$g, MBBEFDLite:::c2gb(3)$b))
+## Vector
+c <- c(3, 4)
+expect_identical(dmb(x[6:8], c = c),
+                 dmb(x[6:8], MBBEFDLite:::c2gb(c)$g, MBBEFDLite:::c2gb(c)$b))
+
+# Test error trap. Only need to do once since all handled by checkgbc.
+expect_error(dmb(c, g, b, c), "c parameter was passed together")

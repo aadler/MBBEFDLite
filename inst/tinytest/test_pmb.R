@@ -48,3 +48,12 @@ control <- c(pmb(x[1L], g[1L], b[1L]),
              pmb(x[6L], g[3L], b[2L]))
 
 expect_identical(pmb(x, g, b)[1:6], control)
+
+# Test c
+## Scalar
+expect_identical(pmb(x, c = 3),
+                 pmb(x, MBBEFDLite:::c2gb(3)$g, MBBEFDLite:::c2gb(3)$b))
+## Vector
+c <- c(3, 4)
+expect_identical(pmb(x[6:8], c = c),
+                 pmb(x[6:8], MBBEFDLite:::c2gb(c)$g, MBBEFDLite:::c2gb(c)$b))

@@ -26,3 +26,16 @@ control <- c(rmb(1L, g[1L], b[1L]),
 
 set.seed(9712L)
 expect_identical(rmb(vv, g, b), control)
+
+# Test c
+## Scalar
+set.seed(9712L)
+control <- rmb(5L, MBBEFDLite:::c2gb(4)$g, MBBEFDLite:::c2gb(4)$b)
+set.seed(9712L)
+expect_identical(rmb(5L, c = 4), control)
+## Scalar
+c <- c(2, 3)
+set.seed(9712L)
+control <- rmb(5L, MBBEFDLite:::c2gb(c)$g, MBBEFDLite:::c2gb(c)$b)
+set.seed(9712L)
+expect_identical(rmb(5L, c = c), control)

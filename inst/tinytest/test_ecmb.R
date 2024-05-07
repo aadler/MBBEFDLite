@@ -44,3 +44,12 @@ control <- c(ecmb(x[3L], g[1L], b[1L]),
              ecmb(x[8L], g[3L], b[2L]))
 
 expect_equal(ecmb(x[3:8], g, b), control, tolerance = tol)
+
+# Test c
+## Scalar
+expect_identical(ecmb(x, c = 3),
+                 ecmb(x, MBBEFDLite:::c2gb(3)$g, MBBEFDLite:::c2gb(3)$b))
+## Vector
+c <- c(3, 4)
+expect_identical(ecmb(x[6:8], c = c),
+                 ecmb(x[6:8], MBBEFDLite:::c2gb(c)$g, MBBEFDLite:::c2gb(c)$b))

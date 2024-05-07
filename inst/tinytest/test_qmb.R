@@ -46,3 +46,12 @@ control <- c(qmb(p[1L], g[1L], b[1L]),
              qmb(p[6L], g[3L], b[2L]))
 
 expect_identical(qmb(p, g, b)[1:6], control)
+
+# Test c
+## Scalar
+expect_identical(qmb(p, c = 3),
+                 qmb(p, MBBEFDLite:::c2gb(3)$g, MBBEFDLite:::c2gb(3)$b))
+## Vector
+c <- c(3, 4)
+expect_identical(qmb(p[6:8], c = c),
+                 qmb(p[6:8], MBBEFDLite:::c2gb(c)$g, MBBEFDLite:::c2gb(c)$b))
