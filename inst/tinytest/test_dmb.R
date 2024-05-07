@@ -17,7 +17,7 @@ control <- c(NaN, NA, 0, 13.169796430638961, 4.8885512023122937,
              0, 0)
 
 expect_equal(dmb(x, g, b), control, tolerance = tol)
-expect_equal(dmb(x, g, b, TRUE), log(control), tolerance = tol)
+expect_equal(dmb(x, g, b, log = TRUE), log(control), tolerance = tol)
 
 # Nonstandard g & b
 ## g < 1 and b < 0

@@ -15,7 +15,7 @@ control <- c(NaN, NA, 0, 0, 0.20767369695142743, 0.34348858177475161,
              0.97099916872996539,  0.9859926945290427, 1, 1)
 
 expect_equal(ecmb(x, g, b), control, tolerance = tol)
-expect_equal(ecmb(x, g, b, FALSE), 1 - control, tolerance = tol)
+expect_equal(ecmb(x, g, b, lower.tail = FALSE), 1 - control, tolerance = tol)
 
 # Nonstandard g & b
 ## g < 1 and b < 0
