@@ -29,7 +29,8 @@ Please see [SECURITY](https://github.com/aadler/MBBEFDLite/blob/master/SECURITY.
 ## Roadmap
 ### Major
 
- * There are no plans for major changes at current.
+ * Consider if there is a way to make the method-of-moments fitting more robust
+ for cases where the initial `g` is too small---thus `p` is too large.
  
 ### Minor
  
