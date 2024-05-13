@@ -37,7 +37,7 @@ extern SEXP ecmb_c(SEXP x, SEXP g, SEXP b, SEXP lower_tail) {
     } else if (gb == 1.0) {
       pret[i] = (1.0 - R_pow(bi, px[i])) / (1.0 - bi);
     } else {
-      pret[i] = log((gm1 * bi + (1 - gb) * R_pow(bi, px[i])) / (1.0 - bi)) /
+      pret[i] = log((gm1 * bi + (1.0 - gb) * R_pow(bi, px[i])) / (1.0 - bi)) /
         log(gb);
     }
     pret[i] = lt ? pret[i] : 0.5 - pret[i] + 0.5; // See dpq.h

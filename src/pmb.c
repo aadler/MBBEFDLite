@@ -36,7 +36,7 @@ extern SEXP pmb_c(SEXP q, SEXP g, SEXP b, SEXP lower_tail, SEXP log_p) {
     } else if (gb == 1.0) {
       pret[i] = 1.0 - R_pow(bi, pq[i]);
     } else {
-      pret[i] = 1.0 - (1.0 - bi) / (gm1 * R_pow(bi, 1 - pq[i]) + 1.0 - gb);
+      pret[i] = 1.0 - (1.0 - bi) / (gm1 * R_pow(bi, 1.0 - pq[i]) + 1.0 - gb);
     }
 
     pret[i] = lt ? pret[i] : 0.5 - pret[i] + 0.5; // See dpq.h

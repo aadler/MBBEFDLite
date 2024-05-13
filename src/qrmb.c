@@ -7,7 +7,7 @@
 double quantilemb (double p, double g, double b) {
   double gm1 = g - 1.0;
   double gb = g * b;
-  double pc = 0.5 - p + 0.5;
+  double pc = 0.5 - p + 0.5; // p-complement
   if (ISNA(p) || ISNA(g) || ISNA(b)) {
     return(NA_REAL);
   } else if (g < 1.0 || b < 0.0 || ISNAN(p + g + b) || p < 0.0 || p > 1.0) {

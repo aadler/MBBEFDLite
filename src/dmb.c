@@ -33,8 +33,8 @@ extern SEXP dmb_c(SEXP x, SEXP g, SEXP b, SEXP give_log) {
       pret[i] = -log(bi) * R_pow(bi, px[i]);
     } else {
       double gm1b1x = gm1 * R_pow(bi, 1 - px[i]);
-      pret[i] = (bi - 1) * gm1b1x * log(bi) /
-        R_pow_di(gm1b1x + (1 - bi * gi), 2);
+      pret[i] = (bi - 1.0) * gm1b1x * log(bi) /
+        R_pow_di(gm1b1x + (1.0 - bi * gi), 2);
     }
 
     pret[i] = gl ? log(pret[i]) : pret[i];
