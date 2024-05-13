@@ -5,7 +5,7 @@
 \alias{NEWS}
 \title{NEWS file for the MBBEFDLite package}
 
-\section{Version 0.0.1 (2024-05-03)}{
+\section{Version 0.0.1 (2024-05-14)}{
     \itemize{
       \item Initial release.
   }
