@@ -46,8 +46,8 @@ mommb <- function(x, maxit = 100L, tol = .Machine$double.eps ^ 0.5,
     }
 
     newp <- mu2 - intxsqrd
-    if (newp <= 0) {
-      newp <- 1 / (g * 2)
+    if (newp < 0) {
+      newp <- 1 / (g * 3)
     }
     g <- 1 / newp
     converged <- abs(oldg - g) <= tol
@@ -60,5 +60,5 @@ mommb <- function(x, maxit = 100L, tol = .Machine$double.eps ^ 0.5,
   }
 
   list(g = g, b = b, iter = i,
-       err = abs(log(g * b) * (1 - b) / (log(b) * (1 - g * b)) - mu))
+       sqerr = (log(g * b) * (1 - b) / (log(b) * (1 - g * b)) - mu) ^ 2)
 }

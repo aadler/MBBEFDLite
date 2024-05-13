@@ -38,8 +38,8 @@ Returns a \link{list} containing:
     \item{g}{The fitted \code{g} parameter.}
     \item{b}{The fitted \code{b} parameter.}
     \item{iter}{The number of iterations used.}
-    \item{err}{The absolute error between fitted the empirical mean and the
-    theoretical mean given \code{g} and \code{b}.}
+    \item{sqerr}{The squared error between the empirical mean and the
+    theoretical mean given the fitted \code{g} and \code{b}.}
 }
 
 \references{
