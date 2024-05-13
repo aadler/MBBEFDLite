@@ -29,7 +29,8 @@ where \eqn{\mu} is the empirical mean.
 
 However, in step 2 of section 4.2, the \eqn{p} component is estimated as the
 difference between the numerical integration of \eqn{x^2 f(x)} and the empirical
-second moment, per equation (4.3). This is converted to \eqn{g} by
+second moment---calulated as the sum of the empirical mean squared and the
+empirical variance---per equation (4.3). This is converted to \eqn{g} by
 reciprocation, and convergence is tested by the difference between this
 \dQuote{new} \eqn{g} and its prior value.
 }
@@ -41,6 +42,9 @@ Returns a \link{list} containing:
     \item{sqerr}{The squared error between the empirical mean and the
     theoretical mean given the fitted \code{g} and \code{b}.}
 }
+
+\note{Anecdotal evidence indicates that the results of this fitting algorithm
+can be volatile, especially with fewer than a few hundred observations.}
 
 \references{
 Bernegger, S. (1997) The Swiss Re Exposure Curves and the \acronym{MBBEFD}
