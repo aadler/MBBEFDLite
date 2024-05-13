@@ -29,7 +29,7 @@ where \eqn{\mu} is the empirical mean.
 
 However, in step 2 of section 4.2, the \eqn{p} component is estimated as the
 difference between the numerical integration of \eqn{x^2 f(x)} and the empirical
-second moment---calulated as the sum of the empirical mean squared and the
+second moment---calculated as the sum of the empirical mean squared and the
 empirical variance---per equation (4.3). This is converted to \eqn{g} by
 reciprocation, and convergence is tested by the difference between this
 \dQuote{new} \eqn{g} and its prior value.
