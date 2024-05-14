@@ -28,8 +28,7 @@ mommb <- function(x, maxit = 100L, tol = .Machine$double.eps ^ 0.5,
   }
 
   mu <- mean(x, na.rm = na.rm)
-  sig <- var(x, na.rm = na.rm)
-  mu2 <- mu ^ 2 + sig
+  mu2 <- mean(x ^ 2, na.rm = na.rm)
   g <- 1 / mu2
   b <- findb(mu, g, tol)
   converged <- FALSE
@@ -46,10 +45,11 @@ mommb <- function(x, maxit = 100L, tol = .Machine$double.eps ^ 0.5,
     }
 
     newp <- mu2 - intxsqrd
-    if (newp < 0) {
-      newp <- 1 / (g * 3)
+    if (newp > 0) {
+      g <- 1 / newp
+    } else {
+      g <- g * 3 # Force restart keeping 1 / mu2 as upper limit of p
     }
-    g <- 1 / newp
     converged <- abs(oldg - g) <= tol
     b <- findb(mu, g, tol)
   }
