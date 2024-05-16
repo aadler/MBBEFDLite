@@ -15,7 +15,7 @@ ecmb(x, g, b, c = NULL, lower.tail = TRUE)
   \item{b}{\strong{numeric}; (vector of) the \code{b} parameter.}
   \item{c}{\strong{numeric}; (vector of) the optional \code{c} parameter. Should
   be NULL if \code{g} and \code{b} are passed. Otherwise,
-  \eqn{g = e^{(0.78 + 0.12c)c)}}{exp((0.78 + 0.12 * c) * c)} and
+  \eqn{g = e^{(0.78 + 0.12c)c}}{exp((0.78 + 0.12 * c) * c)} and
   \eqn{b = e^{3.1 - 0.15(1+c)c}}{b = exp(3.1 - 0.15 * (1 + c) * c))}.}
   \item{lower.tail}{\strong{logical}; if TRUE (default), percentages are of the
   total loss being less than or equal to \code{x}. Otherwise they are the

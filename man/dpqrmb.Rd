@@ -27,7 +27,7 @@ rmb(n, g, b, c = NULL)
   \item{b}{\strong{numeric}; (vector of) the \code{b} parameter.}
   \item{c}{\strong{numeric}; (vector of) the optional \code{c} parameter. Should
   be NULL if \code{g} and \code{b} are passed. Otherwise,
-  \eqn{g = e^{(0.78 + 0.12c)c)}}{exp((0.78 + 0.12 * c) * c)} and
+  \eqn{g = e^{(0.78 + 0.12c)c}}{exp((0.78 + 0.12 * c) * c)} and
   \eqn{b = e^{3.1 - 0.15(1+c)c}}{b = exp(3.1 - 0.15 * (1 + c) * c))}.}
   \item{log, log.p}{\strong{logical}; if TRUE, probabilities p are given as
   log(p).}
