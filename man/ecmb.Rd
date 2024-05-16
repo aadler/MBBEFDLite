@@ -25,11 +25,15 @@ ecmb(x, g, b, c = NULL, lower.tail = TRUE)
 Given random variable \eqn{X} with an \acronym{MBBEFD} distribution with
 parameters \eqn{g} and \eqn{b}, the \emph{exposure curve} is defined as the
 ratio of the limited average severity (\acronym{LAS}) of the variable at \eqn{x}
-divided by the unlimited expected severity of the distribution. If one considers
-\eqn{x} as a policy limit, then the value of \code{ecmb(x, g, b)} is the
-percentage of the total expected loss which will contained within the policy
-limit. If \code{lower.tail} is \code{FALSE}, the return value is the percentage
-of total loss which will exceed the limit.
+divided by the unlimited expected severity of the distribution:
+\deqn{LAS = \frac{E(X\wedge x)}{E(X)}=\frac{\int_0^x t f(t) dt +
+x \int_x^\infty f(t) dt }{\int_0^\infty t f(t) dt}}
+
+If one considers \eqn{x} as a policy limit, then the value of
+\code{ecmb(x, g, b)} is the percentage of the total expected loss which will be
+contained within the (reinsurance) policy limit. If \code{lower.tail} is
+\code{FALSE}, the return value is the percentage of total loss which will exceed
+the limit.
 }
 \value{
 A numeric vector containing the values of the exposure curve for the passed
