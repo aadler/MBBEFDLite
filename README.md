@@ -9,6 +9,7 @@ title: Package MBBEFDLite
 [![R-CMD-check](https://github.com/aadler/MBBEFDLite/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/aadler/MBBEFDLite/actions/workflows/R-CMD-check.yaml)
 [![codecov](https://codecov.io/gh/aadler/MBBEFDLite/branch/master/graph/badge.svg?token=TGV1XMYWRV)](https://codecov.io/gh/aadler/MBBEFDLite)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.11204453.svg)](https://doi.org/10.5281/zenodo.11204452)
+[![OpenSSF Best Practices](https://www.bestpractices.dev/projects/8950/badge)](https://www.bestpractices.dev/projects/8950)
 <!-- badges: end -->
 
 ## Description
