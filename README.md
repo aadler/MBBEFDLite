@@ -7,7 +7,8 @@ title: Package MBBEFDLite
 [![](http://cranlogs.r-pkg.org/badges/last-month/MBBEFDLite)](https://cran.r-project.org/package=MBBEFDLite)
 [![](https://cranlogs.r-pkg.org/badges/grand-total/MBBEFDLite)](https://cran.r-project.org/package=MBBEFDLite)
 [![R-CMD-check](https://github.com/aadler/MBBEFDLite/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/aadler/MBBEFDLite/actions/workflows/R-CMD-check.yaml)
-[![Codecov test coverage](https://codecov.io/gh/aadler/MBBEFDLite/branch/master/graph/badge.svg)](https://app.codecov.io/gh/aadler/MBBEFDLite?branch=master)
+[![codecov](https://codecov.io/gh/aadler/MBBEFDLite/branch/master/graph/badge.svg?token=TGV1XMYWRV)](https://codecov.io/gh/aadler/MBBEFDLite)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.11204453.svg)](https://doi.org/10.5281/zenodo.11204452)
 <!-- badges: end -->
 
 ## Description
