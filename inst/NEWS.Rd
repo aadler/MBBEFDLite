@@ -5,6 +5,14 @@
 \alias{NEWS}
 \title{NEWS file for the MBBEFDLite package}
 
+\section{Version 0.0.2.9000 (2024-06-20)}{
+  \subsection{Fixed}{
+    \itemize{
+      \item Put better \acronym{DOI} in \file{README} badge; link was correct.
+    }
+  }
+}
+
 \section{Version 0.0.2 (2024-05-16)}{
   \subsection{Fixed}{
     \itemize{
