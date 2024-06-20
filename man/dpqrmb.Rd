@@ -32,7 +32,7 @@ rmb(n, g, b, c = NULL)
   \item{log, log.p}{\strong{logical}; if TRUE, probabilities p are given as
   log(p).}
   \item{lower.tail}{\strong{logical}; if TRUE (default), probabilities are
-  \eqn{P[X\leq x]}{P[X ≤ x]} otherwise \eqn{P[X > x]}}
+  \eqn{P[X\leq x]}{P[X ≤ x]} otherwise \eqn{P[X > x]}.}
 }
 \details{
 The \acronym{MBBEFD}  class of curves are defined in Bernegger (1997) and are

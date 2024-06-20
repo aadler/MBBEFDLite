@@ -8,6 +8,7 @@
 \section{Version 0.0.3 (2024-06-20)}{
   \subsection{Changed}{
     \itemize{
+      \item Update documentation.
       \item Use native \acronym{CRAN} {DOI}.
     }
   }

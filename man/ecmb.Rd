@@ -19,14 +19,14 @@ ecmb(x, g, b, c = NULL, lower.tail = TRUE)
   \eqn{b = e^{3.1 - 0.15(1+c)c}}{b = exp(3.1 - 0.15 * (1 + c) * c))}.}
   \item{lower.tail}{\strong{logical}; if TRUE (default), percentages are of the
   total loss being less than or equal to \code{x}. Otherwise they are the
-  percentage of total loss greater than x.}
+  percentage of total loss greater than \code{x}.}
 }
 \details{
 Given random variable \eqn{X} with an \acronym{MBBEFD} distribution with
-parameters \eqn{g} and \eqn{b}, the \emph{exposure curve} is defined as the
+parameters \eqn{g} and \eqn{b}, the \strong{exposure curve} is defined as the
 ratio of the limited average severity (\acronym{LAS}) of the variable at \eqn{x}
 divided by the unlimited expected severity of the distribution:
-\deqn{LAS = \frac{E(X\wedge x)}{E(X)}=\frac{\int_0^x t f(t) dt +
+\deqn{LAS(x) = \frac{E(X\wedge x)}{E(X)}=\frac{\int_0^x t f(t) dt +
 x \int_x^\infty f(t) dt }{\int_0^\infty t f(t) dt}}
 
 If one considers \eqn{x} as a policy limit, then the value of
