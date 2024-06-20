@@ -4,7 +4,7 @@
 mommb <- function(x, maxit = 100L, tol = .Machine$double.eps ^ 0.5,
                   na.rm = TRUE) {
 
-  if (anyNA(x) && !na.rm) {
+  if (!na.rm && anyNA(x)) {
     stop("There are NAs in the data yet na.rm was passed as FALSE.")
   }
 
@@ -21,10 +21,8 @@ mommb <- function(x, maxit = 100L, tol = .Machine$double.eps ^ 0.5,
       errf <- function(b) {
         (log(g * b) * (1 - b) / (log(b) * (1 - g * b)) - mu) ^ 2
       }
-      bFit <- optimize(errf, c(0, 1e100))
+      return(optimize(errf, c(0, 1e100))$minimum)
     }
-
-    bFit$minimum
   }
 
   mu <- mean(x, na.rm = na.rm)
