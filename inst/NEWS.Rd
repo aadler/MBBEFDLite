@@ -5,10 +5,10 @@
 \alias{NEWS}
 \title{NEWS file for the MBBEFDLite package}
 
-\section{Version 0.0.2.9000 (2024-06-20)}{
-  \subsection{Fixed}{
+\section{Version 0.0.3 (2024-06-20)}{
+  \subsection{Changed}{
     \itemize{
-      \item Put better \acronym{DOI} in \file{README} badge; link was correct.
+      \item Use native \acronym{CRAN} {DOI}.
     }
   }
 }

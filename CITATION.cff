@@ -9,7 +9,7 @@ type: software
 license: MPL-2.0
 title: 'MBBEFDLite: Statistical Functions for the Maxwell-Boltzmann-Bose-Einstein-Fermi-Dirac
   (MBBEFD) Family of Distributions'
-version: 0.0.2.9000
+version: 0.0.3
 doi: 10.32614/CRAN.package.MBBEFDLite
 abstract: Provides probability mass, distribution, quantile, random variate generation,
   and method-of-moments parameter fitting for the MBBEFD family of distributions used
