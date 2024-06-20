@@ -8,8 +8,10 @@
 \section{Version 0.0.3 (2024-06-20)}{
   \subsection{Changed}{
     \itemize{
+      \item Adjust \R code for \code{mommb} to be more efficient.
       \item Update documentation.
-      \item Use native \acronym{CRAN} {DOI}.
+      \item Use native \acronym{CRAN} \acronym{DOI}.
+      \item Expand package metadata tests.
     }
   }
 }
