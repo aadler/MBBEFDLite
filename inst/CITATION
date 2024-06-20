@@ -9,6 +9,6 @@ bibentry(bibtype     = "Manual",
          title        = "MBBEFDLite: Statistical Functions for the Maxwell-Boltzmann-Bose-Einstein-Fermi-Dirac (MBBEFD) Family of Distributions",
          year         = "2024",
          url          = "https://CRAN.R-project.org/package=MBBEFDLite",
-         doi          = "10.5281/zenodo.11204452",
+         doi          = "10.32614/CRAN.package.MBBEFDLite",
          note         = "R package version 0.0.2.9000"
 )
