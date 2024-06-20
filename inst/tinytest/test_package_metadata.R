@@ -1,20 +1,38 @@
 # Copyright Avraham Adler (c) 2024
 # SPDX-License-Identifier: MPL-2.0+
 
-pV <- packageVersion("MBBEFDLite")
-myOtherPkgs <- c("Delaporte", "lamW", "Pade", "revss", "minimaxApprox")
+# Only test at home. rhub valgrind complains and it should not affect covr.
 
+if (Sys.info()["nodename"] == "HOME") {
 
-# Test CITATION has most recent package version
-expect_true(any(grepl(pV, toBibtex(citation("MBBEFDLite")), fixed = TRUE)))
+  # Setup
+  myPkgs <- c("Delaporte",
+              "lamW",
+              "Pade",
+              "revss",
+              "minimaxApprox",
+              "MBBEFDLite")
+  thisPkg <- "MBBEFDLite"
+  otrPkgs <- setdiff(myPkgs, thisPkg)
 
-# Test NEWS has most recent package version
-expect_true(any(grepl(pV, news(package = "MBBEFDLite"), fixed = TRUE)))
+  # Universal code
+  pV <- packageVersion(thisPkg)
+  pD <- packageDate(thisPkg)
+  cit <- toBibtex(citation(thisPkg))
+  nws <- news(package = thisPkg)
 
-# Test that CITATION doesn't contain the name of any other of my packages
-expect_false(any(sapply(myOtherPkgs, grepl,
-                       x = toBibtex(citation("MBBEFDLite"), fixed = TRUE))))
+  # Test CITATION has most recent package version
+  expect_true(any(grepl(pV, cit), fixed = TRUE))
 
-# Test that NEWS doesn't contain the name of any other of my packages
-expect_false(any(sapply(myOtherPkgs, grepl,
-                        x = news(package = "MBBEFDLite"), fixed = TRUE)))
+  # Test NEWS has most recent package version
+  expect_true(any(grepl(pV, nws, fixed = TRUE)))
+
+  # Test that NEWS has an entry with DESCRIPTION's Date
+  expect_true(any(grepl(pD, nws, fixed = TRUE)))
+
+  # Test that CITATION doesn't contain the name of any other of my packages
+  expect_false(any(sapply(otrPkgs, grepl, x = cit, fixed = TRUE)))
+
+  # Test that NEWS doesn't contain the name of any other of my packages
+  expect_false(any(sapply(otrPkgs, grepl, x = nws, fixed = TRUE)))
+}
