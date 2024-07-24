@@ -21,6 +21,7 @@ extern SEXP dmb_c(SEXP x, SEXP g, SEXP b, SEXP give_log) {
     double gi = pg[i % gg];
     double bi = pb[i % bb];
     double gm1 = gi - 1.0;
+    double gb = gi * bi;
     if (ISNA(px[i]) || ISNA(gi) || ISNA(bi)) {
       pret[i] = NA_REAL;
     } else if (gi < 1.0 || bi < 0.0 || ISNAN(px[i] + gi + bi)) {
@@ -29,12 +30,12 @@ extern SEXP dmb_c(SEXP x, SEXP g, SEXP b, SEXP give_log) {
       pret[i] = 0.0;
     } else if (bi == 1.0) {
       pret[i] = gm1 / R_pow_di(gm1 * px[i] + 1.0, 2);
-    } else if (bi * gi == 1.0) {
+    } else if (gb == 1.0) {
       pret[i] = -log(bi) * R_pow(bi, px[i]);
     } else {
       double gm1b1x = gm1 * R_pow(bi, 1 - px[i]);
       pret[i] = (bi - 1.0) * gm1b1x * log(bi) /
-        R_pow_di(gm1b1x + (1.0 - bi * gi), 2);
+        R_pow_di(gm1b1x + (1.0 - gb), 2);
     }
 
     pret[i] = gl ? log(pret[i]) : pret[i];
