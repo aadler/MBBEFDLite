@@ -23,11 +23,12 @@ ecmb(x, g, b, c = NULL, lower.tail = TRUE)
 }
 \details{
 Given random variable \eqn{X} with an \acronym{MBBEFD} distribution with
-parameters \eqn{g} and \eqn{b}, the \strong{exposure curve} is defined as the
-ratio of the limited average severity (\acronym{LAS}) of the variable at \eqn{x}
-divided by the unlimited expected severity of the distribution:
-\deqn{LAS(x) = \frac{E(X\wedge x)}{E(X)}=\frac{\int_0^x t f(t) dt +
-x \int_x^\infty f(t) dt }{\int_0^\infty t f(t) dt}}
+parameters \eqn{g} and \eqn{b}, the \strong{exposure curve} (\acronym{EC}) is
+defined as the ratio of the limited average severity (\acronym{LAS}) of the
+variable at \eqn{x} divided by the unlimited expected severity of the
+distribution:
+\deqn{EC(x) = \frac{LAS(x)}{E(X)} = \frac{E(X\wedge x)}{E(X)} =
+\frac{\int_0^x t f(t) dt + x \int_x^\infty f(t) dt }{\int_0^\infty t f(t) dt}}
 
 If one considers \eqn{x} as a policy limit, then the value of
 \code{ecmb(x, g, b)} is the percentage of the total expected loss which will be
