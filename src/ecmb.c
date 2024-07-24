@@ -33,7 +33,7 @@ extern SEXP ecmb_c(SEXP x, SEXP g, SEXP b, SEXP lower_tail) {
     } else if (gi == 1.0 || bi == 0.0) {
       pret[i] = px[i];
     } else if (bi == 1.0) {
-      pret[i] = log(1.0 + gm1 * px[i]) / log(gi);
+      pret[i] = log1p(gm1 * px[i]) / log(gi);
     } else if (gb == 1.0) {
       pret[i] = (1.0 - R_pow(bi, px[i])) / (1.0 - bi);
     } else {
