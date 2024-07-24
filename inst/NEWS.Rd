@@ -12,6 +12,11 @@
       \item Fixed one unit test.
     }
   }
+  \subsection{Changed}{
+    \itemize{
+      \item Use \code{log1p} instead of \code{log 1.0 + ...} where appropriate.
+    }
+  }
 }
 
 \section{Version 0.0.3 (2024-06-20)}{
