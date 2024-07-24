@@ -5,6 +5,15 @@
 \alias{NEWS}
 \title{NEWS file for the MBBEFDLite package}
 
+\section{Version 0.0.4 (2024-07-24)}{
+  \subsection{Fixed}{
+    \itemize{
+      \item Corrected documentation in \code{ecmb}.
+      \item Fixed one unit test.
+    }
+  }
+}
+
 \section{Version 0.0.3 (2024-06-20)}{
   \subsection{Changed}{
     \itemize{
