@@ -9,7 +9,7 @@
   \subsection{Changed}{
     \itemize{
       \item Replaced \code{\()} shorthand with full \code{function} call in
-      \code{mommb} to remove dependency on \R \eqn{\ge} 4.1.0.
+      \code{mommb} to remove dependency on \R \eqn{\ge}{>=} 4.1.0.
       \item Updated package metadata test.
     }
   }
