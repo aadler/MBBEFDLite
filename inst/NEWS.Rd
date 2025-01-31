@@ -5,6 +5,21 @@
 \alias{NEWS}
 \title{NEWS file for the MBBEFDLite package}
 
+\section{Version 0.0.5 (2025-01-31)}{
+  \subsection{Changed}{
+    \itemize{
+      \item Replaced \code{\()} shorthand with full \code{function} call in
+      \code{mommb} to remove dependency on \R \eqn{\ge} 4.1.0.
+      \item Updated package metadata test.
+    }
+  }
+  \subsection{Changed}{
+    \itemize{
+      \item Use \code{log1p} instead of \code{log 1.0 + ...} where appropriate.
+    }
+  }
+}
+
 \section{Version 0.0.4 (2024-07-24)}{
   \subsection{Fixed}{
     \itemize{

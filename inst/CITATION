@@ -10,5 +10,5 @@ bibentry(bibtype     = "Manual",
          year         = "2024",
          url          = "https://CRAN.R-project.org/package=MBBEFDLite",
          doi          = "10.32614/CRAN.package.MBBEFDLite",
-         note         = "R package version 0.0.4"
+         note         = "R package version 0.0.5"
 )
