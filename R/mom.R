@@ -34,8 +34,8 @@ mommb <- function(x, maxit = 100L, tol = .Machine$double.eps ^ 0.5,
   while (!converged && i < maxit) {
     i <- i + 1L
     oldg <- g
-    intxsqrd <- tryCatch(integrate(\(x) x ^ 2 * dmb(x, g, b), lower = 0,
-                                   upper = 1, subdivisions = 1000L,
+    intxsqrd <- tryCatch(integrate(function(x) {x ^ 2 * dmb(x, g, b)},
+                                   lower = 0, upper = 1, subdivisions = 1000L,
                                    rel.tol = tol)$value,
                          error = \(cond) simpleError(trimws(cond$message)))
     if (inherits(intxsqrd, "simpleError")) {
