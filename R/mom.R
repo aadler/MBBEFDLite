@@ -37,7 +37,9 @@ mommb <- function(x, maxit = 100L, tol = .Machine$double.eps ^ 0.5,
     intxsqrd <- tryCatch(integrate(function(x) {x ^ 2 * dmb(x, g, b)},
                                    lower = 0, upper = 1, subdivisions = 1000L,
                                    rel.tol = tol)$value,
-                         error = \(cond) simpleError(trimws(cond$message)))
+                         error = function(cond) {
+                           simpleError(trimws(cond$message))}
+                         )
     if (inherits(intxsqrd, "simpleError")) {
       stop(trimws(intxsqrd$message), "; perhaps try a looser tolerance.")
     }
