@@ -17,7 +17,7 @@ if (Sys.info()["nodename"] == "HOME") {
 
   # Universal code
   pV <- packageVersion(thisPkg)
-  pD <- packageDate(thisPkg)
+  # pD <- packageDate(thisPkg) # Only applies when DESCRIPTION has a Date field
   cit <- toBibtex(citation(thisPkg))
   nws <- news(package = thisPkg)
 
@@ -28,7 +28,7 @@ if (Sys.info()["nodename"] == "HOME") {
   expect_true(any(grepl(pV, nws, fixed = TRUE)))
 
   # Test that NEWS has an entry with DESCRIPTION's Date
-  expect_true(any(grepl(pD, nws, fixed = TRUE)))
+  # expect_true(any(grepl(pD, nws, fixed = TRUE)))
 
   # Test that CITATION doesn't contain the name of any other of my packages
   expect_false(any(sapply(otrPkgs, grepl, x = cit, fixed = TRUE)))
