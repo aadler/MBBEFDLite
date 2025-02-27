@@ -1,11 +1,24 @@
 # Copyright Avraham Adler (c) 2024
 # SPDX-License-Identifier: MPL-2.0+
 
-mommb <- function(x, maxit = 100L, tol = .Machine$double.eps ^ 0.5,
+mommb <- function(x, m = FALSE, maxit = 100L, tol = .Machine$double.eps ^ 0.5,
                   na.rm = TRUE) {
 
-  if (!na.rm && anyNA(x)) {
-    stop("There are NAs in the data yet na.rm was passed as FALSE.")
+  if (m) {
+    if (length(x) != 2L) {
+      stop("Was expecting first and second moment but something other than 2 ",
+           "parameters were passed.")
+    }
+
+    mu <- x[1L]
+    mu2 <- x[2L]
+  } else {
+    if (!na.rm && anyNA(x)) {
+      stop("There are NAs in the data yet na.rm was passed as FALSE.")
+    }
+
+    mu <- mean(x, na.rm = na.rm)
+    mu2 <- mean(x ^ 2, na.rm = na.rm)
   }
 
   findb <- function(mu, g, tol) {
@@ -25,8 +38,6 @@ mommb <- function(x, maxit = 100L, tol = .Machine$double.eps ^ 0.5,
     }
   }
 
-  mu <- mean(x, na.rm = na.rm)
-  mu2 <- mean(x ^ 2, na.rm = na.rm)
   g <- 1 / mu2
   b <- findb(mu, g, tol)
   converged <- FALSE
