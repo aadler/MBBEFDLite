@@ -37,7 +37,7 @@ extern SEXP qmb_c(SEXP p, SEXP g, SEXP b, SEXP lower_tail, SEXP log_p) {
 
   SEXP ret = PROTECT(allocVector(REALSXP, n));
   double *pret = REAL(ret);
-  memset(pret, 0, n * sizeof(double));
+  Memzero(pret, n);
 
   for (R_xlen_t i = 0; i < n; ++i) {
     double x = lp ? exp(pp[i]) : pp[i];
@@ -58,7 +58,7 @@ extern SEXP rmb_c(SEXP n_, SEXP g, SEXP b) {
 
   SEXP ret = PROTECT(allocVector(REALSXP, n));
   double *pret = REAL(ret);
-  memset(pret, 0, n * sizeof(double));
+  Memzero(pret, n);
 
   GetRNGstate();
   for (R_xlen_t i = 0; i < n; ++i) {

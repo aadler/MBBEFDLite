@@ -15,7 +15,7 @@ extern SEXP ecmb_c(SEXP x, SEXP g, SEXP b, SEXP lower_tail) {
 
   SEXP ret = PROTECT(allocVector(REALSXP, n));
   double *pret = REAL(ret);
-  memset(pret, 0, n * sizeof(double));
+  Memzero(pret, n);
 
   for (R_xlen_t i = 0; i < n; ++i) {
     double gi = pg[i % gg];
