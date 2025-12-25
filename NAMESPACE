@@ -1,7 +1,13 @@
 useDynLib(MBBEFDLite, .registration = TRUE)
 
-# Exports
-export(dmb, pmb, qmb, rmb, ecmb, mommb)
-
 # Imports
-importFrom(stats, optimize, integrate)
+importFrom(stats,
+           optimize,
+           integrate)
+# Exports
+export(dmb,
+       pmb,
+       qmb,
+       rmb,
+       ecmb,
+       mommb)
