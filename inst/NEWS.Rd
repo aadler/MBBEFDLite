@@ -34,6 +34,7 @@
       when the integration would imply a negative \code{p}, instead of
       restarting with a different \code{g}. Experimentation indicates that the
       restart \emph{never} helped.
+      \item Use \R \acronym{API} \code{Memzero} instead of \code{memset}.
       \item Changed Github-related files and workflows.
       \item Updated unit tests.
     }
