@@ -5,6 +5,41 @@
 \alias{NEWS}
 \title{NEWS file for the MBBEFDLite package}
 
+\section{Developmental Note: Version 0.0.0+}{
+  \itemize{
+    \item So long as the package remains in its experimental development
+    state---noted by a 0 major version---the API may change without incrementing
+    the major version. Please read these development notes carefully. Breaking
+    changes will be prefaced by \dQuote{\strong{Breaking:}}.
+  }
+}
+
+\section{Version 0.1.0 (2026-01-07)}{
+  \subsection{Added}{
+    \itemize{
+      \item \strong{Breaking:} The \code{mommb} algorithm now allows for passing
+      a couplet consisting of the first two raw moments through \code{x} when
+      new parameter \code{m} is set to \code{TRUE}. When \code{m} is
+      \code{FALSE}, the default, \code{x} is treated as a vector of observations
+      regardless of its length. This is breaking as the positions of the
+      parameters has now changed.
+      \item A new parameter \code{trace} has been added that when \code{TRUE}
+      will cause \code{mommb} to print the values of \code{g} and \code{b} at
+      each iteration \code{i}.
+    }
+  }
+  \subsection{Changed}{
+    \itemize{
+      \item \strong{Breaking:} The \code{mommb} algorithm now fails immediately
+      when the integration would imply a negative \code{p}, instead of
+      restarting with a different \code{g}. Experimentation indicates that the
+      restart \emph{never} helped.
+      \item Changed Github-related files and workflows.
+      \item Updated unit tests.
+    }
+  }
+}
+
 \section{Version 0.0.5 (2025-01-31)}{
   \subsection{Changed}{
     \itemize{
