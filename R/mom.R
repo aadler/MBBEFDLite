@@ -26,7 +26,7 @@ mommb <- function(x, m = FALSE, maxit = 100L, tol = .Machine$double.eps ^ 0.5,
   if (m) {
     if (length(x) != 2L) {
       stop("Was expecting first and second raw moments but something other ",
-      "than 2 parameters were passed.")
+      "than 2 parameters was passed.")
     }
 
     mu <- x[1L]
