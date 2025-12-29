@@ -16,7 +16,7 @@ extern SEXP pmb_c(SEXP q, SEXP g, SEXP b, SEXP lower_tail, SEXP log_p) {
 
   SEXP ret = PROTECT(allocVector(REALSXP, n));
   double *pret = REAL(ret);
-  Memzero(pret, n );
+  Memzero(pret, n);
 
   for (R_xlen_t i = 0; i < n; ++i) {
     double gi = pg[i % gg];

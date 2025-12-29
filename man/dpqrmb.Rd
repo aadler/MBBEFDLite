@@ -8,7 +8,7 @@
 \alias{rmb}
 \title{The MBBEFD Distribution}
 \description{
-Density, distribution function, quantile function and random generation for the
+Density, distribution function, quantile function, and random generation for the
 \acronym{MBBEFD} distribution with parameters \code{g} and \code{b}.
 }
 \usage{
@@ -35,7 +35,7 @@ rmb(n, g, b, c = NULL)
   \eqn{P[X\leq x]}{P[X ≤ x]} otherwise \eqn{P[X > x]}.}
 }
 \details{
-The \acronym{MBBEFD}  class of curves are defined in Bernegger (1997) and are
+The \acronym{MBBEFD} class of curves are defined in Bernegger (1997) and are
 often used to model insurance risk. The density is defined on the semi-open
 interval \eqn{[0, 1)} and the distribution and quantile functions are defined on
 the closed interval \eqn{[0, 1]}.
