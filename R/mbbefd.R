@@ -31,14 +31,12 @@ ecmb <- function(x, g, b, c = NULL, lower.tail = TRUE) {
 }
 
 checkgcb <- function(g, b, c) {
-  if (!is.null(c)) {
-    if (missing(g) && missing(b)) {
-      return(list(g = c2gb(c)$g, b = c2gb(c)$b))
-    } else {
-      stop("A c parameter was passed together with either a g or b parameter.")
-    }
-  } else {
+  if (is.null(c)) {
     return(list(g = g, b = b))
+  } else if (missing(g) && missing(b)) {
+    return(list(g = c2gb(c)$g, b = c2gb(c)$b))
+  } else {
+    stop("A c parameter was passed together with either a g or b parameter.")
   }
 }
 
