@@ -17,6 +17,13 @@
 \section{Version 0.1.0 (2026-01-07)}{
   \subsection{Added}{
     \itemize{
+      \item \strong{Breaking:} The \code{mommb} algorithm now calculates
+      \eqn{E[x^2]} as \eqn{(E[x]) ^ 2 + Var[x]} instead of directly as
+      \eqn{E[x ^ 2]}. Using the unbiased estimator allows for a slightly larger
+      initial estimate. Given that the algorithm fails earlier, this allows for
+      a slighltly larger legal starting location. The results are functionally
+      identical, but not always equal within machine tolerances, so the change
+      is breaking.
       \item \strong{Breaking:} The \code{mommb} algorithm now allows for passing
       a couplet consisting of the first two raw moments through \code{x} when
       new parameter \code{m} is set to \code{TRUE}. When \code{m} is

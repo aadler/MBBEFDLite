@@ -13,13 +13,13 @@ mommb(x, m = FALSE, maxit = 100L, tol = .Machine$double.eps ^ 0.5, na.rm = TRUE,
 \arguments{
   \item{x}{\strong{numeric}; If \code{m} is \code{FALSE}, a vector of
   observations between 0 and 1. If \code{m} is \code{TRUE}, then a vector of
-  length 2, where the first element is the first raw moment (mean) of the
-  \acronym{MBBEFD} distribution and the second element is the second raw moment
-  of the \acronym{MBBEFD} distribution.}
+  length 2, where the first element is the first central moment (mean) of the
+  \acronym{MBBEFD} distribution and the second element is the second central
+  moment (variance) of the \acronym{MBBEFD} distribution.}
   \item{m}{\strong{logical}; When \code{FALSE}---the default---\code{x} is
   treated as a vector of observations. When \code{TRUE}, \code{x} is treated as
-  the couplet of the distribution's first two raw \strong{m}oments---\eqn{E[X]}
-  and \eqn{E[X^2]}.}
+  the couplet of the distribution's first two central \strong{m}oments---
+  \eqn{E[X]} and \eqn{Var[X]}.}
   \item{maxit}{\strong{integer}; maximum number of iterations.}
   \item{tol}{\strong{numeric}; tolerance. If too tight, algorithm may fail.
   Defaults to the square root of \code{.Machine$double.eps} or roughly

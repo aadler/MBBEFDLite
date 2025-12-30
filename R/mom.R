@@ -25,19 +25,19 @@ mommb <- function(x, m = FALSE, maxit = 100L, tol = .Machine$double.eps ^ 0.5,
 
   if (m) {
     if (length(x) != 2L) {
-      stop("Was expecting first and second raw moments but something other ",
+      stop("Was expecting the first and second moments but something other ",
       "than 2 parameters was passed.")
     }
 
     mu <- x[1L]
-    mu2 <- x[2L]
+    mu2 <- mu ^ 2 + x[2L]
   } else {
     if (!na.rm && anyNA(x)) {
       stop("There are NAs in the data yet na.rm was passed as FALSE.")
     }
 
     mu <- mean(x, na.rm = na.rm)
-    mu2 <- mean(x ^ 2, na.rm = na.rm)
+    mu2 <- mu ^ 2 + var(x, na.rm = na.rm)
   }
 
   g <- 1 / mu2
