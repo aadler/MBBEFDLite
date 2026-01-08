@@ -3,7 +3,10 @@
 
 findbIntMax <- 1e50
 
-findb <- function(mu, g, tol = .Machine$double.eps ^ 0.5) {
+findb <- function(mu, g, tol = NULL) {
+
+  if (is.null(tol)) tol <- sqrt(.Machine$double.eps)
+
   if (abs(mu - 1) <= tol) {
     return(0)
   } else if (abs(mu - (g - 1) / (log(g) * g)) <= tol) {
@@ -20,8 +23,10 @@ findb <- function(mu, g, tol = .Machine$double.eps ^ 0.5) {
   }
 }
 
-mommb <- function(x, m = FALSE, maxit = 100L, tol = .Machine$double.eps ^ 0.5,
-                  na.rm = TRUE, trace = FALSE) {
+mommb <- function(x, m = FALSE, maxit = 100L, tol = NULL, na.rm = TRUE,
+                  trace = FALSE) {
+
+  if (is.null(tol)) tol <- sqrt(.Machine$double.eps)
 
   if (m) {
     if (length(x) != 2L) {

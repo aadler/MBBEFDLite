@@ -8,7 +8,7 @@ Attempts to find the best \code{g} and \code{b} parameters which are consistent
 with the first and second moments of the supplied data.
 }
 \usage{
-mommb(x, m = FALSE, maxit = 100L, tol = .Machine$double.eps ^ 0.5, na.rm = TRUE, trace = FALSE) % nolint line_length_linter
+mommb(x, m = FALSE, maxit = 100L, tol = NULL, na.rm = TRUE, trace = FALSE)
 }
 \arguments{
   \item{x}{\strong{numeric}; If \code{m} is \code{FALSE}, a vector of
