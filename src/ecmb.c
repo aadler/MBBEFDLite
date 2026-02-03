@@ -15,11 +15,17 @@ extern SEXP ecmb_c(SEXP x, SEXP g, SEXP b, SEXP lower_tail) {
 
   SEXP ret = PROTECT(allocVector(REALSXP, n));
   double *pret = REAL(ret);
-  Memzero(pret, n);
+
+  R_xlen_t ig = 0;
+  R_xlen_t ib = 0;
+
 
   for (R_xlen_t i = 0; i < n; ++i) {
-    double gi = pg[i % gg];
-    double bi = pb[i % bb];
+    double gi = pg[ig];
+    double bi = pb[ib];
+    if (++ig == gg) ig = 0;
+    if (++ib == bb) ib = 0;
+
     double gm1 = gi - 1.0;
     double gb = bi * gi;
     if (ISNA(px[i]) || ISNA(gi) || ISNA(bi)) {
