@@ -60,10 +60,13 @@ extern SEXP dmb_c(SEXP x, SEXP g, SEXP b, SEXP give_log) {
   if (gl) {
     for (R_xlen_t i = 0; i < n; ++i) {
       if (pret[i] > 0.0) {
+        // log positive values
         pret[i] = log(pret[i]);
       } else if (pret[i] == 0.0) {
+        // convert 0 to NegInf
         pret[i] = R_NegInf;
       }
+        // Allow NA and NaN to flow through
     }
   }
 
