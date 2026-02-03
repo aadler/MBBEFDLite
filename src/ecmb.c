@@ -30,7 +30,8 @@ extern SEXP ecmb_c(SEXP x, SEXP g, SEXP b, SEXP lower_tail) {
       continue;
     }
 
-    if (gi < 1.0 || bi < 0.0 || !R_finite(px[i] + gi + bi)) {
+    if (gi < 1.0 || bi < 0.0 || !R_finite(px[i]) || !R_finite(gi) ||
+        !R_finite(bi)) {
       pret[i] = R_NaN;
       continue;
     }
