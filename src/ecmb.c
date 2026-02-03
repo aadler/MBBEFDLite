@@ -19,36 +19,62 @@ extern SEXP ecmb_c(SEXP x, SEXP g, SEXP b, SEXP lower_tail) {
   R_xlen_t ig = 0;
   R_xlen_t ib = 0;
 
-
   for (R_xlen_t i = 0; i < n; ++i) {
     double gi = pg[ig];
     double bi = pb[ib];
     if (++ig == gg) ig = 0;
     if (++ib == bb) ib = 0;
 
-    double gm1 = gi - 1.0;
-    double gb = bi * gi;
     if (ISNA(px[i]) || ISNA(gi) || ISNA(bi)) {
       pret[i] = NA_REAL;
-    } else if (gi < 1.0 || bi < 0.0 || ISNAN(px[i] + gi + bi)) {
-      pret[i] = R_NaN;
-    } else if (px[i] <= 0.0) {
-      pret[i] = 0.0;
-    } else if (px[i] >= 1.0) {
-      pret[i] = 1.0;
-    } else if (gi == 1.0 || bi == 0.0) {
-      pret[i] = px[i];
-    } else if (bi == 1.0) {
-      pret[i] = log1p(gm1 * px[i]) / log(gi);
-    } else if (gb == 1.0) {
-      pret[i] = (1.0 - R_pow(bi, px[i])) / (1.0 - bi);
-    } else {
-      pret[i] = log((gm1 * bi + (1.0 - gb) * R_pow(bi, px[i])) / (1.0 - bi)) /
-        log(gb);
+      continue;
     }
-    pret[i] = lt ? pret[i] : 0.5 - pret[i] + 0.5; // See dpq.h
+
+    if (gi < 1.0 || bi < 0.0 || !R_finite(px[i] + gi + bi)) {
+      pret[i] = R_NaN;
+      continue;
+    }
+
+    if (px[i] <= 0.0) {
+      pret[i] = 0.0;
+      continue;
+    }
+
+    if (px[i] >= 1.0) {
+      pret[i] = 1.0;
+      continue;
+    }
+
+    if (gi == 1.0 || bi == 0.0) {
+      pret[i] = px[i];
+      continue;
+    }
+
+    double gm1 = gi - 1.0;
+
+    if (bi == 1.0) {
+      pret[i] = log1p(gm1 * px[i]) / log(gi);
+      continue;
+    }
+
+    double ombi = 1.0 - bi;
+    double gb = bi * gi;
+    double lbi = log(bi);
+    double bix = exp(px[i] * lbi);
+
+    if (gb == 1.0) {
+      pret[i] = (1.0 - bix) / ombi;
+    } else {
+      pret[i] = log((gm1 * bi + (1.0 - gb) * bix) / ombi) / log(gb);
+    }
   }
 
-    UNPROTECT(1);
-    return(ret);
+  if (!lt) {
+    for (R_xlen_t i = 0; i < n; ++i) {
+      pret[i] =  0.5 - pret[i] + 0.5; // Avoid cancellation; see dpq.h
+    }
+  }
+
+  UNPROTECT(1);
+  return(ret);
 }
