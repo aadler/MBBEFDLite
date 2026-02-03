@@ -5,16 +5,27 @@
 #include "MBBEFDLite.h"
 
 double quantilemb (double p, double g, double b) {
+
+  if (ISNA(p) || ISNA(g) || ISNA(b)) {
+    return(NA_REAL);
+  }
+
+  if (!R_finite(p) || !R_finite(g) || !R_finite(b)) {
+    return(R_NaN);
+  }
+
+  if (g < 1.0 || b < 0.0 || p < 0.0 || p > 1.0) {
+    return(R_NaN);
+  }
+
+  if (g == 1.0 || b == 0.0 || p == 0.0) {
+    return(0.0);
+  }
+
   double gm1 = g - 1.0;
   double gb = g * b;
   double pc = 0.5 - p + 0.5; // p-complement
-  if (ISNA(p) || ISNA(g) || ISNA(b)) {
-    return(NA_REAL);
-  } else if (g < 1.0 || b < 0.0 || ISNAN(p + g + b) || p < 0.0 || p > 1.0) {
-    return(R_NaN);
-  } else if (g == 1.0 || b == 0.0 || p == 0.0) {
-    return(0.0);
-  } else if (p >= 1.0 - 1.0 / g) {
+  if (p >= 1.0 - 1.0 / g) {
     return(1.0);
   } else if (b == 1.0) {
     return(p / (pc * gm1));
