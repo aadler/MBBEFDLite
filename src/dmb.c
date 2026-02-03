@@ -16,9 +16,14 @@ extern SEXP dmb_c(SEXP x, SEXP g, SEXP b, SEXP give_log) {
   SEXP ret = PROTECT(allocVector(REALSXP, n));
   double *pret = REAL(ret);
 
+  R_xlen_t ig = 0;
+  R_xlen_t ib = 0;
+
   for (R_xlen_t i = 0; i < n; ++i) {
-    double gi = pg[i % gg];
-    double bi = pb[i % bb];
+    double gi = pg[ig];
+    double bi = pb[ib];
+    if (++ig == gg) ig = 0;
+    if (++ib == bb) ib = 0;
     double gm1 = gi - 1.0;
     double gb = gi * bi;
     if (ISNA(px[i]) || ISNA(gi) || ISNA(bi)) {
