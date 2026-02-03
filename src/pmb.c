@@ -32,25 +32,30 @@ extern SEXP pmb_c(SEXP q, SEXP g, SEXP b, SEXP lower_tail, SEXP log_p) {
       continue;
     }
 
-    if (gi < 1.0 || bi < 0.0 || ISNAN(pq[i] + gi + bi)) {
+    if (gi < 1.0 || bi < 0.0 || !R_finite(pq[i]) || !R_finite(gi) ||
+        !R_finite(bi)) {
       pret[i] = R_NaN;
       continue;
     }
 
     if (pq[i] >= 1.0) {
-      pret[i] = 1.0;
+      // pret[i] = 1.0;
+      pret[i] = lt ? 1.0 : 0.0;
       continue;
     }
 
     if (gi == 1.0 || bi == 0.0 || pq[i] < 0.0) {
-      pret[i] = 0.0;
+      // pret[i] = 0.0;
+      pret[i] = lt ? 0.0 : 1.0;
       continue;
     }
 
     double gm1 = gi - 1.0;
+    double tmp;
 
     if (bi == 1.0) {
-      pret[i] = 1.0 - 1.0 / (1.0 + gm1 * pq[i]);
+      tmp = 1.0 / (1.0 + gm1 * pq[i]);
+      pret[i] = lt ? 0.5 - tmp + 0.5 : tmp;
       continue;
     }
 
@@ -59,16 +64,10 @@ extern SEXP pmb_c(SEXP q, SEXP g, SEXP b, SEXP lower_tail, SEXP log_p) {
     double biq = exp(pq[i] * lbi);
 
     if (gb == 1.0) {
-      pret[i] = 1.0 - biq;
+      pret[i] = lt ? 0.5 - biq + 0.5 : biq;
     } else {
-      pret[i] = 1.0 - (1.0 - bi) / (gm1 * bi / biq + 1.0 - gb);
-    }
-
-  }
-
-  if (!lt) {
-    for (R_xlen_t i = 0; i < n; ++i) {
-      pret[i] = 0.5 - pret[i] + 0.5; // Avoids some cancellations (see dpq.h)
+      tmp = (1.0 - bi) / (gm1 * bi / biq + 1.0 - gb);
+      pret[i] = lt ? 0.5 - tmp + 0.5 : tmp;
     }
   }
 
