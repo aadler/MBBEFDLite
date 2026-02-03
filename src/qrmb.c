@@ -74,9 +74,13 @@ extern SEXP qmb_c(SEXP p, SEXP g, SEXP b, SEXP lower_tail, SEXP log_p) {
 extern SEXP rmb_c(SEXP n_, SEXP g, SEXP b) {
   const R_xlen_t gg = xlength(g);
   const R_xlen_t bb = xlength(b);
-  const R_xlen_t n = asReal(n_);
   double *pg = REAL(g);
   double *pb = REAL(b);
+
+  double dn = asReal(n_);
+  if (!R_finite(dn) || dn < 0 || dn > R_XLEN_T_MAX)
+    error("invalid 'n'");
+  R_xlen_t n = (R_xlen_t) dn;
 
   SEXP ret = PROTECT(allocVector(REALSXP, n));
   double *pret = REAL(ret);
