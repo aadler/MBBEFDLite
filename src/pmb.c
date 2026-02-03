@@ -44,11 +44,27 @@ extern SEXP pmb_c(SEXP q, SEXP g, SEXP b, SEXP lower_tail, SEXP log_p) {
     } else {
       pret[i] = 1.0 - (1.0 - bi) / (gm1 * R_pow(bi, 1.0 - pq[i]) + 1.0 - gb);
     }
-
-    pret[i] = lt ? pret[i] : 0.5 - pret[i] + 0.5; // See dpq.h
-    pret[i] = lp ? log(pret[i]) : pret[i];
   }
 
-    UNPROTECT(1);
-    return(ret);
+  if (!lt) {
+    for (R_xlen_t i = 0; i < n; ++i) {
+      pret[i] = 0.5 - pret[i] + 0.5; // See dpq.h
+    }
+  }
+
+  if (lp) {
+    for (R_xlen_t i = 0; i < n; ++i) {
+      if (pret[i] > 0.0) {
+        // log positive values
+        pret[i] = log(pret[i]);
+      } else if (pret[i] == 0.0) {
+        // convert 0 to NegInf
+        pret[i] = R_NegInf;
+      }
+      // Allow NA and NaN to flow through
+    }
+  }
+
+  UNPROTECT(1);
+  return(ret);
 }
