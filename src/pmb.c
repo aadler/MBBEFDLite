@@ -55,13 +55,12 @@ extern SEXP pmb_c(SEXP q, SEXP g, SEXP b, SEXP lower_tail, SEXP log_p) {
     }
 
     double gb = gi * bi;
-    double biq = R_pow(bi, pq[i]);
-    double bi1mq = R_pow(bi, 1.0 - pq[i]);
+    double biq = exp(pq[i] * log(bi));
 
     if (gb == 1.0) {
       pret[i] = 1.0 - biq;
     } else {
-      pret[i] = 1.0 - (1.0 - bi) / (gm1 * bi1mq + 1.0 - gb);
+      pret[i] = 1.0 - (1.0 - bi) / (gm1 * bi / biq + 1.0 - gb);
     }
 
   }
