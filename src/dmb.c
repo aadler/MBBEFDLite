@@ -59,7 +59,11 @@ extern SEXP dmb_c(SEXP x, SEXP g, SEXP b, SEXP give_log) {
 
   if (gl) {
     for (R_xlen_t i = 0; i < n; ++i) {
-      pret[i] = log(pret[i]);
+      if (pret[i] > 0.0) {
+        pret[i] = log(pret[i]);
+      } else if (pret[i] == 0.0) {
+        pret[i] = R_NegInf;
+      }
     }
   }
 
