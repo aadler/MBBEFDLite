@@ -25,55 +25,56 @@ extern SEXP ecmb_c(SEXP x, SEXP g, SEXP b, SEXP lower_tail) {
     if (++ig == gg) ig = 0;
     if (++ib == bb) ib = 0;
 
+    // NA check
     if (ISNA(px[i]) || ISNA(gi) || ISNA(bi)) {
       pret[i] = NA_REAL;
       continue;
     }
 
+    // Domain check
     if (gi < 1.0 || bi < 0.0 || !R_finite(px[i]) || !R_finite(gi) ||
         !R_finite(bi)) {
+
       pret[i] = R_NaN;
       continue;
     }
 
+    // Simple computations
+
     if (px[i] <= 0.0) {
-      pret[i] = 0.0;
+      pret[i] = lt ? 0.0 : 1.0;
       continue;
     }
 
     if (px[i] >= 1.0) {
-      pret[i] = 1.0;
+      pret[i] = lt ? 1.0 : 0.0;
       continue;
     }
 
     if (gi == 1.0 || bi == 0.0) {
-      pret[i] = px[i];
+      pret[i] = lt ? px[i] : 0.5 - px[i] + 0.5;
       continue;
     }
 
     double gm1 = gi - 1.0;
+    double lcdf;
 
     if (bi == 1.0) {
-      pret[i] = log1p(gm1 * px[i]) / log1p(gm1);
-      continue;
-    }
-
-    double ombi = 1.0 - bi;
-    double gb = bi * gi;
-    double lbi = log(bi);
-    double bix = exp(px[i] * lbi);
-
-    if (gb == 1.0) {
-      pret[i] = (1.0 - bix) / ombi;
+      lcdf = log1p(gm1 * px[i]) / log1p(gm1);
     } else {
-      pret[i] = log((gm1 * bi + (1.0 - gb) * bix) / ombi) / log(gb);
-    }
-  }
+      double ombi = 1.0 - bi;
+      double gb = bi * gi;
+      double lbi = log(bi);
+      double bix = exp(px[i] * lbi);
 
-  if (!lt) {
-    for (R_xlen_t i = 0; i < n; ++i) {
-      pret[i] =  0.5 - pret[i] + 0.5; // Avoid cancellation; see dpq.h
+      if (gb == 1.0) {
+        lcdf = (1.0 - bix) / ombi;
+      } else {
+        double numer = gm1 * bi + (1.0 - gb) * bix;
+        lcdf = log(numer / ombi) / log(gb);
+      }
     }
+    pret[i] = lt ? lcdf :  0.5 - lcdf + 0.5;
   }
 
   UNPROTECT(1);
