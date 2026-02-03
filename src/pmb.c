@@ -55,7 +55,8 @@ extern SEXP pmb_c(SEXP q, SEXP g, SEXP b, SEXP lower_tail, SEXP log_p) {
     }
 
     double gb = gi * bi;
-    double biq = exp(pq[i] * log(bi));
+    double lbi = log(bi);
+    double biq = exp(pq[i] * lbi);
 
     if (gb == 1.0) {
       pret[i] = 1.0 - biq;
@@ -67,7 +68,7 @@ extern SEXP pmb_c(SEXP q, SEXP g, SEXP b, SEXP lower_tail, SEXP log_p) {
 
   if (!lt) {
     for (R_xlen_t i = 0; i < n; ++i) {
-      pret[i] = 0.5 - pret[i] + 0.5; // See dpq.h
+      pret[i] = 0.5 - pret[i] + 0.5; // Avoids some cancellations (see dpq.h)
     }
   }
 
