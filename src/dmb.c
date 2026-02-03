@@ -36,7 +36,7 @@ extern SEXP dmb_c(SEXP x, SEXP g, SEXP b, SEXP give_log) {
     }
 
     if (gi == 1.0 || bi == 0.0 || px[i] < 0.0 || px[i] >= 1.0) {
-      pret[i] = gl ? R_NegInf : 0.0;
+      pret[i] = 0.0;
       continue;
     }
 
@@ -55,10 +55,14 @@ extern SEXP dmb_c(SEXP x, SEXP g, SEXP b, SEXP give_log) {
       double gm1b1x1mgb = gm1b1x + (1.0 - gb);
       pret[i] = (bi - 1.0) * gm1b1x * lb / (gm1b1x1mgb * gm1b1x1mgb);
     }
-
-    pret[i] = gl ? log(pret[i]) : pret[i];
   }
 
-    UNPROTECT(1);
-    return(ret);
+  if (gl) {
+    for (R_xlen_t i = 0; i < n; ++i) {
+      pret[i] = log(pret[i]);
+    }
+  }
+
+  UNPROTECT(1);
+  return(ret);
 }
