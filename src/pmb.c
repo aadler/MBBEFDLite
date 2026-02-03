@@ -27,23 +27,43 @@ extern SEXP pmb_c(SEXP q, SEXP g, SEXP b, SEXP lower_tail, SEXP log_p) {
     if (++ig == gg) ig = 0;
     if (++ib == bb) ib = 0;
 
-    double gm1 = gi - 1.0;
-    double gb = gi * bi;
     if (ISNA(pq[i]) || ISNA(gi) || ISNA(bi)) {
       pret[i] = NA_REAL;
-    } else if (gi < 1.0 || bi < 0.0 || ISNAN(pq[i] + gi + bi)) {
-      pret[i] = R_NaN;
-    } else if (pq[i] >= 1.0) {
-      pret[i] = 1.0;
-    } else if (gi == 1.0 || bi == 0.0 || pq[i] < 0.0) {
-      pret[i] = 0.0;
-    } else if (bi == 1.0) {
-      pret[i] = 1.0 - 1.0 / (1.0 + gm1 * pq[i]);
-    } else if (gb == 1.0) {
-      pret[i] = 1.0 - R_pow(bi, pq[i]);
-    } else {
-      pret[i] = 1.0 - (1.0 - bi) / (gm1 * R_pow(bi, 1.0 - pq[i]) + 1.0 - gb);
+      continue;
     }
+
+    if (gi < 1.0 || bi < 0.0 || ISNAN(pq[i] + gi + bi)) {
+      pret[i] = R_NaN;
+      continue;
+    }
+
+    if (pq[i] >= 1.0) {
+      pret[i] = 1.0;
+      continue;
+    }
+
+    if (gi == 1.0 || bi == 0.0 || pq[i] < 0.0) {
+      pret[i] = 0.0;
+      continue;
+    }
+
+    double gm1 = gi - 1.0;
+
+    if (bi == 1.0) {
+      pret[i] = 1.0 - 1.0 / (1.0 + gm1 * pq[i]);
+      continue;
+    }
+
+    double gb = gi * bi;
+    double biq = R_pow(bi, pq[i]);
+    double bi1mq = R_pow(bi, 1.0 - pq[i]);
+
+    if (gb == 1.0) {
+      pret[i] = 1.0 - biq;
+    } else {
+      pret[i] = 1.0 - (1.0 - bi) / (gm1 * bi1mq + 1.0 - gb);
+    }
+
   }
 
   if (!lt) {
