@@ -55,12 +55,16 @@ extern SEXP qmb_c(SEXP p, SEXP g, SEXP b, SEXP lower_tail, SEXP log_p) {
 
   SEXP ret = PROTECT(allocVector(REALSXP, n));
   double *pret = REAL(ret);
-  Memzero(pret, n);
+
+  R_xlen_t ig = 0;
+  R_xlen_t ib = 0;
 
   for (R_xlen_t i = 0; i < n; ++i) {
     double x = lp ? exp(pp[i]) : pp[i];
-    x = lt ? x : 0.5 - x + 0.5; // See dpq.h
-    pret[i] = quantilemb(x, pg[i % gg], pb[i % bb]);
+    x = lt ? x : 0.5 - x + 0.5; // Avoid cancellation; see dpq.h
+    pret[i] = quantilemb(x, pg[ig], pb[ib]);
+    if (++ig == gg) ig = 0;
+    if (++ib == bb) ib = 0;
   }
 
   UNPROTECT(1);
@@ -76,12 +80,18 @@ extern SEXP rmb_c(SEXP n_, SEXP g, SEXP b) {
 
   SEXP ret = PROTECT(allocVector(REALSXP, n));
   double *pret = REAL(ret);
-  Memzero(pret, n);
+
+  R_xlen_t ig = 0;
+  R_xlen_t ib = 0;
 
   GetRNGstate();
+
   for (R_xlen_t i = 0; i < n; ++i) {
-    pret[i] = quantilemb(unif_rand(), pg[i % gg], pb[i % bb]);
+    pret[i] = quantilemb(unif_rand(), pg[ig], pb[ib]);
+    if (++ig == gg) ig = 0;
+    if (++ib == bb) ib = 0;
   }
+
   PutRNGstate();
 
   UNPROTECT(1);
