@@ -15,7 +15,6 @@ extern SEXP dmb_c(SEXP x, SEXP g, SEXP b, SEXP give_log) {
 
   SEXP ret = PROTECT(allocVector(REALSXP, n));
   double *pret = REAL(ret);
-  Memzero(pret, n);
 
   for (R_xlen_t i = 0; i < n; ++i) {
     double gi = pg[i % gg];
