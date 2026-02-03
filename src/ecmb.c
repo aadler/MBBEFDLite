@@ -54,7 +54,7 @@ extern SEXP ecmb_c(SEXP x, SEXP g, SEXP b, SEXP lower_tail) {
     double gm1 = gi - 1.0;
 
     if (bi == 1.0) {
-      pret[i] = log1p(gm1 * px[i]) / log(gi);
+      pret[i] = log1p(gm1 * px[i]) / log1p(gm1);
       continue;
     }
 
