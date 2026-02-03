@@ -22,17 +22,24 @@ double quantilemb (double p, double g, double b) {
     return(0.0);
   }
 
-  double gm1 = g - 1.0;
-  double gb = g * b;
-  double pc = 0.5 - p + 0.5; // p-complement
   if (p >= 1.0 - 1.0 / g) {
     return(1.0);
-  } else if (b == 1.0) {
+  }
+
+  double gm1 = g - 1.0;
+  double pc = 0.5 - p + 0.5; // p-complement; avoid cancellation
+
+  if (b == 1.0) {
     return(p / (pc * gm1));
-  } else if (gb == 1.0) {
-    return(log(pc) / log(b));
+  }
+
+  double gb = g * b;
+  double lb = log(b);
+
+  if (gb == 1.0) {
+    return(log(pc) / lb);
   } else {
-    return(1.0 - (log((1.0 - b) / pc - 1.0 + gb) - log(gm1)) / log(b));
+    return(1.0 - log(((1.0 - b) / pc - 1.0 + gb) / gm1) / lb);
   }
 }
 
