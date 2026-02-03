@@ -60,8 +60,13 @@ extern SEXP qmb_c(SEXP p, SEXP g, SEXP b, SEXP lower_tail, SEXP log_p) {
   R_xlen_t ib = 0;
 
   for (R_xlen_t i = 0; i < n; ++i) {
-    double x = lp ? exp(pp[i]) : pp[i];
-    x = lt ? x : 0.5 - x + 0.5; // Avoid cancellation; see dpq.h
+    double x;
+    if (lp) {
+      x = lt ? exp(pp[i]) : -expm1(pp[i]); // -expm1(x) = 1 - exp(x)
+    } else {
+      x = lt ? pp[i] : 0.5 - pp[i] + 0.5; // Avoid cancellation; see dpq.h
+    }
+
     pret[i] = quantilemb(x, pg[ig], pb[ib]);
     if (++ig == gg) ig = 0;
     if (++ib == bb) ib = 0;
