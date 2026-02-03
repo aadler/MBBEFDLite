@@ -24,15 +24,26 @@ extern SEXP dmb_c(SEXP x, SEXP g, SEXP b, SEXP give_log) {
     double bi = pb[ib];
     if (++ig == gg) ig = 0;
     if (++ib == bb) ib = 0;
-    double gm1 = gi - 1.0;
-    double gb = gi * bi;
+
     if (ISNA(px[i]) || ISNA(gi) || ISNA(bi)) {
       pret[i] = NA_REAL;
-    } else if (gi < 1.0 || bi < 0.0 || ISNAN(px[i] + gi + bi)) {
+      continue;
+    }
+
+    else if (gi < 1.0 || bi < 0.0 || ISNAN(px[i] + gi + bi)) {
       pret[i] = R_NaN;
-    } else if (gi == 1.0 || bi == 0.0 || px[i] < 0.0 || px[i] >= 1.0) {
-      pret[i] = 0.0;
-    } else if (bi == 1.0) {
+      continue;
+    }
+
+    if (gi == 1.0 || bi == 0.0 || px[i] < 0.0 || px[i] >= 1.0) {
+      pret[i] = gl ? R_NegInf : 0.0;
+      continue;
+    }
+
+    double gm1 = gi - 1.0;
+    double gb = gi * bi;
+
+    if (bi == 1.0) {
       pret[i] = gm1 / R_pow_di(gm1 * px[i] + 1.0, 2);
     } else if (gb == 1.0) {
       pret[i] = -log(bi) * R_pow(bi, px[i]);
