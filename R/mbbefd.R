@@ -34,7 +34,7 @@ checkgcb <- function(g, b, c) {
   if (is.null(c)) {
     return(list(g = g, b = b))
   } else if (missing(g) && missing(b)) {
-    return(list(g = c2gb(c)$g, b = c2gb(c)$b))
+    return(c2gb(c))
   }
   stop("A c parameter was passed together with either a g or b parameter.")
 }
