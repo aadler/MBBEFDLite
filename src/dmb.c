@@ -43,7 +43,7 @@ extern SEXP dmb_c(SEXP x, SEXP g, SEXP b, SEXP give_log) {
     double gm1 = gi - 1.0;
     double gb = gi * bi;
     double lb = log(bi);
-    double bix = R_pow(bi, px[i]);
+    double bix = exp(px[i] * lb);
 
     if (bi == 1.0) {
       double gm1px = gm1 * px[i] + 1.0;
