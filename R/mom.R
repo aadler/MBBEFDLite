@@ -1,9 +1,7 @@
 # Copyright Avraham Adler (c) 2024
 # SPDX-License-Identifier: MPL-2.0+
 
-findbIntMax <- 1e50
-
-findb <- function(mu, g, tol = NULL) {
+findb <- function(mu, g, tol = NULL, maxb) {
 
   if (is.null(tol)) tol <- sqrt(.Machine$double.eps)
 
@@ -23,12 +21,12 @@ findb <- function(mu, g, tol = NULL) {
       gb <- g * b
       (log(gb) * (1 - b) / (log(b) * (1 - gb)) - mu) ^ 2
     }
-    return(optimize(errf, c(.Machine$double.eps, findbIntMax))$minimum)
+    return(optimize(errf, c(.Machine$double.eps, maxb))$minimum)
   }
 }
 
 mommb <- function(x, m = FALSE, maxit = 100L, tol = NULL, na.rm = TRUE,
-                  trace = FALSE) {
+                  trace = FALSE, maxb = 1e4) {
 
   if (is.null(tol)) tol <- sqrt(.Machine$double.eps)
 
@@ -50,7 +48,7 @@ mommb <- function(x, m = FALSE, maxit = 100L, tol = NULL, na.rm = TRUE,
   }
 
   g <- 1 / mu2
-  b <- findb(mu, g, tol)
+  b <- findb(mu, g, tol, maxb)
   converged <- FALSE
   i <- 0L
   while (!converged && i < maxit) {
@@ -76,10 +74,10 @@ mommb <- function(x, m = FALSE, maxit = 100L, tol = NULL, na.rm = TRUE,
 
     g <- 1 / newp
     converged <- abs(oldg - g) <= tol
-    b <- findb(mu, g, tol)
+    b <- findb(mu, g, tol, maxb)
   }
 
-  if ((i >= maxit && !converged) || b >= findbIntMax) {
+  if ((i >= maxit && !converged) || b >= maxb) {
     stop("Algorithm has insufficient data to converge to a method of ",
          "moments solution.")
   }
