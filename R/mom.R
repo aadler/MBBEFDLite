@@ -28,18 +28,26 @@ findb <- function(mu, g, tol = NULL, maxb) {
 }
 
 mommb <- function(x, m = FALSE, maxit = 100L, tol = NULL, na.rm = TRUE,
-                  trace = FALSE, maxb = 1e4) {
+                  trace = FALSE, maxb = 1e3) {
+
+  if (!is.numeric(maxit) || maxit < 1L) {
+    stop("maxit must be a positive integer.")
+  }
+
+  if (!is.numeric(maxb) || maxb <= 0) {
+    stop("maxb must be positive.")
+  }
 
   if (is.null(tol)) tol <- sqrt(.Machine$double.eps)
 
   if (m) {
     if (length(x) != 2L) {
-      stop("Was expecting the first and second moments but something other ",
-      "than 2 parameters was passed.")
+      stop("Was expecting the mean and variance but something other than 2 ",
+      "parameters was passed.")
     }
 
     mu <- x[1L]
-    mu2 <- mu ^ 2 + x[2L]
+    mu2 <- mu ^ 2 + x[2L] # x[2L] is the variance; mu2 is E[X^2]
   } else {
     if (!na.rm && anyNA(x)) {
       stop("There are NAs in the data yet na.rm was passed as FALSE.")
@@ -47,6 +55,15 @@ mommb <- function(x, m = FALSE, maxit = 100L, tol = NULL, na.rm = TRUE,
 
     mu <- mean(x, na.rm = na.rm)
     mu2 <- mu ^ 2 + var(x, na.rm = na.rm)
+  }
+
+  if (!is.finite(mu) || mu < 0 || mu > 1) {
+    stop("The mean must be in [0, 1] for the MBBEFD distribution")
+  }
+
+  if (!is.finite(mu2) || mu2 > mu) {
+    stop("The variance of an MBBEFD distribution must be less than or equal ",
+    "to its mean.")
   }
 
   g <- 1 / mu2
