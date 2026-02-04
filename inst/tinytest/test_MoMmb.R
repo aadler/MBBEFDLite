@@ -30,13 +30,13 @@ d <- sqrt(2 - a ^ 2)
 expect_error(mommb(c(a - d, a, a + d)))                     # findb => 1
 
 # Test Error Trapping
-expect_error(mommb(x, maxit = 3L), "insufficient data")
+expect_error(mommb(x, maxit = 3L), "Try increasing maxit or tol")
 
 set.seed(76L)
 expect_error(mommb(rmb(10, 10, 9)), "insufficient data")
 expect_error(mommb(rmb(10, 10, 9), tol = 1e-16), "looser tolerance")
 expect_error(mommb(NA_real_, na.rm = FALSE), "passed as FALSE")
-expect_error(mommb(rmb(10, 10, 9), m = TRUE), "first and second moments")
+expect_error(mommb(rmb(10, 10, 9), m = TRUE), "other than 2")
 
 # Test trace
 expect_message(mommb(x, trace = TRUE), "i: 1")
