@@ -74,16 +74,21 @@ mommb <- function(x, m = FALSE, maxit = 100L, tol = NULL, na.rm = TRUE,
     if (trace) message("i: ", i, "\tg: ", g, "\tb: ", b)
     if (is.infinite(b)) warning("Parameter b is Inf. Mean must be = 1 / g.")
     oldg <- g
+
+    # Decompose second moment: E[X²] = p + ∫x²f(x)dx (eq. 4.3)
+    # where p is the point mass probability at x=1
     intxsqrd <- tryCatch(integrate(function(x) {x ^ 2 * dmb(x, g, b)},
                                    lower = 0, upper = 1, subdivisions = 1000L,
                                    rel.tol = tol)$value,
                          error = function(cond) {
                            simpleError(trimws(cond$message))
                          })
+
     if (inherits(intxsqrd, "simpleError")) {
       stop(trimws(intxsqrd$message), "; perhaps try a looser tolerance.")
     }
 
+    # Extract point mass probability p from residual
     newp <- mu2 - intxsqrd
 
     if (newp <= 0) {
@@ -91,13 +96,14 @@ mommb <- function(x, m = FALSE, maxit = 100L, tol = NULL, na.rm = TRUE,
            "moments solution.")
     }
 
+    # Update g = 1/p (section 4.1)
     g <- 1 / newp
     converged <- abs(oldg - g) <= tol
     b <- findb(mu, g, tol, maxb)
     i <- i + 1L
   }
 
-  if (i >= maxit && !converged) {
+  if (i > maxit && !converged) {
     stop("Algorithm failed to converge after ", maxit, " iterations. ",
          "Final change in g: ", abs(oldg - g), ". Try increasing maxit or tol.")
   }
@@ -107,6 +113,6 @@ mommb <- function(x, m = FALSE, maxit = 100L, tol = NULL, na.rm = TRUE,
          "Algorithm may not have converged properly. Try increasing maxb.")
   }
 
-  list(g = g, b = b, iter = i,
+  list(g = g, b = b, iter = i - 1L,
        sqerr = (log(g * b) * (1 - b) / (log(b) * (1 - g * b)) - mu) ^ 2)
 }
