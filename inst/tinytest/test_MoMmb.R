@@ -23,7 +23,8 @@ expect_silent(mommb(x, tol = 0.002))                        # findb => 1 / g
 
 # Malformed input created solely to test branches in findb. Values found using
 # ChatGPT
-expect_error(mommb(c(0, 0.5, 1)))                           # findb => Inf
+expect_error(suppressWarnings(mommb(c(0, 0.5, 1))))         # findb => Inf
+expect_warning(mommb(c(0, 0.5, 1)), "Parameter b is Inf")
 
 a <- 2 * log(2)
 d <- sqrt(2 - a ^ 2)
