@@ -7,17 +7,22 @@ findb <- function(mu, g, tol = NULL) {
 
   if (is.null(tol)) tol <- sqrt(.Machine$double.eps)
 
-  if (abs(mu - 1) <= tol) {
+  mm1 <- mu - 1
+  gm1 <- g - 1
+  lg <- log(g)
+
+  if (abs(mm1) <= tol) {
     return(0)
-  } else if (abs(mu - (g - 1) / (log(g) * g)) <= tol) {
+  } else if (abs(mu - gm1 / (lg * g)) <= tol) {
     return(1 / g)
-  } else if (abs(mu - log(g) / (g - 1)) <= tol) {
+  } else if (abs(mu - lg / gm1) <= tol) {
     return(1)
   } else if (abs(mu - 1 / g) <= tol) {
     return(Inf)
   } else {
     errf <- function(b) {
-      (log(g * b) * (1 - b) / (log(b) * (1 - g * b)) - mu) ^ 2
+      gb <- g * b
+      (log(gb) * (1 - b) / (log(b) * (1 - gb)) - mu) ^ 2
     }
     return(optimize(errf, c(.Machine$double.eps, findbIntMax))$minimum)
   }
