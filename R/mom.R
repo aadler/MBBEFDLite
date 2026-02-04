@@ -72,6 +72,7 @@ mommb <- function(x, m = FALSE, maxit = 100L, tol = NULL, na.rm = TRUE,
   i <- 0L
   while (!converged && i < maxit) {
     if (trace) message("i: ", i, "\tg: ", g, "\tb: ", b)
+    if (is.infinite(b)) warning("Parameter b is Inf. Mean must be = 1 / g.")
     i <- i + 1L
     oldg <- g
     intxsqrd <- tryCatch(integrate(function(x) {x ^ 2 * dmb(x, g, b)},
