@@ -13,12 +13,12 @@ findb <- function(mu, g, tol = NULL) {
 
   if (abs(mm1) <= tol) {
     return(0)
-  } else if (abs(mu - gm1 / (lg * g)) <= tol) {
-    return(1 / g)
-  } else if (abs(mu - lg / gm1) <= tol) {
-    return(1)
   } else if (abs(mu - 1 / g) <= tol) {
     return(Inf)
+  } else if (abs(mu - lg / gm1) <= tol) {
+    return(1)
+  } else if (abs(mu - gm1 / (lg * g)) <= tol) {
+    return(1 / g)
   } else {
     errf <- function(b) {
       gb <- g * b
@@ -80,7 +80,7 @@ mommb <- function(x, m = FALSE, maxit = 100L, tol = NULL, na.rm = TRUE,
     b <- findb(mu, g, tol)
   }
 
-  if ((i >= maxit && !converged) || b == findbIntMax) {
+  if ((i >= maxit && !converged) || b >= findbIntMax) {
     stop("Algorithm has insufficient data to converge to a method of ",
          "moments solution.")
   }
