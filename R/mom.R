@@ -5,14 +5,16 @@ findb <- function(mu, g, tol = NULL, maxb) {
 
   if (is.null(tol)) tol <- sqrt(.Machine$double.eps)
 
-  gm1 <- g - 1
-  lg <- log(g)
-
   if (abs(mu - 1) <= tol) {
     return(0)
   } else if (abs(mu - 1 / g) <= tol) {
     return(Inf)
-  } else if (abs(mu - lg / gm1) <= tol) {
+  }
+
+  gm1 <- g - 1
+  lg <- log(g)
+
+  if (abs(mu - lg / gm1) <= tol) {
     return(1)
   } else if (abs(mu - gm1 / (lg * g)) <= tol) {
     return(1 / g)
