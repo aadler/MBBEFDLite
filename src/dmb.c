@@ -30,7 +30,7 @@ SEXP dmb_c(SEXP x, SEXP g, SEXP b, SEXP give_log) {
       continue;
     }
 
-    else if (gi < 1.0 || bi < 0.0 || !R_FINITE(px[i]) || !R_FINITE(gi) ||
+    if (gi < 1.0 || bi < 0.0 || !R_FINITE(px[i]) || !R_FINITE(gi) ||
              !R_FINITE(bi)) {
       pret[i] = R_NaN;
       continue;
