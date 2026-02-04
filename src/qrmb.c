@@ -83,9 +83,9 @@ SEXP rmb_c(SEXP n_, SEXP g, SEXP b) {
   double *pg = REAL(g);
   double *pb = REAL(b);
 
+  // Convert long integer to R_xlen_t via cast to and from REAL
   double dn = asReal(n_);
-  if (!R_FINITE(dn) || dn < 0 || dn > R_XLEN_T_MAX)
-    error("invalid 'n'");
+  if (!R_FINITE(dn) || dn < 0 || dn > R_XLEN_T_MAX) error("invalid 'n'");
   R_xlen_t n = (R_xlen_t) dn;
 
   SEXP ret = PROTECT(allocVector(REALSXP, n));
