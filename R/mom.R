@@ -7,11 +7,10 @@ findb <- function(mu, g, tol = NULL) {
 
   if (is.null(tol)) tol <- sqrt(.Machine$double.eps)
 
-  mm1 <- mu - 1
   gm1 <- g - 1
   lg <- log(g)
 
-  if (abs(mm1) <= tol) {
+  if (abs(mu - 1) <= tol) {
     return(0)
   } else if (abs(mu - 1 / g) <= tol) {
     return(Inf)
