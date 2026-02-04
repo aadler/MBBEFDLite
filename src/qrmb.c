@@ -58,9 +58,10 @@ SEXP qmb_c(SEXP p, SEXP g, SEXP b, SEXP lower_tail, SEXP log_p) {
 
   R_xlen_t ig = 0;
   R_xlen_t ib = 0;
+  double x;
 
   for (R_xlen_t i = 0; i < n; ++i) {
-    double x;
+
     if (lp) {
       x = lt ? exp(pp[i]) : -expm1(pp[i]); // -expm1(x) = 1 - exp(x)
     } else {
