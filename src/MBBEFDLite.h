@@ -7,7 +7,7 @@
 #include <R.h>
 #include <Rinternals.h>
 
-extern SEXP dmb_c(SEXP x, SEXP g, SEXP b, SEXP lg);
+extern SEXP dmb_c(SEXP x, SEXP g, SEXP b, SEXP give_log);
 extern SEXP pmb_c(SEXP q, SEXP g, SEXP b, SEXP lt, SEXP lg);
 extern SEXP qmb_c(SEXP q, SEXP g, SEXP b, SEXP lt, SEXP lg);
 extern SEXP rmb_c(SEXP n_, SEXP g, SEXP b);

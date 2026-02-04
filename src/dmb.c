@@ -4,7 +4,7 @@
 #include <Rmath.h>
 #include "MBBEFDLite.h"
 
-extern SEXP dmb_c(SEXP x, SEXP g, SEXP b, SEXP give_log) {
+SEXP dmb_c(SEXP x, SEXP g, SEXP b, SEXP give_log) {
   const R_xlen_t n = xlength(x);
   const R_xlen_t gg = xlength(g);
   const R_xlen_t bb = xlength(b);
