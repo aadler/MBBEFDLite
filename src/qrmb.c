@@ -43,7 +43,7 @@ double quantilemb (double p, double g, double b) {
   }
 }
 
-extern SEXP qmb_c(SEXP p, SEXP g, SEXP b, SEXP lower_tail, SEXP log_p) {
+SEXP qmb_c(SEXP p, SEXP g, SEXP b, SEXP lower_tail, SEXP log_p) {
   const R_xlen_t n = xlength(p);
   const R_xlen_t gg = xlength(g);
   const R_xlen_t bb = xlength(b);
@@ -76,7 +76,7 @@ extern SEXP qmb_c(SEXP p, SEXP g, SEXP b, SEXP lower_tail, SEXP log_p) {
   return(ret);
 }
 
-extern SEXP rmb_c(SEXP n_, SEXP g, SEXP b) {
+SEXP rmb_c(SEXP n_, SEXP g, SEXP b) {
   const R_xlen_t gg = xlength(g);
   const R_xlen_t bb = xlength(b);
   double *pg = REAL(g);
