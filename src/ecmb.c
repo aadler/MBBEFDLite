@@ -4,7 +4,7 @@
 #include <Rmath.h>
 #include "MBBEFDLite.h"
 
-extern SEXP ecmb_c(SEXP x, SEXP g, SEXP b, SEXP lower_tail) {
+SEXP ecmb_c(SEXP x, SEXP g, SEXP b, SEXP lower_tail) {
   const R_xlen_t n = xlength(x);
   const R_xlen_t gg = xlength(g);
   const R_xlen_t bb = xlength(b);
@@ -34,7 +34,6 @@ extern SEXP ecmb_c(SEXP x, SEXP g, SEXP b, SEXP lower_tail) {
     // Domain check
     if (gi < 1.0 || bi < 0.0 || !R_FINITE(px[i]) || !R_FINITE(gi) ||
         !R_FINITE(bi)) {
-
       pret[i] = R_NaN;
       continue;
     }
