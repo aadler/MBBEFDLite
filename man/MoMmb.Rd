@@ -8,7 +8,8 @@ Attempts to find the best \code{g} and \code{b} parameters which are consistent
 with the first and second moments of the supplied data.
 }
 \usage{
-mommb(x, m = FALSE, maxit = 100L, tol = NULL, na.rm = TRUE, trace = FALSE)
+mommb(x, m = FALSE, maxit = 100L, tol = NULL, na.rm = TRUE, trace = FALSE,
+      maxb = 1e3)
 }
 \arguments{
   \item{x}{\strong{numeric}; If \code{m} is \code{FALSE}, a vector of
@@ -30,6 +31,8 @@ mommb(x, m = FALSE, maxit = 100L, tol = NULL, na.rm = TRUE, trace = FALSE)
   \item{trace}{\strong{logical}; if \code{TRUE}, the fitting routine will
   print the values of \code{g} and \code{b} at each iteration \code{i}. The
   default is \code{FALSE}.}
+  \item{maxb}{\strong{numeric}; the ceiling of the \code{b} parameter for
+  fitting purposes. Defaults to 1e3, but in practice, rare to see over 100.}
 }
 \details{
 The algorithm is based on sections 4.1 and 4.2 of Bernegger (1997). With rare
