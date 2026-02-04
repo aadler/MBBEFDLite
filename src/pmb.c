@@ -32,8 +32,8 @@ extern SEXP pmb_c(SEXP q, SEXP g, SEXP b, SEXP lower_tail, SEXP log_p) {
       continue;
     }
 
-    if (gi < 1.0 || bi < 0.0 || !R_finite(pq[i]) || !R_finite(gi) ||
-        !R_finite(bi)) {
+    if (gi < 1.0 || bi < 0.0 || !R_FINITE(pq[i]) || !R_FINITE(gi) ||
+        !R_FINITE(bi)) {
       pret[i] = R_NaN;
       continue;
     }

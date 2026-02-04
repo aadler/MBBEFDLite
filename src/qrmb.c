@@ -10,7 +10,7 @@ double quantilemb (double p, double g, double b) {
     return(NA_REAL);
   }
 
-  if (!R_finite(p) || !R_finite(g) || !R_finite(b)) {
+  if (!R_FINITE(p) || !R_FINITE(g) || !R_FINITE(b)) {
     return(R_NaN);
   }
 
@@ -83,7 +83,7 @@ extern SEXP rmb_c(SEXP n_, SEXP g, SEXP b) {
   double *pb = REAL(b);
 
   double dn = asReal(n_);
-  if (!R_finite(dn) || dn < 0 || dn > R_XLEN_T_MAX)
+  if (!R_FINITE(dn) || dn < 0 || dn > R_XLEN_T_MAX)
     error("invalid 'n'");
   R_xlen_t n = (R_xlen_t) dn;
 
