@@ -39,13 +39,11 @@ SEXP pmb_c(SEXP q, SEXP g, SEXP b, SEXP lower_tail, SEXP log_p) {
     }
 
     if (pq[i] >= 1.0) {
-      // pret[i] = 1.0;
       pret[i] = 1.0;
       continue;
     }
 
     if (gi == 1.0 || bi == 0.0 || pq[i] < 0.0) {
-      // pret[i] = 0.0;
       pret[i] = 0.0;
       continue;
     }
@@ -55,7 +53,8 @@ SEXP pmb_c(SEXP q, SEXP g, SEXP b, SEXP lower_tail, SEXP log_p) {
 
     if (bi == 1.0) {
       tmp = 1.0 / (1.0 + gm1 * pq[i]);
-      pret[i] = 0.5 - tmp + 0.5;  // 0.5 - x + 0.5 is more accurate than 1.0 - x
+      // 0.5 - x + 0.5 is more accurate than 1.0 - x so used throughout.
+      pret[i] = 0.5 - tmp + 0.5;
       continue;
     }
 
@@ -81,7 +80,7 @@ SEXP pmb_c(SEXP q, SEXP g, SEXP b, SEXP lower_tail, SEXP log_p) {
         }
         // Allow NA and NaN to flow through
       }
-    } // Lower tail non-log is default so no else here
+    } // Lower tail non-log is default so no "else" here.
   } else { // Upper tail section
     if (lp) { // Upper tail Log
       for (R_xlen_t i = 0; i < n; ++i) {
