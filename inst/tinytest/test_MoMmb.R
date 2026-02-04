@@ -42,6 +42,6 @@ expect_error(mommb(rmb(10, 10, 9), m = TRUE), "first and second moments")
 expect_message(mommb(x, trace = TRUE), "i: 1")
 
 # Test tol in finddb
-expect_equal(MBBEFDLite:::findb(0.7, 4),
-             MBBEFDLite:::findb(0.7, 4, tol = sqrt(.Machine$double.eps)),
-             tolerance = tol)
+expect_equal(MBBEFDLite:::findb(0.7, 4, maxb = 6),
+             MBBEFDLite:::findb(0.7, 4, tol = sqrt(.Machine$double.eps),
+                                maxb = 6), tolerance = tol)
