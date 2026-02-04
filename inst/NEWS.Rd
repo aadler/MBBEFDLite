@@ -14,6 +14,25 @@
   }
 }
 
+\section{Version 0.2.0 (2026-02-07)}{
+  \subsection{Added}{
+    \itemize{
+      \item \strong{Breaking:} Added new parameter \code{maxb} to allow user to
+      pass upper bound for the \eqn{b} parameter. Its default is 1000, changed
+      from the old hard-coded 1e50. In practice, it would be uncommon to see
+      values greater than 100.
+      \item Added more informative error messages.
+      \item Added and updated unit tests.
+    }
+  }
+  \subsection{Changed}{
+    \itemize{
+      \item Hardened and optimzed underlying C and \R code for speed and
+      error protection.
+    }
+  }
+}
+
 \section{Version 0.1.0 (2026-01-07)}{
   \subsection{Added}{
     \itemize{

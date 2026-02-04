@@ -2,7 +2,7 @@ Package: MBBEFDLite
 Type: Package
 Title: Statistical Functions for the Maxwell-Boltzmann-Bose-Einstein-Fermi-Dirac
     (MBBEFD) Family of Distributions
-Version: 0.1.0
+Version: 0.2.0
 Authors@R: person(given="Avraham", family="Adler",role=c("aut", "cre", "cph"),
     email="Avraham.Adler@gmail.com", comment = c(ORCID = "0000-0002-3039-0703"))
 Description: Provides probability mass, distribution, quantile, random variate
