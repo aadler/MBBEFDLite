@@ -96,9 +96,14 @@ mommb <- function(x, m = FALSE, maxit = 100L, tol = NULL, na.rm = TRUE,
     b <- findb(mu, g, tol, maxb)
   }
 
-  if ((i >= maxit && !converged) || b >= maxb) {
-    stop("Algorithm has insufficient data to converge to a method of ",
-         "moments solution.")
+  if (i >= maxit && !converged) {
+    stop("Algorithm failed to converge after ", maxit, " iterations. ",
+         "Final change in g: ", abs(oldg - g), ". Try increasing maxit or tol.")
+  }
+
+  if (b >= 0.999 * maxb) {
+    stop("Parameter b approaching maximum bound (", maxb, "). ",
+         "Algorithm may not have converged properly. Try increasing maxb.")
   }
 
   list(g = g, b = b, iter = i,
