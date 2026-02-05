@@ -39,27 +39,25 @@ SEXP ecmb_c(SEXP x, SEXP g, SEXP b, SEXP lower_tail) {
     }
 
     // Simple computations
-
     if (px[i] <= 0.0) {
-      pret[i] = lt ? 0.0 : 1.0;
+      pret[i] = 0.0;
       continue;
     }
 
     if (px[i] >= 1.0) {
-      pret[i] = lt ? 1.0 : 0.0;
+      pret[i] = 1.0;
       continue;
     }
 
     if (gi == 1.0 || bi == 0.0) {
-      pret[i] = lt ? px[i] : 0.5 - px[i] + 0.5;
+      pret[i] = px[i];
       continue;
     }
 
     double gm1 = gi - 1.0;
-    double lcdf;
 
     if (bi == 1.0) {
-      lcdf = log1p(gm1 * px[i]) / log1p(gm1);
+      pret[i] = log1p(gm1 * px[i]) / log1p(gm1);
     } else {
       double ombi = 1.0 - bi;
       double gb = bi * gi;
@@ -67,13 +65,20 @@ SEXP ecmb_c(SEXP x, SEXP g, SEXP b, SEXP lower_tail) {
       double bix = exp(px[i] * lbi);
 
       if (gb == 1.0) {
-        lcdf = (1.0 - bix) / ombi;
+        pret[i] = (1.0 - bix) / ombi;
       } else {
         double numer = gm1 * bi + (1.0 - gb) * bix;
-        lcdf = log(numer / ombi) / log(gb);
+        pret[i] = log(numer / ombi) / log(gb);
       }
     }
-    pret[i] = lt ? lcdf :  0.5 - lcdf + 0.5;
+  }
+
+  if (!lt) {
+    for (R_xlen_t i = 0; i < n; ++i) {
+      if (R_FINITE(pret[i])) {
+        pret[i] = 0.5 - pret[i] + 0.5;
+      }
+    }
   }
 
   UNPROTECT(1);
