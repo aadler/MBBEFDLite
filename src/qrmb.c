@@ -4,7 +4,7 @@
 #include <Rmath.h>
 #include "MBBEFDLite.h"
 
-double quantilemb (double p, double g, double b) {
+static double quantilemb (double p, double g, double b) {
 
   if (ISNA(p) || ISNA(g) || ISNA(b)) {
     return(NA_REAL);
@@ -65,7 +65,7 @@ SEXP qmb_c(SEXP p, SEXP g, SEXP b, SEXP lower_tail, SEXP log_p) {
     if (lp) {
       x = lt ? exp(pp[i]) : -expm1(pp[i]); // -expm1(x) = 1 - exp(x)
     } else {
-      x = lt ? pp[i] : 0.5 - pp[i] + 0.5; // Avoid cancellation; see dpq.h
+      x = lt ? pp[i] : 0.5 - pp[i] + 0.5; // Use for precision (see R's dpq.h)
     }
 
     pret[i] = quantilemb(x, pg[ig], pb[ib]);
