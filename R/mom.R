@@ -17,7 +17,7 @@ findb <- function(mu, g, tol = NULL, maxb) {
   if (abs(mu - lg / gm1) <= tol) {
     return(1)
   } else if (abs(mu - gm1 / (lg * g)) <= tol) {
-    return(1 / g)
+    return(1 / g) # nocov With mean restricted to [0, 1], this may be impossible
   } else {
     errf <- function(b) {
       gb <- g * b

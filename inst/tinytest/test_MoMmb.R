@@ -19,7 +19,7 @@ expect_equal(testz$b, testx1$b, tolerance = tol)
 # Testing simple findb branch
 expect_identical(mommb(c(1, 1, 1))$b, 0)                    # findb => 0
 x <- c(0.9, 0.9, 0.9, 0.93785026012074624)
-expect_silent(mommb(x, tol = 0.002))                        # findb => 1 / g
+expect_silent(mommb(x, tol = 0.002))                        # findb => 1
 
 # Malformed input created solely to test branches in findb. Values found using
 # ChatGPT
@@ -28,10 +28,14 @@ expect_warning(mommb(c(0, 0.5, 1)), "Parameter b is Inf")
 
 a <- 2 * log(2)
 d <- sqrt(2 - a ^ 2)
-expect_error(mommb(c(a - d, a, a + d)))                     # findb => 1
+expect_error(mommb(c(a - d, a, a + d)))    # mean must be in [0, 1]
 
 # Test Error Trapping
+expect_error(mommb(x, maxit = "3L"), "maxit must be a positive integer.")
+expect_error(mommb(x, maxb = "3L"), "maxb must be positive.")
 expect_error(mommb(x, maxit = 3L), "Try increasing maxit or tol")
+expect_error(mommb(c(0.2, 0.3), m = TRUE), "less than or equal")
+expect_error(mommb(x, maxb = 2e-16), "Parameter b approaching")
 
 set.seed(76L)
 expect_error(mommb(rmb(10, 10, 9)), "insufficient data")
