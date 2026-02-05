@@ -20,7 +20,10 @@ qmb <- function(p, g, b, c = NULL, lower.tail = TRUE, log.p = FALSE) {
 
 rmb <- function(n, g, b, c = NULL) {
   gb <- checkgcb(g, b, c)
-  if (length(n) > 1) n <- length(n)
+  if (length(n) > 1) {
+    n <- length(n)
+    warning("'n' has length > 1, using length(n)")
+  }
   .Call(rmb_c, as.double(n), as.double(gb$g), as.double(gb$b))
 }
 

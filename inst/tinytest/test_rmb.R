@@ -25,7 +25,8 @@ control <- c(rmb(1L, g[1L], b[1L]),
              rmb(1L, g[3L], b[2L]))
 
 set.seed(9712L)
-expect_identical(rmb(vv, g, b), control)
+expect_identical(suppressWarnings(rmb(vv, g, b)), control)
+expect_warning(rmb(vv, g, b), "'n' has length > 1") # Test afterwards b/c seed
 
 # Test c
 ## Scalar
