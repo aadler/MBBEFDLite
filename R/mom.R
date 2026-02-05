@@ -1,7 +1,7 @@
 # Copyright Avraham Adler (c) 2024
 # SPDX-License-Identifier: MPL-2.0+
 
-findb <- function(mu, g, tol = NULL, maxb) {
+findb <- function(mu, g, maxb, tol = NULL) {
 
   if (is.null(tol)) tol <- sqrt(.Machine$double.eps)
 
@@ -67,12 +67,12 @@ mommb <- function(x, m = FALSE, maxit = 100L, tol = NULL, na.rm = TRUE,
   }
 
   g <- 1 / mu2
-  b <- findb(mu, g, tol, maxb)
+  b <- findb(mu, g, maxb, tol)
   converged <- FALSE
   i <- 1L
   while (!converged && i <= maxit) {
     if (trace) message("i: ", i, "\tg: ", g, "\tb: ", b)
-    if (is.infinite(b)) warning("Parameter b is Inf. Mean must be = 1 / g.")
+    if (is.infinite(b)) warning("Parameter b is Inf. Mean must be = 1 / g.") # nolint nonportable_path_linter
     oldg <- g
 
     # Decompose second moment: E[X²] = p + ∫x²f(x)dx (eq. 4.3)
@@ -99,7 +99,7 @@ mommb <- function(x, m = FALSE, maxit = 100L, tol = NULL, na.rm = TRUE,
     # Update g = 1/p (section 4.1)
     g <- 1 / newp
     converged <- abs(oldg - g) <= tol
-    b <- findb(mu, g, tol, maxb)
+    b <- findb(mu, g, maxb, tol)
     i <- i + 1L
   }
 
