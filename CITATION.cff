@@ -9,7 +9,7 @@ type: software
 license: MPL-2.0
 title: 'MBBEFDLite: Statistical Functions for the Maxwell-Boltzmann-Bose-Einstein-Fermi-Dirac
   (MBBEFD) Family of Distributions'
-version: 0.1.0
+version: 0.2.0
 doi: 10.32614/CRAN.package.MBBEFDLite
 identifiers:
 - type: doi
@@ -35,7 +35,7 @@ preferred-citation:
   year: '2024'
   url: https://CRAN.R-project.org/package=MBBEFDLite
   doi: 10.32614/CRAN.package.MBBEFDLite
-  notes: R package version 0.1.0
+  notes: R package version 0.2.0
 repository: https://CRAN.R-project.org/package=MBBEFDLite
 repository-code: https://github.com/aadler/MBBEFDLite
 url: https://github.com/aadler/MBBEFDLite
