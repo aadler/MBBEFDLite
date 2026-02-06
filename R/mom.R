@@ -1,6 +1,8 @@
 # Copyright Avraham Adler (c) 2024
 # SPDX-License-Identifier: MPL-2.0+
 
+# findb is internal only so no standard checks are needed as that will happen
+# inside of mommb.
 findb <- function(mu, g, maxb, tol = NULL) {
 
   if (is.null(tol)) tol <- sqrt(.Machine$double.eps)
