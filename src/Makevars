@@ -7,7 +7,7 @@ $(SHLIB): $(C_OBJS)
 
 all:
 	@$(MAKE) $(SHLIB)
-	@rm -f *.o *.so *.dll
+	@rm -f *.o
 
 clean:
 	@rm -f *.o *.so *.dll
