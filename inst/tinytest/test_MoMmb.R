@@ -9,6 +9,10 @@ x1 <- rmb(1e5, 150, 250)
 testx1 <- mommb(x1)
 expect_true(abs(testx1$g / 150 - 1) <= 0.02)
 expect_true(abs(testx1$b / 250 - 1) <= 0.05)
+expect_equal(testx1$sqerr,
+             (log(testx1$g * testx1$b) * (1 - testx1$b) /
+               (log(testx1$b) * (1 - testx1$g * testx1$b)) - mean(x1)) ^ 2,
+             tolerance = tol)
 
 # Test Functionality: m = TRUE
 z <- c(mean(x1), var(x1))
