@@ -12,6 +12,7 @@ static const R_CallMethodDef CallEntries[] = {
   {"qmb_c",     (DL_FUNC) &qmb_c,   5},
   {"rmb_c",     (DL_FUNC) &rmb_c,   3},
   {"ecmb_c",    (DL_FUNC) &ecmb_c,  4},
+  {"dilog_c",   (DL_FUNC) &dilog_c, 1},
   {NULL,        NULL,               0}
 };
 
@@ -24,4 +25,5 @@ void R_init_MBBEFDLite(DllInfo *dll) {
   R_RegisterCCallable("MBBEFDLite", "qmb_c",   (DL_FUNC) &qmb_c);
   R_RegisterCCallable("MBBEFDLite", "rmb_c",   (DL_FUNC) &rmb_c);
   R_RegisterCCallable("MBBEFDLite", "ecmb_c",  (DL_FUNC) &ecmb_c);
+  R_RegisterCCallable("MBBEFDLite", "dilog_c", (DL_FUNC) &dilog_c);
 }
