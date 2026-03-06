@@ -33,6 +33,65 @@ findb <- function(mu, g, maxb, tol = NULL) {
   }
 }
 
+mugb <- function(g, b) {
+  eps <- .Machine$double.eps
+  gm1 <- g - 1
+  if (b < 0 || gm1 < 0) {
+    return(NaN)
+  }
+
+  bc <- 0.5 - b + 0.5
+  bm1 <- -bc
+
+  if (abs(b * gm1) < eps) {
+    return(1)
+  }
+
+  if (abs(bm1) < eps) {
+    return(log(g) / gm1)
+  }
+
+  gb <- g * b
+  gbc <- 0.5 - gb + 0.5
+  lb <- log(b)
+
+  if (abs(gbc) < eps) {
+    return(bm1 / lb)
+  } else {
+    return(log(gb) * bc / (lb * gbc))
+  }
+}
+
+cvgb <- function(g, b) {
+  eps <- .Machine$double.eps
+  gm1 <- g - 1
+  bc <- 0.5 - b + 0.5   # b-complement (1 - b)
+  bg <- b * g
+  bgm1 <- bg - b
+  lb <- log(b)
+  lg <- log(g)
+  lbg <- lb + lg
+
+  cvp <- if (abs(b * gm1) < eps) {
+    0.5
+  } else if(abs(bc) < eps) {
+    (gm1 - log(g)) / log(g) ^ 2
+  } else if (abs(bg - 1) < eps) {
+    (lb * b + bc) / bc ^ 2
+  } else if (b > 0 && b < 1) {
+    (lb * log(g * bc / gm1) - dilog(1 - bc / bgm1) + dilog(b - bc / gm1)) /
+      (-bc / (bg - 1) * lbg ^ 2)
+  } else if (b > 1) {
+    (lbg * log(1 + bc / (bg -1)) + dilog(bc / bgm1) -
+       dilog(1 - (bg - 1) / gm1)) / (-bc / (bg - 1) * lbg ^ 2)
+  } else {
+    NaN
+  }
+
+  sqrt(2 * cvp - 1)
+}
+
+
 mommb <- function(x, m = FALSE, maxit = 100L, tol = NULL, na.rm = TRUE,
                   trace = FALSE, maxb = 1e3) {
 
@@ -120,5 +179,85 @@ mommb <- function(x, m = FALSE, maxit = 100L, tol = NULL, na.rm = TRUE,
   }
 
   list(g = g, b = b, iter = i - 1L,
+       sqerr = (log(g * b) * (1 - b) / (log(b) * (1 - g * b)) - mu) ^ 2)
+}
+
+mommb2 <- function(x, m = FALSE, maxit = 100L, tol = NULL, na.rm = TRUE,
+                   trace = FALSE, maxb = 1e6, maxg = 1e6) {
+
+  if (!is.numeric(maxit) || maxit < 1L) {
+    stop("maxit must be a positive integer.")
+  }
+
+  if (!is.numeric(maxb) || maxb <= 0) {
+    stop("maxb must be positive.")
+  }
+
+  if (is.null(tol)) tol <- sqrt(.Machine$double.eps)
+
+  if (m) {
+    if (length(x) != 2L) {
+      stop("Was expecting the mean and variance but something other than 2 ",
+           "parameters was passed.")
+    }
+
+    mu <- x[1L]
+    s <-  sqrt(x[2L])
+  } else {
+    if (!na.rm && anyNA(x)) {
+      stop("There are NAs in the data yet na.rm was passed as FALSE.")
+    }
+
+    mu <- mean(x, na.rm = na.rm)
+    s <- sd(x, na.rm = na.rm)
+  }
+
+  if (!is.finite(mu) || mu < 0 || mu > 1) {
+    stop("The mean must be in [0, 1] for the MBBEFD distribution")
+  }
+
+  if (!is.finite(s) || s >= sqrt(mu * (1 - mu))) {
+    stop("The variance of an MBBEFD distribution must be less than or equal ",
+         "to its mean.")
+  }
+
+  cv <- s / mu
+
+  bLo <- 1e-10
+  bHi <- maxb
+  gLo <- 1 + 1e-10
+  gHi <- maxb
+
+  getb <- function(g) {
+    f <- function(b) (mugb(g, b) - mu) ^ 2
+    optimize(f, lower = bLo, upper = bHi, tol = 1e-12)$minimum
+  }
+
+  getg <- function(g) {
+    (cvgb(g, getb(g)) - cv) ^ 2
+  }
+
+  g <- optimize(getg, lower = gLo, upper = gHi, tol = 1e-12)$minimum
+
+  b <- getb(g)
+
+  gTries <- 0
+  if (g >= 0.999 * gHi) {
+    gTries <- gTries + 1
+    gHi <- sqrt(gHi)
+    g <- optimize(getg, lower = gLo, upper = gHi, tol = 1e-12)$minimum
+    b <- getb(g)
+    if (g >= 0.999 * gHi) {
+      stop("Algorithm has insufficient data to converge to a method of ",
+           "moments solution.")
+    }
+  }
+
+  if (b >= 0.999 * bHi) {
+    stop("Parameter b approaching maximum bound (", maxb, "). ",
+         "Algorithm may not have converged properly. Try increasing maxb.")
+  }
+
+  list(g = g, b = b,
        sqerr = (log(g * b) * (1 - b) / (log(b) * (1 - g * b)) - mu) ^ 2)
 }

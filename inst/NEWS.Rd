@@ -21,6 +21,8 @@
       pass upper bound for the \eqn{b} parameter. Its default is 1000, changed
       from the old hard-coded 1e50. In practice, it would be uncommon to see
       values greater than 100.
+      \item Added fast implementation of the dilogarithm function for use in
+      the updated Bernegger algorithm.
       \item Added more informative error messages.
       \item Added and updated unit tests.
     }
