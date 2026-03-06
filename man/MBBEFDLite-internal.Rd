@@ -9,5 +9,6 @@
 \alias{checkgcb} % Checks for g and b if c is present
 \alias{c2gb}     % Converts c parameter to g and b
 \alias{findb}    % Used to converge to a b given a g and a mu
+\alias{dilog}    % Dilogarithm function used in second Bernegger algorithm
 
 \keyword{internal}

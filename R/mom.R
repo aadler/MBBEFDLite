@@ -1,6 +1,10 @@
 # Copyright Avraham Adler (c) 2024
 # SPDX-License-Identifier: MPL-2.0+
 
+dilog <- function(x) {
+  .Call(dilog_c, x)
+}
+
 # findb is internal only so no standard checks are needed as that will happen
 # inside of mommb.
 findb <- function(mu, g, maxb, tol = NULL) {
