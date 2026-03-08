@@ -4,7 +4,8 @@ useDynLib(MBBEFDLite, .registration = TRUE)
 importFrom(stats,
            optimize,
            integrate,
-           var)
+           var,
+           sd)
 # Exports
 export(dmb,
        pmb,
