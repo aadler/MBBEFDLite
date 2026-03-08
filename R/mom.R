@@ -117,7 +117,7 @@ mommb <- function(x, m = FALSE, tol = NULL, na.rm = TRUE, opts = list()) {
   if (!("trace" %in% nopts)) {
     opts$trace <- FALSE
   } else if (!is.logical(opts$trace)) {
-      stop("trace must be a logical (TRUE/FALSE).")
+      stop("trace must be a logical (TRUE or FALSE).")
   }
 
   if (is.null(tol)) tol <- sqrt(.Machine$double.eps)
