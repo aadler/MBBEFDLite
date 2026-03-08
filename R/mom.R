@@ -145,7 +145,7 @@ mommb <- function(x, m = FALSE, tol = NULL, na.rm = TRUE, opts = list()) {
     stop("The mean must be in [0, 1] for the MBBEFD distribution")
   }
 
-  if (!is.finite(mu2) || mu2 > mu || s >= sqrt(mu * (1 - mu))) {
+  if (!is.finite(mu2) || mu2 > mu || (s != 0 && s >= sqrt(mu * (1 - mu)))) {
     stop("The variance of an MBBEFD distribution must be less than or equal ",
           "to its mean.")
   }
