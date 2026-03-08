@@ -2,27 +2,27 @@
 # SPDX-License-Identifier: MPL-2.0+
 
 dilog <- function(x) {
-  .Call(dilog_c, x)
+  .Call(dilog_c, as.double(x))
 }
 
-# findb is internal only so no standard checks are needed as that will happen
-# inside of mommb.
-findb <- function(mu, g, maxb, tol = NULL) {
+# findb, mugb, and cvgb are internal only so no standard checks are needed as
+# that will happen inside of mommb.
+findb <- function(mu, g, maxb) {
 
-  if (is.null(tol)) tol <- sqrt(.Machine$double.eps)
+  eps <- .Machine$double.eps
 
-  if (abs(mu - 1) <= tol) {
+  if (abs(mu - 1) < eps) {
     return(0)
-  } else if (abs(mu - 1 / g) <= tol) {
+  } else if (abs(mu - 1 / g) < eps) {
     return(Inf)
   }
 
   gm1 <- g - 1
   lg <- log(g)
 
-  if (abs(mu - lg / gm1) <= tol) {
+  if (abs(mu - lg / gm1) < eps) {
     return(1)
-  } else if (abs(mu - gm1 / (lg * g)) <= tol) {
+  } else if (abs(mu - gm1 / (lg * g)) < eps) {
     return(1 / g) # nocov With mean restricted to [0, 1], this may be impossible
   } else {
     errf <- function(b) {
