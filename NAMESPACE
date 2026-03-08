@@ -11,5 +11,4 @@ export(dmb,
        qmb,
        rmb,
        ecmb,
-       mommb,
-       mommb2)
+       mommb)

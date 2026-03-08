@@ -8,7 +8,6 @@ dilog <- function(x) {
 # findb, mugb, and cvgb are internal only so no standard checks are needed as
 # that will happen inside of mommb.
 findb <- function(mu, g, maxb) {
-
   eps <- .Machine$double.eps
 
   if (abs(mu - 1) < eps) {
@@ -35,6 +34,7 @@ findb <- function(mu, g, maxb) {
 
 mugb <- function(g, b) {
   eps <- .Machine$double.eps
+
   gm1 <- g - 1
   if (b < 0 || gm1 < 0) {
     return(NaN)
@@ -92,105 +92,32 @@ cvgb <- function(g, b) {
 }
 
 
-mommb <- function(x, m = FALSE, maxit = 100L, tol = NULL, na.rm = TRUE,
-                  trace = FALSE, maxb = 1e3) {
+mommb <- function(x, m = FALSE, tol = NULL, na.rm = TRUE, opts = list()) {
 
-  if (!is.numeric(maxit) || maxit < 1L) {
+  nopts <- names(opts)
+  if (!("alg" %in% nopts)) {
+    opts$alg <- "EM"
+  } else if (!(toupper(opts$alg) %in% c("EM", "LS"))) {
+    stop("Algorithm must be either 'EM' (expectation-maximization) or 'LS' ",
+         "(line search). See documentation.")
+  }
+
+  if (!("maxit" %in% nopts)) {
+    opts$maxit <- 100L
+  } else if (!is.numeric(opts$maxit) || opts$maxit < 1L) {
     stop("maxit must be a positive integer.")
   }
 
-  if (!is.numeric(maxb) || maxb <= 0) {
+  if (!("maxb" %in% nopts)) {
+    opts$maxb <- 1e3
+  } else if (!is.numeric(opts$maxb) || opts$maxb <= 0) {
     stop("maxb must be positive.")
   }
 
-  if (is.null(tol)) tol <- sqrt(.Machine$double.eps)
-
-  if (m) {
-    if (length(x) != 2L) {
-      stop("Was expecting the mean and variance but something other than 2 ",
-      "parameters was passed.")
-    }
-
-    mu <- x[1L]
-    mu2 <- mu ^ 2 + x[2L] # x[2L] is the variance; mu2 is E[X^2]
-  } else {
-    if (!na.rm && anyNA(x)) {
-      stop("There are NAs in the data yet na.rm was passed as FALSE.")
-    }
-
-    mu <- mean(x, na.rm = na.rm)
-    mu2 <- mu ^ 2 + var(x, na.rm = na.rm)
-  }
-
-  if (!is.finite(mu) || mu < 0 || mu > 1) {
-    stop("The mean must be in [0, 1] for the MBBEFD distribution")
-  }
-
-  if (!is.finite(mu2) || mu2 > mu) {
-    stop("The variance of an MBBEFD distribution must be less than or equal ",
-    "to its mean.")
-  }
-
-  g <- 1 / mu2
-  b <- findb(mu, g, maxb, tol)
-  converged <- FALSE
-  i <- 1L
-  while (!converged && i <= maxit) {
-    if (trace) message("i: ", i, "\tg: ", g, "\tb: ", b)
-    if (is.infinite(b)) warning("Parameter b is Inf. Mean must be = 1 / g.") # nolint nonportable_path_linter
-    oldg <- g
-
-    # Decompose second moment: E[X²] = p + ∫x²f(x)dx (eq. 4.3)
-    # where p is the point mass probability at x=1
-    intxsqrd <- tryCatch(integrate(function(x) {x ^ 2 * dmb(x, g, b)},
-                                   lower = 0, upper = 1, subdivisions = 1000L,
-                                   rel.tol = tol)$value,
-                         error = function(cond) {
-                           simpleError(trimws(cond$message))
-                         })
-
-    if (inherits(intxsqrd, "simpleError")) {
-      stop(trimws(intxsqrd$message), "; perhaps try a looser tolerance.")
-    }
-
-    # Extract point mass probability p from residual
-    newp <- mu2 - intxsqrd
-
-    if (newp <= 0) {
-      stop("Algorithm has insufficient data to converge to a method of ",
-           "moments solution.")
-    }
-
-    # Update g = 1/p (section 4.1)
-    g <- 1 / newp
-    converged <- abs(oldg - g) <= tol
-    b <- findb(mu, g, maxb, tol)
-    i <- i + 1L
-  }
-
-  if (i > maxit && !converged) {
-    stop("Algorithm failed to converge after ", maxit, " iterations. ",
-         "Final change in g: ", abs(oldg - g), ". Try increasing maxit or tol.")
-  }
-
-  if (b >= 0.999 * maxb) {
-    stop("Parameter b approaching maximum bound (", maxb, "). ",
-         "Algorithm may not have converged properly. Try increasing maxb.")
-  }
-
-  list(g = g, b = b, iter = i - 1L,
-       sqerr = (log(g * b) * (1 - b) / (log(b) * (1 - g * b)) - mu) ^ 2)
-}
-
-mommb2 <- function(x, m = FALSE, maxit = 100L, tol = NULL, na.rm = TRUE,
-                   trace = FALSE, maxb = 1e6, maxg = 1e6) {
-
-  if (!is.numeric(maxit) || maxit < 1L) {
-    stop("maxit must be a positive integer.")
-  }
-
-  if (!is.numeric(maxb) || maxb <= 0) {
-    stop("maxb must be positive.")
+  if (!("trace" %in% nopts)) {
+    opts$trace <- FALSE
+  } else if (!is.logical(opts$trace)) {
+      stop("trace must be a logical (TRUE/FALSE).")
   }
 
   if (is.null(tol)) tol <- sqrt(.Machine$double.eps)
@@ -202,13 +129,15 @@ mommb2 <- function(x, m = FALSE, maxit = 100L, tol = NULL, na.rm = TRUE,
     }
 
     mu <- x[1L]
-    s <-  sqrt(x[2L])
+    mu2 <- mu ^ 2 + x[2L] # x[2L] is the variance; mu2 is E[X^2]
+    s <- sqrt(x[2L])
   } else {
     if (!na.rm && anyNA(x)) {
       stop("There are NAs in the data yet na.rm was passed as FALSE.")
     }
 
     mu <- mean(x, na.rm = na.rm)
+    mu2 <- mu ^ 2 + var(x, na.rm = na.rm)
     s <- sd(x, na.rm = na.rm)
   }
 
@@ -216,48 +145,95 @@ mommb2 <- function(x, m = FALSE, maxit = 100L, tol = NULL, na.rm = TRUE,
     stop("The mean must be in [0, 1] for the MBBEFD distribution")
   }
 
-  if (!is.finite(s) || s >= sqrt(mu * (1 - mu))) {
+  if (!is.finite(mu2) || mu2 > mu || s >= sqrt(mu * (1 - mu))) {
     stop("The variance of an MBBEFD distribution must be less than or equal ",
-         "to its mean.")
+          "to its mean.")
   }
 
-  cv <- s / mu
+  if (opts$alg == "LS") {
+    if (opts$trace) message("trace is ignored for the Bernegger algorithm")
 
-  bLo <- 1e-10
-  bHi <- maxb
-  gLo <- 1 + 1e-10
-  gHi <- maxb
+    cv <- s / mu
+    bLo <- 1e-10
+    bHi <- opts$maxb
+    gLo <- 1 + 1e-10
+    gHi <- 1e6
 
-  getb <- function(g) {
-    f <- function(b) (mugb(g, b) - mu) ^ 2
-    optimize(f, lower = bLo, upper = bHi, tol = 1e-12)$minimum
-  }
+    getb <- function(g) {
+      f <- function(b) (mugb(g, b) - mu) ^ 2
+      optimize(f, lower = bLo, upper = bHi, tol = 1e-12)$minimum
+    }
 
-  getg <- function(g) {
-    (cvgb(g, getb(g)) - cv) ^ 2
-  }
+    getg <- function(g) {
+      (cvgb(g, getb(g)) - cv) ^ 2
+    }
 
-  g <- optimize(getg, lower = gLo, upper = gHi, tol = 1e-12)$minimum
-
-  b <- getb(g)
-
-  gTries <- 0
-  if (g >= 0.999 * gHi) {
-    gTries <- gTries + 1
-    gHi <- sqrt(gHi)
     g <- optimize(getg, lower = gLo, upper = gHi, tol = 1e-12)$minimum
+
     b <- getb(g)
+
+    gTries <- 1
     if (g >= 0.999 * gHi) {
-      stop("Algorithm has insufficient data to converge to a method of ",
-           "moments solution.")
+      gTries <- gTries + 1
+      gHi <- sqrt(gHi)
+      g <- optimize(getg, lower = gLo, upper = gHi, tol = 1e-12)$minimum
+      b <- getb(g)
+      if (g >= 0.999 * gHi) {
+        stop("Algorithm has insufficient data to converge to a method of ",
+             "moments solution.")
+      }
+    }
+    iter <- gTries
+  } else {
+    g <- 1 / mu2
+    b <- findb(mu, g, opts$maxb)
+    converged <- FALSE
+    i <- 0L
+    while (!converged && i <= opts$maxit) {
+      i <- i + 1L
+      if (opts$trace) message("i: ", i, "\tg: ", g, "\tb: ", b)
+      if (is.infinite(b)) warning("Parameter b is Inf. Mean must be = 1 / g.") # nolint nonportable_path_linter
+      oldg <- g
+
+      # Decompose second moment: E[X²] = p + ∫x²f(x)dx (eq. 4.3)
+      # where p is the point mass probability at x=1
+      intxsqrd <- tryCatch(integrate(function(x) {x ^ 2 * dmb(x, g, b)},
+                                     lower = 0, upper = 1, subdivisions = 1001L,
+                                     rel.tol = tol)$value,
+                           error = function(cond) {
+                             simpleError(trimws(cond$message))
+                           })
+
+      if (inherits(intxsqrd, "simpleError")) {
+        stop(trimws(intxsqrd$message), "; perhaps try a looser tolerance.")
+      }
+
+      # Extract point mass probability p from residual
+      newp <- mu2 - intxsqrd
+
+      if (newp <= 0) {
+        stop("Algorithm has insufficient data to converge to a method of ",
+             "moments solution.")
+      }
+
+      # Update g = 1/p (section 4.1)
+      g <- 1 / newp
+      converged <- abs(oldg - g) <= tol
+      b <- findb(mu, g, opts$maxb)
+    }
+    iter <- i
+    if (i >= opts$maxit && !converged) {
+      stop("Algorithm failed to converge after ", opts$maxit, " iterations. ",
+           "Final change in g: ", abs(oldg - g), ". Try increasing maxit ",
+           "or tol.")
     }
   }
 
-  if (b >= 0.999 * bHi) {
-    stop("Parameter b approaching maximum bound (", maxb, "). ",
+  if (b >= 0.999 * opts$maxb) {
+    stop("Parameter b approaching maximum bound (", opts$maxb, "). ",
          "Algorithm may not have converged properly. Try increasing maxb.")
   }
 
-  list(g = g, b = b,
+  list(g = g, b = b, iter = iter,
        sqerr = (log(g * b) * (1 - b) / (log(b) * (1 - g * b)) - mu) ^ 2)
 }
