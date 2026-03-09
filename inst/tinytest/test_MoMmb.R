@@ -76,7 +76,7 @@ expect_message(mommb(x, opts = list(alg = "LS", trace = TRUE)),
                "trace is ignored")
 
 # Test mugb
-expect_true(is.nan(MBBEFDLite:::mugb(4, -1)))
+expect_true(is.nan(suppressWarnings(MBBEFDLite:::mugb(4, -1))))
 expect_true(is.nan(MBBEFDLite:::mugb(0.2, 1)))
 expect_equal(MBBEFDLite:::mugb(10, 0), 1, tolerance = tol)
 expect_equal(MBBEFDLite:::mugb(10, 1 + 1e-36), log(10) / 9, tolerance = tol)
@@ -89,3 +89,4 @@ expect_equal(MBBEFDLite:::cvgb(3, 1 + 1e-36),
              cvp((2 - log(3)) / log(3) ^ 2), tolerance = tol)
 expect_equal(MBBEFDLite:::cvgb(5, 0.2),
              cvp((log(0.2) * 0.2 + 0.8) / 0.64), tolerance = tol)
+
