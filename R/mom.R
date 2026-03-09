@@ -34,36 +34,6 @@ findb <- function(mu, g, maxb) {
 
 mugb <- function(g, b) {
   eps <- .Machine$double.eps
-
-  gm1 <- g - 1
-  if (b < 0 || gm1 < 0) {
-    return(NaN)
-  }
-
-  bc <- 0.5 - b + 0.5
-  bm1 <- -bc
-
-  if (abs(b * gm1) < eps) {
-    return(1)
-  }
-
-  if (abs(bm1) < eps) {
-    return(log(g) / gm1)
-  }
-
-  gb <- g * b
-  gbc <- 0.5 - gb + 0.5
-  lb <- log(b)
-
-  if (abs(gbc) < eps) {
-    return(bm1 / lb)
-  } else {
-    return(log(gb) * bc / (lb * gbc))
-  }
-}
-
-mugbV <- function(g, b) {
-  eps <- .Machine$double.eps
   gm1 <- g - 1
   bc <- 0.5 - b + 0.5
   bm1 <- -bc
@@ -80,37 +50,7 @@ mugbV <- function(g, b) {
   )
 }
 
-
 cvgb <- function(g, b) {
-  eps <- .Machine$double.eps
-  gm1 <- g - 1
-  bc <- 0.5 - b + 0.5   # b-complement (1 - b)
-  bg <- b * g
-  bgm1 <- bg - b
-  lb <- log(b)
-  lg <- log(g)
-  lbg <- lb + lg
-
-  cvp <- if (abs(b * gm1) < eps) {
-    0.5
-  } else if(abs(bc) < eps) {
-    (gm1 - log(g)) / log(g) ^ 2
-  } else if (abs(bg - 1) < eps) {
-    (lb * b + bc) / bc ^ 2
-  } else if (b > 0 && b < 1) {
-    (lb * log(g * bc / gm1) - dilog(1 - bc / bgm1) + dilog(b - bc / gm1)) /
-      (-bc / (bg - 1) * lbg ^ 2)
-  } else if (b > 1) {
-    (lbg * log(1 + bc / (bg -1)) + dilog(bc / bgm1) -
-       dilog(1 - (bg - 1) / gm1)) / (-bc / (bg - 1) * lbg ^ 2)
-  } else {
-    NaN
-  }
-
-  sqrt(2 * cvp - 1)
-}
-
-cvgbV <- function(g, b) {
   eps <- .Machine$double.eps
   gm1 <- g - 1
   bc <- 0.5 - b + 0.5   # b-complement (1 - b)
@@ -122,19 +62,18 @@ cvgbV <- function(g, b) {
 
   cvp <- suppressWarnings(
          ifelse(abs(b * gm1) < eps, 0.5,
-           ifelse(abs(bc) < eps, gm1 - log(g) / log(g) ^ 2,
+           ifelse(abs(bc) < eps, (gm1 - log(g)) / log(g) ^ 2,
              ifelse(abs(bg - 1) < eps, (lb * b + bc) / bc ^ 2,
                ifelse(b > 0 & b < 1, (lb * log(g * bc / gm1) -
                       dilog(1 - bc / bgm1) + dilog(b - bc / gm1)) /
                         (-bc / (bg - 1) * lbg ^ 2),
-                  ifelse(b > 1, (lbg * log(1 + bc / (bg -1)) + dilog(bc / bgm1) -
+                  ifelse(b > 1, (lbg * log(1 + bc / (bg -1)) +
+                                   dilog(bc / bgm1) -
                                    dilog(1 - (bg - 1) / gm1)) /
                            (-bc / (bg - 1) * lbg ^ 2), NaN)))))
   )
-
   suppressWarnings(sqrt(2 * cvp - 1))
 }
-
 
 mommb <- function(x, m = FALSE, tol = NULL, na.rm = TRUE, opts = list()) {
 
@@ -194,7 +133,7 @@ mommb <- function(x, m = FALSE, tol = NULL, na.rm = TRUE, opts = list()) {
           "to its mean.")
   }
 
-  if (opts$alg == "LS") {
+  if (opts$alg == "LS") {                # Line Search
     if (opts$trace) message("trace is ignored for the Bernegger algorithm")
 
     cv <- s / mu
@@ -228,7 +167,7 @@ mommb <- function(x, m = FALSE, tol = NULL, na.rm = TRUE, opts = list()) {
       }
     }
     iter <- gTries
-  } else {
+  } else {                               # Expectation-Maximization
     g <- 1 / mu2
     b <- findb(mu, g, opts$maxb)
     converged <- FALSE
@@ -279,121 +218,5 @@ mommb <- function(x, m = FALSE, tol = NULL, na.rm = TRUE, opts = list()) {
   }
 
   list(g = g, b = b, iter = iter,
-       sqerr = (log(g * b) * (1 - b) / (log(b) * (1 - g * b)) - mu) ^ 2)
-}
-
-mommb2 <- function(x, m = FALSE, tol = NULL, na.rm = TRUE, opts = list()) {
-
-  nopts <- names(opts)
-  if (!("alg" %in% nopts)) {
-    opts$alg <- "EM"
-  } else if (!(toupper(opts$alg) %in% c("EM", "LS"))) {
-    stop("Algorithm must be either 'EM' (expectation-maximization) or 'LS' ",
-         "(line search). See documentation.")
-  }
-
-  if (!("maxit" %in% nopts)) {
-    opts$maxit <- 100L
-  } else if (!is.numeric(opts$maxit) || opts$maxit < 1L) {
-    stop("maxit must be a positive integer.")
-  }
-
-  if (!("maxb" %in% nopts)) {
-    opts$maxb <- 1e3
-  } else if (!is.numeric(opts$maxb) || opts$maxb <= 0) {
-    stop("maxb must be positive.")
-  }
-
-  if (!("trace" %in% nopts)) {
-    opts$trace <- FALSE
-  } else if (!is.logical(opts$trace)) {
-    stop("trace must be a logical (TRUE or FALSE).")
-  }
-
-  if (is.null(tol)) tol <- sqrt(.Machine$double.eps)
-
-  if (m) {
-    if (length(x) != 2L) {
-      stop("Was expecting the mean and variance but something other than 2 ",
-           "parameters was passed.")
-    }
-
-    mu <- x[1L]
-    mu2 <- mu ^ 2 + x[2L] # x[2L] is the variance; mu2 is E[X^2]
-    s <- sqrt(x[2L])
-  } else {
-    if (!na.rm && anyNA(x)) {
-      stop("There are NAs in the data yet na.rm was passed as FALSE.")
-    }
-
-    mu <- mean(x, na.rm = na.rm)
-    mu2 <- mu ^ 2 + var(x, na.rm = na.rm)
-    s <- sd(x, na.rm = na.rm)
-  }
-
-  if (!is.finite(mu) || mu < 0 || mu > 1) {
-    stop("The mean must be in [0, 1] for the MBBEFD distribution")
-  }
-
-  if (!is.finite(mu2) || mu2 > mu || s > sqrt(mu * (1 - mu))) {
-    stop("The variance of an MBBEFD distribution must be less than or equal ",
-         "to its mean.")
-  }
-
-  tol <- .Machine$double.eps
-  M <- 20L
-  cv <- s / mu
-  bLo <- 1e-6
-  bHi <- 1e6
-  pLo <- 1e-6
-  gLo <- max(1 / mu - 1, cv ^ 2)
-  gHi <- 1 / pLo - 1
-  nb <- 1000L
-  ng <- 500L
-  m <- 0L
-  converged <- FALSE
-  while (!converged) {
-    m <- m + 1L
-    bArr <- exp(seq(log(bLo), log(bHi), length.out = nb))
-    gArr <- 1 + exp(seq(log(gLo), log(gHi), length.out = ng))
-    bmu <- bcv <- double(ng)
-    for (i in seq_len(ng)) {
-      muArr <- mugbV(gArr[i], bArr)
-      bmu[i] <- bArr[which.min((muArr - mu) ^ 2)]  # Closest to 0
-      cvArr <- cvgbV(gArr[i], bArr)
-      bcv[i] <- bArr[which.min((cvArr - cv) ^ 2)]  # Closest to 0
-    }
-    bdiff <- bmu - bcv
-    if (any(bdiff != 0)) {
-      cO <- which.max(abs(diff(sign(bmu - bcv))))
-      gstar <- approx(bdiff[cO:(cO + 1L)], gArr[cO:(cO + 1L)], 0)$y
-      bstar <- approx(bdiff[cO:(cO + 1L)], bmu[cO:(cO + 1L)], 0)$y
-      mustar <- mugb(gstar, bstar)
-      cvstar <- cvgb(gstar, bstar)
-      upperLob <- which.min(bArr <= bstar) - 1L
-      lowerUpb <- which.max(bArr >= bstar) + 1L
-      upperLog <- which.min(gArr <= gstar) - 1L
-      lowerUpg <- which.max(gArr >= gstar) + 1L
-      bLo <- bArr[max(1L, upperLob)]
-      bHi <- bArr[min(nb, lowerUpb)]
-      gLo <- gArr[max(1L, upperLog)] - 1L
-      gHi <- gArr[min(ng, lowerUpg)] - 1L
-      delta <- (mustar / mu - 1) ^ 2 + (cvstar / cv - 1) ^ 2
-    } else {
-      message("No intersection in iteration: ", m)
-      break
-    }
-    converged <- (delta < tol || m >= M)
-  }
-
-  g <- gstar
-  b <- bstar
-
-  if (b >= 0.999 * opts$maxb) {
-    stop("Parameter b approaching maximum bound (", opts$maxb, "). ",
-         "Algorithm may not have converged properly. Try increasing maxb.")
-  }
-
-  list(g = g, b = b, iter = m,
        sqerr = (log(g * b) * (1 - b) / (log(b) * (1 - g * b)) - mu) ^ 2)
 }
