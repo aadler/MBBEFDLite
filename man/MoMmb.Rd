@@ -88,13 +88,13 @@ dilogarithm function. However, instead of the 50,000 point grid suggested in the
 paper, this package implements the algorithm as a nested set of calls to the
 one-dimensional optimization algorithm of \code{optimize}. This is significantly
 faster and has the benefit of returning a value even when no zeros can be found.
-The algorithm basically uses the ranges suggested in the paper, which for
-\eqn{g} caps at 1e6. Sometimes, the algorithm converges to the upper bound. In
-this case, the package implementation will try once more using a max of the
-square root of the original \code{maxg} instead. This can allow
-convergence---often to the same point of the \acronym{EM} algorithm, given that
-converged. When this happens, the \code{iter} value will be \code{2} instead of
-\code{1}.}
+The algorithm basically defaults to the ranges suggested in the paper, but these
+may be passed by the user in the \code{opts} list. Sometimes, the algorithm
+converges to the upper bound of \eqn{g}. In this case, the package
+implementation will try once more using the square root of \code{maxg} instead.
+This can allow convergence---often to the same point of the \acronym{EM}
+algorithm, given that converged. When this happens, the \code{iter} value will
+be \code{2} instead of \code{1}.}
 }
 \value{
 Returns a \link{list} containing:
