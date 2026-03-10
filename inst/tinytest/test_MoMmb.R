@@ -25,7 +25,8 @@ expect_equal(testx1b$sqerr,
 # Test second-iteration Bernegger
 set.seed(14)
 x <- rmb(10, 6, 0.2)
-fit <- mommb(x, opts = list(alg = "LS"))
+expect_message(fit <- mommb(x, opts = list(alg = "LS")), # nolint implicit_assignment_linter
+               "Parameter g approaching maximum bound")
 expect_identical(fit$iter, 2)
 
 # Test Functionality: m = TRUE
@@ -75,7 +76,8 @@ expect_error(mommb(x, opts = list(alg = "LS", maxg = 10, ming = 100)),
 set.seed(76L)
 x2 <- rmb(10, 10, 9)
 expect_error(mommb(x2), "insufficient data")
-expect_error(mommb(x2, opts = list(alg = "LS")), "insufficient data")
+expect_error(suppressMessages(mommb(x2, opts = list(alg = "LS"))),
+             "insufficient data")
 expect_error(mommb(rmb(10, 10, 9), tol = 1e-16), "looser tolerance")
 expect_error(mommb(NA_real_, na.rm = FALSE), "passed as FALSE")
 expect_error(mommb(rmb(10, 10, 9), m = TRUE), "other than 2")
