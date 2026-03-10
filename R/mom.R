@@ -78,6 +78,7 @@ cvgb <- function(g, b) {
 mommb <- function(x, m = FALSE, tol = NULL, na.rm = TRUE, opts = list()) {
 
   nopts <- names(opts)
+
   if (!("alg" %in% nopts)) {
     opts$alg <- "EM"
   } else if (!(toupper(opts$alg) %in% c("EM", "LS"))) {
@@ -118,6 +119,7 @@ mommb <- function(x, m = FALSE, tol = NULL, na.rm = TRUE, opts = list()) {
   if (opts$minb >= opts$maxb) {
     stop("minb must be strictly less than maxb.")
   }
+
   if (opts$ming >= opts$maxg) {
     stop("ming must be strictly less than maxg.")
   }
@@ -135,7 +137,6 @@ mommb <- function(x, m = FALSE, tol = NULL, na.rm = TRUE, opts = list()) {
       stop("Was expecting the mean and variance but something other than 2 ",
            "parameters was passed.")
     }
-
     mu <- x[1L]
     mu2 <- mu ^ 2 + x[2L] # x[2L] is the variance; mu2 is E[X^2]
     s <- sqrt(x[2L])
@@ -143,7 +144,6 @@ mommb <- function(x, m = FALSE, tol = NULL, na.rm = TRUE, opts = list()) {
     if (!na.rm && anyNA(x)) {
       stop("There are NAs in the data yet na.rm was passed as FALSE.")
     }
-
     mu <- mean(x, na.rm = na.rm)
     mu2 <- mu ^ 2 + var(x, na.rm = na.rm)
     s <- sd(x, na.rm = na.rm)
