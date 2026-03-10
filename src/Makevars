@@ -1,7 +1,7 @@
 PKG_CFLAGS = $(LTO_OPT)
 PKG_LIBS = $(LTO_OPT)
 
-C_OBJS = dmb.o pmb.o qrmb.o ecmb.o init.o
+C_OBJS = dmb.o pmb.o qrmb.o ecmb.o dilog.o init.o
 
 $(SHLIB): $(C_OBJS)
 
