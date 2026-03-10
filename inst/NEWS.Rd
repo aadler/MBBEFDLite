@@ -5,30 +5,29 @@
 \alias{NEWS}
 \title{NEWS file for the MBBEFDLite package}
 
-\section{Developmental Note: Version 0.0.0+}{
-  \itemize{
-    \item So long as the package remains in its experimental development
-    state---noted by a 0 major version---the API may change without incrementing
-    the major version. Please read these development notes carefully. Breaking
-    changes will be prefaced by \dQuote{\strong{Breaking:}}.
-  }
-}
-
 \section{Version 0.2.0 (2026-02-07)}{
   \subsection{Added}{
     \itemize{
+     \item \strong{Breaking:} Added a form of Algorithm 3 in Bernneger (2026)
+      to \code{mommb}. Experimentation shows that it almost always converges to
+      the \dQuote{same} (close to machine precision) values as the
+      orginal expectation-maximization (\acronym{EM}) algorithm, and fails to
+      converge in similar scenarios as the \acronym{EM} algorithm. Provided for
+      completness and in gratitude to Dr. Bernegger.
       \item \strong{Breaking:} Added new parameter \code{maxb} to allow user to
       pass upper bound for the \eqn{b} parameter. Its default is 1000, changed
-      from the old hard-coded 1e50. In practice, it would be uncommon to see
-      values greater than 100.
-      \item Added fast implementation of the dilogarithm function for use in
-      the updated Bernegger algorithm.
+      from the old hard-coded 1e50.
+      \item Added fast C implementation of the dilogarithm function for use in
+      the Bernegger algorithm.
       \item Added more informative error messages.
       \item Added and updated unit tests.
     }
   }
-  \subsection{Changed}{
+    \subsection{Changed}{
     \itemize{
+      \item \strong{Breaking:} Given the addition algorithm, the call for
+      \code{mommb} has been changed. See the documentation for the new order of
+      parameters and the options list.
       \item Hardened and optimzed underlying C and \R code for speed and
       error protection.
     }
