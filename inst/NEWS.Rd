@@ -5,31 +5,42 @@
 \alias{NEWS}
 \title{NEWS file for the MBBEFDLite package}
 
-\section{Version 0.2.0 (2026-02-07)}{
+\section{Version 1.0.0 (2026-03-10)}{
   \subsection{Added}{
     \itemize{
      \item \strong{Breaking:} Added a form of Algorithm 3 in Bernneger (2026)
-      to \code{mommb}. Experimentation shows that it almost always converges to
-      the \dQuote{same} (close to machine precision) values as the
-      orginal expectation-maximization (\acronym{EM}) algorithm, and fails to
+      to \code{mommb}. Instead of a true grid-search, the \acronym{LS} algorithm
+      is a nested pair of 1-dimensional line searches along \eqn{g} and \eqn{b}.
+      Experimentation shows that it almost always converges to the \dQuote{same}
+      values---close to machine precision---as the orginal
+      expectation-maximization (\acronym{EM}) algorithm, and fails to
       converge in similar scenarios as the \acronym{EM} algorithm. Provided for
       completness and in gratitude to Dr. Bernegger.
-      \item \strong{Breaking:} Added new parameter \code{maxb} to allow user to
-      pass upper bound for the \eqn{b} parameter. Its default is 1000, changed
-      from the old hard-coded 1e50.
-      \item Added fast C implementation of the dilogarithm function for use in
-      the Bernegger algorithm.
+      \item \strong{Breaking:} Added new parameters \code{maxb}, \code{minb},
+      \code{maxg}, and \code{ming}. The \code{maxb} parameter is used in both
+      fitting algorithms. The others are only used in the \acronym{LS}
+      algorithm.
+      \item Added a fast C implementation of the dilogarithm function for use in
+      the \acronym{LS} algorithm.
       \item Added more informative error messages.
       \item Added and updated unit tests.
     }
   }
-    \subsection{Changed}{
+  \subsection{Changed}{
     \itemize{
-      \item \strong{Breaking:} Given the addition algorithm, the call for
-      \code{mommb} has been changed. See the documentation for the new order of
-      parameters and the options list.
-      \item Hardened and optimzed underlying C and \R code for speed and
-      error protection.
+      \item \strong{Breaking:} Given the additional algorithm and parameters,
+      the call for \code{mommb} has been changed. See the documentation for the
+      new order of parameters and the options list. This is the first
+      \dQuote{mature} release. Any breaking changes going forward will be
+      announced will in advance and will have a deprecation period.
+      \item Hardened and optimzed underlying C and \R code for speed and error
+      protection.
+    }
+  }
+  \subsection{Fixed}{
+    \itemize{
+      \item Fixed errors in the documentation including copy-paste errors
+      referencing \code{rnorm} instead of \code{rmb}, etc.
     }
   }
 }
