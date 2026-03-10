@@ -178,6 +178,8 @@ mommb <- function(x, m = FALSE, tol = NULL, na.rm = TRUE, opts = list()) {
     if (g >= 0.999 * opts$maxg) {
       gTries <- gTries + 1
       newG <- sqrt(opts$maxg)
+      message("Parameter g approaching maximum bound (", opts$maxg, "). ",
+      "Trying again with square root: ", newG)
       g <- optimize(getg, lower = opts$ming, upper = newG, tol = 1e-12)$minimum
       b <- getb(g)
       if (g >= 0.999 * newG) {
