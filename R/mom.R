@@ -92,9 +92,34 @@ mommb <- function(x, m = FALSE, tol = NULL, na.rm = TRUE, opts = list()) {
   }
 
   if (!("maxb" %in% nopts)) {
-    opts$maxb <- 1e3
-  } else if (!is.numeric(opts$maxb) || opts$maxb <= 0) {
-    stop("maxb must be positive.")
+    opts$maxb <- 1e6
+  } else if (!is.numeric(opts$maxb) || opts$maxb <= 0 || !is.finite(opts$maxb)) {
+    stop("maxb must be positive and finite.")
+  }
+
+  if (!("minb" %in% nopts)) {
+    opts$minb <- 1e-10
+  } else if (!is.numeric(opts$minb) || opts$minb <= 0 || !is.finite(opts$minb)) {
+    stop("minb must be positive and finite.")
+  }
+
+  if (!("maxg" %in% nopts)) {
+    opts$maxg <- 1e6
+  } else if (!is.numeric(opts$maxg) || opts$maxg <= 0 || !is.finite(opts$maxg)) {
+    stop("maxg must be positive and finite.")
+  }
+
+  if (!("ming" %in% nopts)) {
+    opts$ming <- 1 + 1e-10
+  } else if (!is.numeric(opts$ming) || opts$ming <= 1 || !is.finite(opts$ming)) {
+    stop("ming must be finite and strictly greater than 1.")
+  }
+
+  if (opts$minb >= opts$maxb) {
+    stop("minb must be strictly less than maxb.")
+  }
+  if (opts$ming >= opts$maxg) {
+    stop("ming must be strictly less than maxg.")
   }
 
   if (!("trace" %in% nopts)) {
@@ -137,31 +162,26 @@ mommb <- function(x, m = FALSE, tol = NULL, na.rm = TRUE, opts = list()) {
     if (opts$trace) message("trace is ignored for the Bernegger algorithm")
 
     cv <- s / mu
-    bLo <- 1e-10
-    bHi <- opts$maxb
-    gLo <- 1 + 1e-10
-    gHi <- 1e6
 
     getb <- function(g) {
       f <- function(b) (mugb(g, b) - mu) ^ 2
-      optimize(f, lower = bLo, upper = bHi, tol = 1e-12)$minimum
+      optimize(f, lower = opts$minb, upper = opts$maxb, tol = 1e-12)$minimum
     }
 
-    getg <- function(g) {
-      (cvgb(g, getb(g)) - cv) ^ 2
-    }
+    getg <- function(g) (cvgb(g, getb(g)) - cv) ^ 2
 
-    g <- optimize(getg, lower = gLo, upper = gHi, tol = 1e-12)$minimum
-
+    g <- optimize(getg, lower = opts$ming, upper = opts$maxg,
+                  tol = 1e-12)$minimum
     b <- getb(g)
 
     gTries <- 1
-    if (g >= 0.999 * gHi) {
+    if (g >= 0.999 * opts$maxg) {
       gTries <- gTries + 1
-      gHi <- sqrt(gHi)
-      g <- optimize(getg, lower = gLo, upper = gHi, tol = 1e-12)$minimum
+      opts$maxg <- sqrt(opts$maxg)
+      g <- optimize(getg, lower = opts$ming, upper = opts$maxg,
+                    tol = 1e-12)$minimum
       b <- getb(g)
-      if (g >= 0.999 * gHi) {
+      if (g >= 0.999 * opts$maxg) {
         stop("Algorithm has insufficient data to converge to a method of ",
              "moments solution.")
       }

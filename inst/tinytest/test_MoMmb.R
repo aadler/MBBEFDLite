@@ -57,7 +57,20 @@ expect_error(mommb(x, opts = list(maxit = "3L")),
 expect_error(mommb(x, opts = list(maxb = "3L")), "maxb must be positive.")
 expect_error(mommb(x, opts = list(maxit = 3L)), "Try increasing maxit or tol")
 expect_error(mommb(c(0.2, 0.3), m = TRUE), "less than or equal")
-expect_error(mommb(x, opts = list(maxb = 2e-16)), "Parameter b approaching")
+expect_error(mommb(x, opts = list(minb = 1e-16, maxb = 2e-16)),
+             "Parameter b approaching")
+expect_error(mommb(x, opts = list(alg = "LS", minb = -1)),
+             "minb must be positive and finite.")
+expect_error(mommb(x, opts = list(alg = "LS", maxg = "A")),
+             "maxg must be positive and finite.")
+expect_error(mommb(x, opts = list(alg = "LS", ming = 0.5)),
+             "ming must be finite and strictly greater than 1.")
+expect_error(mommb(x, opts = list(alg = "LS", ming = Inf)),
+             "ming must be finite and strictly greater than 1.")
+expect_error(mommb(x, opts = list(alg = "LS", maxb = 10, minb = 100)),
+             "minb must be strictly less than maxb.")
+expect_error(mommb(x, opts = list(alg = "LS", maxg = 10, ming = 100)),
+             "ming must be strictly less than maxg.")
 
 set.seed(76L)
 x2 <- rmb(10, 10, 9)
@@ -88,4 +101,3 @@ expect_equal(MBBEFDLite:::cvgb(3, 1 + 1e-36),
              cvp((2 - log(3)) / log(3) ^ 2), tolerance = tol)
 expect_equal(MBBEFDLite:::cvgb(5, 0.2),
              cvp((log(0.2) * 0.2 + 0.8) / 0.64), tolerance = tol)
-
