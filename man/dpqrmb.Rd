@@ -25,10 +25,10 @@ rmb(n, g, b, c = NULL)
   \item{g}{\strong{numeric}; (vector of) the \code{g} parameter, which is also
   the reciprocal of the probability of a maximum loss.}
   \item{b}{\strong{numeric}; (vector of) the \code{b} parameter.}
-  \item{c}{\strong{numeric}; (vector of) the optional \code{c} parameter. Should
-  be NULL if \code{g} and \code{b} are passed. Otherwise,
+  \item{c}{\strong{numeric}; (vector of) the optional single \code{c} parameter.
+  Should be NULL if \code{g} and \code{b} are passed. Otherwise,
   \eqn{g = e^{(0.78 + 0.12c)c}}{exp((0.78 + 0.12 * c) * c)} and
-  \eqn{b = e^{3.1 - 0.15(1+c)c}}{b = exp(3.1 - 0.15 * (1 + c) * c))}.}
+  \eqn{b = e^{3.1 - 0.15(1+c)c}}{b = exp(3.1 - 0.15 * (1 + c) * c)}.}
   \item{log, log.p}{\strong{logical}; if TRUE, probabilities p are given as
   log(p).}
   \item{lower.tail}{\strong{logical}; if TRUE (default), probabilities are
@@ -38,14 +38,15 @@ rmb(n, g, b, c = NULL)
 The \acronym{MBBEFD} class of curves are defined in Bernegger (1997) and are
 often used to model insurance risk. The density is defined on the semi-open
 interval \eqn{[0, 1)} and the distribution and quantile functions are defined on
-the closed interval \eqn{[0, 1]}.
+the closed interval \eqn{[0, 1]}. The parameters must satisfy \eqn{g \ge 1} and
+\eqn{b \ge 0}.
 }
 \value{
-\code{dnorm} gives the density, \code{pnorm} gives the distribution function,
-\code{qnorm} gives the quantile function, and \code{rnorm} generates random
+\code{dmb} gives the density, \code{pmb} gives the distribution function,
+\code{qmb} gives the quantile function, and \code{rmb} generates random
 deviates.
 
-The length of the result is determined by \code{n} for \code{rnorm}, and is the
+The length of the result is determined by \code{n} for \code{rmb}, and is the
 length of \code{x}, \code{p}, or \code{q} as appropriate for the other
 functions.
 
@@ -61,7 +62,7 @@ Bernegger, S. (1997) The Swiss Re Exposure Curves and the \acronym{MBBEFD}
 
 \note{
 This package follows Bernegger's convention that the density function does not
-exists at 1. This differs from the \pkg{mbbefd} package.
+exist at 1. This differs from the \pkg{mbbefd} package.
 }
 
 \seealso{
@@ -76,7 +77,7 @@ all.equal(qmb(pmb(0.98, 25, 4), 25, 4), 0.98)
 set.seed(45)
 rmb(3, 4, 12)
 set.seed(45)
-rmb(99:101, 4, 12) # Should equal previous call
+rmb(99:101, 4, 12) # length(99:101) = 3, so generates same 3 values as above
 }
 
 \keyword{distribution}
