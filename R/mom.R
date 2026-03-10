@@ -177,11 +177,10 @@ mommb <- function(x, m = FALSE, tol = NULL, na.rm = TRUE, opts = list()) {
     gTries <- 1
     if (g >= 0.999 * opts$maxg) {
       gTries <- gTries + 1
-      opts$maxg <- sqrt(opts$maxg)
-      g <- optimize(getg, lower = opts$ming, upper = opts$maxg,
-                    tol = 1e-12)$minimum
+      newG <- sqrt(opts$maxg)
+      g <- optimize(getg, lower = opts$ming, upper = newG, tol = 1e-12)$minimum
       b <- getb(g)
-      if (g >= 0.999 * opts$maxg) {
+      if (g >= 0.999 * newG) {
         stop("Algorithm has insufficient data to converge to a method of ",
              "moments solution.")
       }
