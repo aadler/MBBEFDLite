@@ -60,10 +60,9 @@ expect_error(mommb(c(0.2, 0.3), m = TRUE), "less than or equal")
 expect_error(mommb(x, opts = list(maxb = 2e-16)), "Parameter b approaching")
 
 set.seed(76L)
-expect_error(mommb(rmb(10, 10, 9)), "insufficient data")
-set.seed(76L)
-expect_error(mommb(rmb(10, 10, 9), opts = list(alg = "LS")),
-             "insufficient data")
+x2 <- rmb(10, 10, 9)
+expect_error(mommb(x2), "insufficient data")
+expect_error(mommb(x2, opts = list(alg = "LS")), "insufficient data")
 expect_error(mommb(rmb(10, 10, 9), tol = 1e-16), "looser tolerance")
 expect_error(mommb(NA_real_, na.rm = FALSE), "passed as FALSE")
 expect_error(mommb(rmb(10, 10, 9), m = TRUE), "other than 2")
