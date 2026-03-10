@@ -29,14 +29,24 @@ mommb(x, m = FALSE, tol = NULL, na.rm = TRUE, opts = list())
   with an error.}
   \item{opts}{\link{list}; Configuration options including:
     \itemize{
-      \item \code{alg}: \strong{integer}; either "\acronym{EM}", the
+      \item \code{alg}: \strong{character}; either "\acronym{EM}", the
       expectation-maximization algorithm of the package author or
       "\acronym{LS}", a form of the grid-search algorithm of Bernegger (2026),
       implemented as a nested set of 1D line-search optimizations.
       \item \code{maxit}: \strong{integer}; maximum number of iterations for the
       \acronym{EM} algorithm. Ignored for the \acronym{LS} algorithm.
-      \item \code{maxb}: \strong{numeric}; the ceiling of the \code{b}
-      parameter for fitting purposes. Defaults to 1e3.
+      \item \code{maxb}: \strong{numeric}; the upper bound of the \code{b}
+      parameter for fitting purposes. Used in both algorithms. Defaults to 1e6.
+      \item \code{minb}: \strong{numeric}; the lower bound of the \code{b}
+      parameter for fitting purposes. Only used in \acronym{LS} algorithm. Must
+      be positive and less than \code{maxb}. Defaults to 1e-10.
+      \item \code{maxg}: \strong{numeric}; the upper bound of the \code{g}
+      parameter for fitting purposes. Only used in \acronym{LS} algorithm.
+      Must be positive. Defaults to 1e6.
+      \item \code{ming}: \strong{numeric}; the lower bound of the \code{g}
+      parameter for fitting purposes. Only used in \acronym{LS} algorithm.
+      Must be strictly greater than 1 and less than \code{maxg}.
+      Defaults to 1 + 1e-10.
       \item \code{trace}: \strong{logical}; if \code{TRUE}, the \acronym{EM}
       algorithm will print the values of \code{g} and \code{b} at each iteration
       \code{i}. Ignored with a message for the \acronym{LS} algorithm. The
@@ -45,7 +55,7 @@ mommb(x, m = FALSE, tol = NULL, na.rm = TRUE, opts = list())
   }
 }
 \details{
-There are two fitting algorithm.
+There are two fitting algorithms.
 \subsection{Expectation-Maximization}{
 The default is an expectation-maximization form based on sections 4.1 and 4.2 of
 Bernegger (1997). With rare exceptions, the fitted \eqn{g} and \eqn{b}
@@ -79,26 +89,28 @@ paper, this package implements the algorithm as a nested set of calls to the
 one-dimensional optimization algorithm of \code{optimize}. This is significantly
 faster and has the benefit of returning a value even when no zeros can be found.
 The algorithm basically uses the ranges suggested in the paper, which for
-\eqn{g} caps at 1e6. Sometimes, the algorithm collapses on that high point. In
-this case, the package implementation will try once more using a max of 1000
-instead. This can allow convergence---often to the same point of the
-\acronym{EM} algorithm, given that converged. When this happens, the \code{iter}
-value will be \code{2} instead of \code{1}.}
+\eqn{g} caps at 1e6. Sometimes, the algorithm converges to the upper bound. In
+this case, the package implementation will try once more using a max of the
+square root of the original \code{maxg} instead. This can allow
+convergence---often to the same point of the \acronym{EM} algorithm, given that
+converged. When this happens, the \code{iter} value will be \code{2} instead of
+\code{1}.}
 }
 \value{
 Returns a \link{list} containing:
     \item{g}{The fitted \code{g} parameter.}
     \item{b}{The fitted \code{b} parameter.}
     \item{iter}{For the \acronym{EM} algorithm, the number of iterations used.
-        For the \acronym{LS} algorithm, the number of calls to \code{optimize}
-        (see \strong{Details}).}
+        For the \acronym{LS} algorithm, the number of attempts (1 or 2 if the
+        retry was needed; see \strong{Details}).}
     \item{sqerr}{The squared error between the empirical mean and the
     theoretical mean given the fitted \code{g} and \code{b}. This does not make
     sense for some of the special branch cases, like \eqn{b = 0,\; g = 1,} etc.}
 }
 
-\note{Anecdotal evidence indicates that the results of either fitting algorithm
-can be volatile, especially with fewer than a few hundred observations.}
+\note{Anecdotal evidence indicates that parameter estimates from either
+fitting algorithm can be volatile when sample sizes are small (fewer than
+a few hundred observations).}
 
 \references{
 Bernegger, Stefan. (1997) The Swiss Re Exposure Curves and the \acronym{MBBEFD}
@@ -119,6 +131,7 @@ Bernegger, Stefan. (2026) Properties of the \acronym{MBBEFD} Distribution
 set.seed(85L)
 x <- rmb(1000, 25, 4)
 mommb(x)
+mommb(x, opts = list(alg = "LS"))
 }
 
 \keyword{distribution}
