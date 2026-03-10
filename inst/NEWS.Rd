@@ -8,14 +8,14 @@
 \section{Version 1.0.0 (2026-03-10)}{
   \subsection{Added}{
     \itemize{
-     \item \strong{Breaking:} Added a form of Algorithm 3 in Bernneger (2026)
-      to \code{mommb}. Instead of a true grid-search, the \acronym{LS} algorithm
-      is a nested pair of 1-dimensional line searches along \eqn{g} and \eqn{b}.
+     \item \strong{Breaking:} Added a form of Algorithm 3 in Bernegger (2026)
+      to \code{mommb}. Instead of a grid-search, the \acronym{LS} algorithm is a
+      nested pair of 1-dimensional line searches along \eqn{g} and \eqn{b}.
       Experimentation shows that it almost always converges to the \dQuote{same}
-      values---close to machine precision---as the orginal
+      values---close to machine precision---as the original
       expectation-maximization (\acronym{EM}) algorithm, and fails to
       converge in similar scenarios as the \acronym{EM} algorithm. Provided for
-      completness and in gratitude to Dr. Bernegger.
+      completeness and in gratitude to Dr. Bernegger.
       \item \strong{Breaking:} Added new parameters \code{maxb}, \code{minb},
       \code{maxg}, and \code{ming}. The \code{maxb} parameter is used in both
       fitting algorithms. The others are only used in the \acronym{LS}
@@ -32,8 +32,8 @@
       the call for \code{mommb} has been changed. See the documentation for the
       new order of parameters and the options list. This is the first
       \dQuote{mature} release. Any breaking changes going forward will be
-      announced will in advance and will have a deprecation period.
-      \item Hardened and optimzed underlying C and \R code for speed and error
+      announced in advance and will have a deprecation period.
+      \item Hardened and optimized underlying C and \R code for speed and error
       protection.
     }
   }
@@ -49,12 +49,11 @@
   \subsection{Added}{
     \itemize{
       \item \strong{Breaking:} The \code{mommb} algorithm now calculates
-      \eqn{E[x^2]} as \eqn{(E[x]) ^ 2 + Var[x]} instead of directly as
-      \eqn{E[x ^ 2]}. Using the unbiased estimator allows for a slightly larger
-      initial estimate. Given that the algorithm fails earlier, this allows for
-      a slighltly larger legal starting location. The results are functionally
-      identical, but not always equal within machine tolerances, so the change
-      is breaking.
+      \eqn{E[x^2]} as \eqn{(E[x]) ^ 2 + Var[x]} instead of directly. Using the
+      unbiased estimator allows for a slightly larger initial estimate. Given
+      that the algorithm fails earlier, this allows for a slightly larger legal
+      starting location. The results are functionally identical, but not always
+      equal within machine tolerances, so the change is breaking.
       \item \strong{Breaking:} The \code{mommb} algorithm now allows for passing
       a couplet consisting of the first two raw moments through \code{x} when
       new parameter \code{m} is set to \code{TRUE}. When \code{m} is
@@ -71,11 +70,11 @@
       \item \strong{Breaking:} The \code{mommb} algorithm now fails immediately
       when the integration would imply a negative \code{p}, instead of
       restarting with a different \code{g}. Experimentation indicates that the
-      restart \emph{never} helped.
+      restart never helped.
       \item Made \code{tol} in \code{mommb} a bit less intrusive by passing
       \code{NULL} and then checking for it.
       \item Use \R \acronym{API} \code{Memzero} instead of \code{memset}.
-      \item Changed Github-related files and workflows.
+      \item Changed GitHub-related files and workflows.
       \item Updated unit tests.
     }
   }
